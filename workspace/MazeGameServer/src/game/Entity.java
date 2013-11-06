@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import engine.Position;
-import engine.SerializedObject;
+import engine.serializable.SerializedEntity;
+import engine.serializable.SerializedObject;
 
 /*
 * Classname:            Entity.java
@@ -96,7 +97,7 @@ public abstract class Entity implements Serializable {
     }
     
     public SerializedObject serialize() {
-        return new SerializedObject(uuid, image, new Position<Float, Float>(imageX, imageY), remove);
+        return new SerializedEntity(uuid, image, new Position<Float, Float>(imageX, imageY), remove);
     }
     
     public void setHealthPoints(int hp) {

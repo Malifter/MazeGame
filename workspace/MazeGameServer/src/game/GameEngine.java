@@ -13,7 +13,7 @@ import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import engine.SerializedObject;
+import engine.serializable.SerializedObject;
 
 /*
 * Classname:            GameEngine.java

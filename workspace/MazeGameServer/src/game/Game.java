@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.SerializedObject;
+import engine.serializable.SerializedObject;
 
 /*
 * Classname:            Game.java

@@ -21,7 +21,15 @@ import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import engine.SerializedObject;
+import engine.inputhandler.Axis;
+import engine.inputhandler.Button;
+import engine.inputhandler.Input;
+import engine.inputhandler.PhysicalInput;
+import engine.render.IDisplay;
+import engine.render.Sprite;
+import engine.serializable.SerializedEntity;
+import engine.serializable.SerializedObject;
+import engine.soundmanager.SoundManager;
 
 /*
 * Classname:            GameEngine.java
@@ -300,9 +308,12 @@ public class GameEngine {
             render();
             if(updatedObjects != null) {
                 for(SerializedObject so: updatedObjects) {
-                    //System.out.println(so.getID() + "\t" + so.getImage() + "\t" + so.getPosition() + "\t" + so.needsDelete());
-                    Sprite sprite = theGame.getDisplay().getSprite(so.getImage());
-                    sprite.draw(so.getPosition().getX().intValue(), so.getPosition().getY().intValue());
+                    if(so instanceof SerializedEntity) {
+                        SerializedEntity se = (SerializedEntity)so;
+                        //System.out.println(so.getID() + "\t" + so.getImage() + "\t" + so.getPosition() + "\t" + so.needsDelete());
+                        Sprite sprite = theGame.getDisplay().getSprite(se.getImage());
+                        sprite.draw(se.getPosition().getX().intValue(), se.getPosition().getY().intValue());
+                    }
                 }
             }
             

@@ -6,7 +6,12 @@ import java.util.Map;
 import java.io.*;
 
 import engine.Position;
-import engine.SerializedObject;
+import engine.inputhandler.Button;
+import engine.inputhandler.Input;
+import engine.inputhandler.PhysicalInput;
+import engine.render.JLWGLDisplay;
+import engine.serializable.SerializedEntity;
+import engine.serializable.SerializedObject;
 
 /*
 * Classname:            MazeGameClient.java
@@ -22,11 +27,6 @@ import engine.SerializedObject;
  * MazeGameClient: This is our MazeGame game
  */
 public class MazeGameClient extends Game {
-    
-    /**
-     * serialVersionUID
-     */
-    private static final long serialVersionUID = -3118971393018891785L;
     ArrayList<Input> inputs = null;
     private int theWidth = 1024;
     private int theHeight = 768;
@@ -64,7 +64,7 @@ public class MazeGameClient extends Game {
             new PhysicalInput[] { PhysicalInput.KEYBOARD_RETURN });
     
     public static enum Sound {
-        HIT(0), SHOT(1), DEFLECT(2), SPAWN(3), DEAD(4);
+        HIT(0), SHOT(1), DEFLECT(2), SPAWN(3), DEAD(4), MUSIC(5);
         private final int value;
         private Sound(int value) {
             this.value = value;
@@ -262,25 +262,24 @@ public class MazeGameClient extends Game {
         if(updateObjects != null) {
             boolean first = true;
             for(SerializedObject so: updateObjects) {
-                if(so.needsDelete()) {
-                    //entities.remove(so.getID());
-                    destinations.remove(so.getID());
-                } else {
-                    if(first) {
-                        if(so.getPosition().getX() > 240) {
-                            cam.setOrientation(240,0,0,1);
-                        } else {
-                            cam.setOrientation(0,0,0,1);
+                if(so instanceof SerializedEntity) {
+                    SerializedEntity se = (SerializedEntity) so;
+                    if(se.needsDelete()) {
+                        //entities.remove(so.getID());
+                        destinations.remove(so.getID());
+                    } else {
+                        if(first) {
+                            if(se.getPosition().getX() > 240) {
+                                cam.setOrientation(240,0,0,1);
+                            } else {
+                                cam.setOrientation(0,0,0,1);
+                            }
+                            first = false;
                         }
-                        first = false;
+                        destinations.put(se.getID(), se.getPosition());
+                        //entities.put(so.getID(), so);
                     }
-                    destinations.put(so.getID(), so.getPosition());
-                    //entities.put(so.getID(), so);
-                }
-                /*for(int s: so.getSounds()) {
-                    GameEngine.playSound(s);
-                    System.out.println(s);
-                }*/
+                }  
             }
         }
         /*

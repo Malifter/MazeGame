@@ -4,8 +4,8 @@ import java.util.List;
 import java.io.*;
 
 import engine.Position;
-import engine.SerializedObject;
 import engine.physics.*;
+import engine.serializable.SerializedObject;
 
 
 /*
@@ -46,13 +46,17 @@ public class MazeGameServer extends Game {
     private boolean isStart = false;
     private boolean lose = false;
     
-    public int sound_hit;
-    public int sound_shot;
-    public int sound_deflect;
-    public int sound_spawn;
-    public int sound_dead;
-    public int BGM_quickman;
-    private long timeBGM = 0;
+    public static enum Sound {
+        HIT(0), SHOT(1), DEFLECT(2), SPAWN(3), DEAD(4), MUSIC(5);
+        private final int value;
+        private Sound(int value) {
+            this.value = value;
+        }
+        
+        public int getValue() {
+            return value;
+        }
+    };
     
     /**
      * Constructor
@@ -271,9 +275,9 @@ public class MazeGameServer extends Game {
         List<SerializedObject> generatedUpdates = new ArrayList<SerializedObject>();
         spawnPlayer(time);
         
-        if((GameEngine.getTime()-timeBGM) > 38000) {
+        /*if((GameEngine.getTime()-timeBGM) > 38000) {
             timeBGM = GameEngine.getTime();
-        }
+        }*/
         for(Room r: rooms) {
             if(r.numPlayers() > 0) {
                 for(Entity p: r.getPlayers()) {

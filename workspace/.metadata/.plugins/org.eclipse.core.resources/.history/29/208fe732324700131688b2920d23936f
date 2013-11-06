@@ -1,0 +1,32 @@
+package engine;
+
+/*
+* Classname:            SerializedGameState.java
+*
+* Version information:  1.0
+*
+* Date:                 10/30/2013
+*
+* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+*/
+
+public class SerializedGameState extends SerializedObject {
+    private GameState state;
+
+    public SerializedGameState(GameState state) {
+        super(null);
+        this.state = state;
+    }
+
+    public int getGameState() {
+        return state;
+    }
+    
+    public void setGameState(GameState state) {
+        this.state = state;
+    }
+    
+    public static SerializedGameState serialize(GameState state) {
+        return new SerializedGameState(state);
+    }
+}

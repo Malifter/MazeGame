@@ -2,8 +2,8 @@ package game;
 import java.util.ArrayList;
 import java.util.Random;
 
-import engine.SerializedObject;
 import engine.physics.Collisions;
+import engine.serializable.SerializedObject;
 
 /*
 * Classname:            ShieldGuyEntity.java

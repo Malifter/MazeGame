@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.Vector;
 
 import engine.Position;
-import engine.SerializedObject;
+import engine.serializable.SerializedObject;
 
 /*
 * Classname:            PlayerHandlerThread.java

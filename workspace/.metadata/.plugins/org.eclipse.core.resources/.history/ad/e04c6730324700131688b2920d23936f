@@ -1,0 +1,33 @@
+package engine;
+
+/*
+* Classname:            SerializedGameState.java
+*
+* Version information:  1.0
+*
+* Date:                 10/30/2013
+*
+* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+*/
+
+public class SerializedGameState extends SerializedObject {
+    private static final long serialVersionUID = 5783455298083405273L;
+    private int soundID;
+
+    public SerializedGameState(int soundID) {
+        super(null);
+        this.soundID = soundID;
+    }
+
+    public int getSound() {
+        return soundID;
+    }
+    
+    public void setSound(int soundID) {
+        this.soundID = soundID;
+    }
+    
+    public static SerializedGameState serialize(Sound sound) {
+        return new SerializedSound(sound.getValue());
+    }
+}

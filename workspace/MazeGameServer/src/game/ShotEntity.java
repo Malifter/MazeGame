@@ -1,6 +1,6 @@
 package game;
 
-import engine.SerializedObject;
+import engine.serializable.SerializedObject;
 
 /*
 * Classname:            ShotEntity.java

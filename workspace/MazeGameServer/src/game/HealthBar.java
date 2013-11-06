@@ -1,15 +1,6 @@
 package game;
 
-import engine.SerializedObject;
-/*
-* Classname:            HealthBar.java
-*
-* Version information:  1.0
-*
-* Date:                 10/30/2013
-*
-* Copyright notice:     Copyright (c) 2013 Garrett Benoit
-*/
+import engine.serializable.SerializedObject;
 
 /**
  * HealthBar: Level background tile
