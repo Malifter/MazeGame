@@ -57,7 +57,7 @@ public class Door extends Entity {
     public void transport(Entity player) {
         player.setMinX(linkedDoor.getExit().getX());
         player.setMinY(linkedDoor.getExit().getY());
-        //room.removePlayer(player);
+        //room.removePlayer(player); // ignore this for portal, I'll fix this later
         linkedDoor.getRoom().addPlayer(player);
     }
     

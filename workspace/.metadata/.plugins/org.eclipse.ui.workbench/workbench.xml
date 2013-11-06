@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="29" version="2.0">
 <workbenchAdvisor/>
-<window height="864" width="1355" x="413" y="202">
+<window height="864" maximized="true" width="1355" x="370" y="-26">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -31,23 +31,47 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
+<part id="2"/>
+<part id="3"/>
+<part id="4"/>
+<part id="5"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MazeGameServer.java" partName="MazeGameServer.java" path="C:/Users/Malificiece/Documents/GitHub/MazeGame/workspace/MazeGameServer/src/game/MazeGameServer.java" title="MazeGameServer.java" tooltip="MazeGameServer/src/game/MazeGameServer.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MazeGameServer/src/game/MazeGameServer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="1" selectionOffset="399" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="1" selectionOffset="399" selectionTopPixel="5894"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MazeGameClient.java" partName="MazeGameClient.java" path="C:/Users/Malificiece/Documents/GitHub/MazeGame/workspace/MazeGameClient/src/game/MazeGameClient.java" title="MazeGameClient.java" tooltip="MazeGameClient/src/game/MazeGameClient.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MazeGameClient.java" partName="MazeGameClient.java" path="C:/Users/Malificiece/Documents/GitHub/MazeGame/workspace/MazeGameClient/src/game/MazeGameClient.java" title="MazeGameClient.java" tooltip="MazeGameClient/src/game/MazeGameClient.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MazeGameClient/src/game/MazeGameClient.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="384" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="440" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Door.java" partName="Door.java" path="C:/Users/Malificiece/Documents/GitHub/MazeGame/workspace/MazeGameServer/src/game/Door.java" title="Door.java" tooltip="MazeGameServer/src/game/Door.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MazeGameServer/src/game/Door.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1710" selectionTopPixel="425"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Portal.java" partName="Portal.java" path="C:/Users/Malificiece/Documents/GitHub/MazeGame/workspace/MazeGameServer/src/game/Portal.java" title="Portal.java" tooltip="MazeGameServer/src/game/Portal.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MazeGameServer/src/game/Portal.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1408" selectionTopPixel="516"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Gatekeeper.java" partName="Gatekeeper.java" path="C:/Users/Malificiece/Documents/GitHub/MazeGame/workspace/MazeGameServer/src/game/Gatekeeper.java" title="Gatekeeper.java" tooltip="MazeGameServer/src/game/Gatekeeper.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MazeGameServer/src/game/Gatekeeper.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="548" selectionTopPixel="329"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WoodManEntity.java" partName="WoodManEntity.java" path="C:/Users/Malificiece/Documents/GitHub/MazeGame/workspace/MazeGameServer/src/game/WoodManEntity.java" title="WoodManEntity.java" tooltip="MazeGameServer/src/game/WoodManEntity.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MazeGameServer/src/game/WoodManEntity.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="9191" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<columnWidths org.eclipse.ui.ide.locationField="64" org.eclipse.ui.ide.markerType="94" org.eclipse.ui.ide.pathField="124" org.eclipse.ui.ide.resourceField="94" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
+<expanded>
+<category IMemento.internal.id="Warnings"/>
+<category IMemento.internal.id="Errors"/>
+</expanded>
+<columnWidths org.eclipse.ui.ide.locationField="0" org.eclipse.ui.ide.markerType="0" org.eclipse.ui.ide.pathField="0" org.eclipse.ui.ide.resourceField="0" org.eclipse.ui.ide.severityAndDescriptionField="0"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
@@ -243,6 +267,11 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameClient/src/game/MazeGameClient.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameServer/src/game/MazeGameServer.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameServer/src/tests/DoorTest.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameServer/src/game/MazeGameServer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameServer/src/game/Door.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameServer/src/game/Portal.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameServer/src/game/Gatekeeper.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MazeGameServer/src/game/WoodManEntity.java"/>
 </editors>
 <item historyLabel="MazeGameServer.java" index="0">
 <position info="not_deleted" x="0" y="0"/>
@@ -271,8 +300,125 @@
 <item historyLabel="DoorTest.java" index="3">
 <position info="not_deleted" x="730" y="0"/>
 </item>
-<item active="true" historyLabel="MazeGameClient.java" index="1">
+<item historyLabel="MazeGameClient.java" index="1">
 <position info="not_deleted" x="490" y="0"/>
+</item>
+<item historyLabel="MazeGameServer.java" index="4">
+<position info="not_deleted" x="399" y="1"/>
+</item>
+<item historyLabel="MazeGameClient.java" index="1">
+<position info="not_deleted" x="440" y="0"/>
+</item>
+<item historyLabel="Door.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="0" y="2663"/>
+</item>
+<item historyLabel="Door.java" index="5">
+<position info="not_deleted" x="0" y="2543"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position/>
+</item>
+<item historyLabel="Door.java" index="5">
+<position info="not_deleted" x="702" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="1704" y="0"/>
+</item>
+<item historyLabel="Door.java" index="5">
+<position info="not_deleted" x="1710" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="2166" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="541" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="541" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="0" y="3044"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="541" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="0" y="3044"/>
+</item>
+<item historyLabel="WoodManEntity.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="0" y="3044"/>
+</item>
+<item historyLabel="WoodManEntity.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="0" y="3044"/>
+</item>
+<item historyLabel="WoodManEntity.java" index="8">
+<position info="not_deleted" x="0" y="9191"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="315" y="0"/>
+</item>
+<item historyLabel="MazeGameClient.java" index="1">
+<position info="not_deleted" x="440" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="1851" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="541" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="1439" y="742"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="1548" y="354"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="1439" y="742"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="2967" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="1548" y="354"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="2406" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="2478" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="1408" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="2967" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="548" y="0"/>
+</item>
+<item historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="1408" y="0"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="548" y="0"/>
+</item>
+<item historyLabel="WoodManEntity.java" index="8">
+<position info="not_deleted" x="0" y="9191"/>
+</item>
+<item historyLabel="Gatekeeper.java" index="7">
+<position info="not_deleted" x="548" y="0"/>
+</item>
+<item active="true" historyLabel="Portal.java" index="6">
+<position info="not_deleted" x="1408" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -292,6 +438,18 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="WoodManEntity.java" tooltip="MazeGameServer/src/game/WoodManEntity.java">
+<persistable path="/MazeGameServer/src/game/WoodManEntity.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Gatekeeper.java" tooltip="MazeGameServer/src/game/Gatekeeper.java">
+<persistable path="/MazeGameServer/src/game/Gatekeeper.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Portal.java" tooltip="MazeGameServer/src/game/Portal.java">
+<persistable path="/MazeGameServer/src/game/Portal.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Door.java" tooltip="MazeGameServer/src/game/Door.java">
+<persistable path="/MazeGameServer/src/game/Door.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DoorTest.java" tooltip="MazeGameServer/src/tests/DoorTest.java">
 <persistable path="/MazeGameServer/src/tests/DoorTest.java"/>
 </file>
