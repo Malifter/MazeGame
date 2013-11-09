@@ -1,0 +1,62 @@
+package game;
+
+import java.util.ArrayList;
+
+import engine.Position;
+/*
+* Classname:            Chest.java
+*
+* Version information:  1.0
+*
+* Date:                 11/8/2013
+*
+* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+*/
+
+/**
+ * EnvironmentTile: Level background tile
+ */
+public class Chest extends Entity {
+    /**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = -8400795166818614626L;
+    public static final int TILESIZE = 16;
+    private boolean locked = false; // Implement later
+    private ArrayList<Entity> items; // Implement later
+    
+
+    /**
+     * Constructor
+     * @param g
+     * @param anImage
+     * @param x
+     * @param y
+     */
+    public Chest(Game g, String anImage, int x, int y) {
+        super(g,anImage,x,y,TILESIZE,TILESIZE);
+    }
+    
+    public void generateContents() {
+        // randomly generate an item (currently item class doesn't exist)
+        // will probably have a list that all chests can choose from
+        // then it just randomly selects items from the list
+        items = new ArrayList<Entity>();
+    }
+    
+    public void dropContents() {
+        // create the items that this chest generates
+    }
+    
+    public ArrayList<Entity> getContents() {
+        return items;
+    }
+    
+    public void lock() {
+        locked = true;
+    }
+    
+    public void unlock() {
+        locked = false;
+    }
+}

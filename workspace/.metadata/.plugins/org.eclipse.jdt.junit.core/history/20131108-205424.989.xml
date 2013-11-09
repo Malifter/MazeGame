@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ChestTest" project="MazeGameServer" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="tests.ChestTest" incomplete="true">
+    <testcase name="testChestConstructor" classname="tests.ChestTest" time="0.032"/>
+    <testcase name="testGenerateChestContents" classname="tests.ChestTest" incomplete="true"/>
+  </testsuite>
+</testrun>
