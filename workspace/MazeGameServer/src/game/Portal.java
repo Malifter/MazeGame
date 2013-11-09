@@ -1,7 +1,7 @@
 package game;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 import engine.Position;
 /*
 * Classname:            Portal.java
@@ -10,8 +10,9 @@ import engine.Position;
 *
 * Date:                 11/6/2013
 *
-* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+* Copyright notice:     Copyright (c) 2013 Lizhu Ma & Qiaoli Hu
 */
+
 
 /**
  * EnvironmentTile: Level background tile
@@ -25,6 +26,7 @@ public class Portal extends Entity {
     public static final int TILESIZE = 16;
     private ArrayList<Room> rooms; 
     private Room myRoom;
+    private Room linkedRoom;
     public static enum Side {TOP, LEFT, RIGHT, BOTTOM};
     private boolean activated = false;
     
@@ -48,6 +50,7 @@ public class Portal extends Entity {
         this.myRoom = myRoom;
         this.rooms = rooms;
         activated = false;
+  
     }
     
     @Override
@@ -71,14 +74,31 @@ public class Portal extends Entity {
             // pick random room that is not myRoom
             // set players coordinates to that room's getCenter
             // add player to that room
+        int rnd = new Random().nextInt(rooms.size());
+        
+        if (isActivated())
+        {
+            linkedRoom = rooms.get(rnd);
+            player.setMinX(linkedRoom.getCenter().getX());
+            player.setMinY(linkedRoom.getCenter().getY());
+            //linkedRoom.removePlayer(player); // ignore this for portal, I'll fix this later
+            linkedRoom.addPlayer(player);
+        }
+        //for testing purpose
+        //deactivate();
     }
     
     // Get this from Door
     public boolean contains(Entity player) {
-        // if enabled
-            // check contains
-            // return true or false
-        return false;
+        if(player.getMaxX() >= this.getMaxX())
+            return false;
+        if(player.getMinX() <=  this.getMinX())
+            return false;
+        if(player.getMaxY() >=  this.getMaxY())
+            return false;
+        if(player.getMinY() <=  this.getMinY())
+            return false;
+        return true;
     }
     
     public void activate() {
@@ -95,5 +115,8 @@ public class Portal extends Entity {
     
     public Room getRoom() {
         return myRoom;
+    }
+    public Room getLinkedRoom() {
+        return linkedRoom;
     }
 }

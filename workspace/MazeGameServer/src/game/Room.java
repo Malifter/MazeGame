@@ -28,6 +28,8 @@ public class Room {
     private ArrayList<Entity> traps = new ArrayList<Entity>();;
     private ArrayList<Entity> players = new ArrayList<Entity>();
     ArrayList<Door> doors = new ArrayList<Door>();
+    ArrayList<Portal> portals = new ArrayList<Portal>();
+    ArrayList<GateKeeper> gatekeepers = new ArrayList<GateKeeper>();
     
     public Room(Position<Integer, Integer> location) {
         this.location = location;
@@ -101,4 +103,19 @@ public class Room {
     public ArrayList<Door> getDoors() {
         return doors;
     }
+    public void addPortals(Portal portal) {
+        portals.add(portal);
+        
+    }
+    public ArrayList<Portal> getPortals() {
+        return portals;
+    }
+    public void addGateKeeper(GateKeeper gatekeeper) {
+        gatekeepers.add(gatekeeper);
+        
+    }
+    public ArrayList<GateKeeper> getGateKeepers() {
+        return gatekeepers;
+    }
+    
 }

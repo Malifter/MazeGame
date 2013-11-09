@@ -115,12 +115,13 @@ public class MazeGameServer extends Game {
      * 
      * @param filename
      */
-    public Room createRoom(int layout, Position<Integer, Integer> position, Door door, Boolean[] addDoor) {
+    public Room createRoom(int layout, Position<Integer, Integer> position, Door door, Boolean[] addDoor, Boolean[] addPortal) {
         try {
             Room room = new Room(position);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(roomLayouts[layout])));
             String line = null;
             int doorNum = 0;
+            int portalNum = 0;
             while((line = bufferedReader.readLine()) != null) {
                 line = line.toLowerCase();
                 if(line.contains("background")) {
@@ -198,9 +199,17 @@ public class MazeGameServer extends Game {
                                     room.addDoor(new Door(this, "tiles_mm1_elec38.gif", x, y, exitLoc, room, null, side));   
                                 }
                             } else {
-                                room.addToForeground(new EnvironmentTile(this, "invisible.gif", x, y));
+                                //room.addToForeground(new EnvironmentTile(this, "invisible.gif", x, y));
                             }
                             doorNum++;
+                        }
+                        else if(parts[1].contains("portal")) {
+                            if(addPortal[portalNum]) {
+                                Portal portal = new Portal(this, "tiles_mm1_elec6.gif", x, y, room, rooms);
+                                room.addPortals(portal);
+                                room.addGateKeeper(new GateKeeper(this, "tiles_mm1_elec6.gif", x, y-20, 10,10,10,10, portal));
+                            }
+                            portalNum++;
                         }
                         // ADD OTHER OBJECTS HERE
                     }
@@ -232,8 +241,8 @@ public class MazeGameServer extends Game {
     }
 
     public ArrayList<ArrayList<Boolean>> initInputs() {
-        rooms.add(createRoom(0, new Position<Integer, Integer>(0, 0), null, new Boolean[]{false, false, true, false}));
-        rooms.add(createRoom(1, new Position<Integer, Integer>(Room.WIDTH, 0), rooms.get(0).getDoors().get(0), new Boolean[]{false, true, false, false}));
+        rooms.add(createRoom(0, new Position<Integer, Integer>(0, 0), null, new Boolean[]{false, false, true, false}, new Boolean[]{false, false, false, true}));
+        rooms.add(createRoom(1, new Position<Integer, Integer>(Room.WIDTH, 0), rooms.get(0).getDoors().get(0), new Boolean[]{false, true, false, false}, new Boolean[]{false, false, false, false}));
         inputs = new ArrayList<ArrayList<Boolean>>();
         for(int i = 0; i < 4; i++) { // tmp to allow multiplayer
             ArrayList<Boolean> tmpInputs = new ArrayList<Boolean>();
@@ -309,6 +318,36 @@ public class MazeGameServer extends Game {
                     generatedUpdates.add(d.serialize());
                 }
                 
+                for(Portal p: r.getPortals()) {
+                    int i = 0;
+                    while(i < r.getPlayers().size()) {
+                        if(p.contains(r.getPlayers().get(i))) {
+                            if (p.isActivated()){
+                                p.transport(r.getPlayers().get(i));
+                                r.removePlayer(r.getPlayers().get(i));
+                            }
+                            //if portal is not opened, the player is bounced back to the center
+                            //of the room
+                            else
+                            {
+                                r.getPlayers().get(i).setMinX(r.getCenter().getX());
+                                r.getPlayers().get(i).setMinY(r.getCenter().getY());
+                            }  
+                        } else i++;
+                    }
+                    generatedUpdates.add(p.serialize());
+                }
+                
+                for(GateKeeper g: r.getGateKeepers()){ 
+                    int i = 0;
+                    while(i < r.getPlayers().size()) {
+                        if(g.contains(r.getPlayers().get(i))) {
+                                g.negotiate(r.getPlayers().get(i));
+                        } else i++;
+                    }
+                    generatedUpdates.add(g.serialize());
+                  
+                }
                 //healthbar.get(players.get(0).getHealthPoints()).update(time);
                 //generatedUpdates.add(healthbar.get(players.get(0).getHealthPoints()).serialize());
                 
