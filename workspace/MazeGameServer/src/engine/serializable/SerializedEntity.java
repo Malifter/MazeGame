@@ -1,6 +1,7 @@
 package engine.serializable;
 
-import engine.Position;
+import engine.Vertex2;
+import engine.Vertex2f;
 
 /*
 * Classname:            SerializedEntity.java
@@ -16,9 +17,9 @@ public class SerializedEntity extends SerializedObject {
     private static final long serialVersionUID = -3253907327685796548L;
     private String image;
     private boolean delete = false;
-    private Position<Float, Float> position;
+    private Vertex2f position;
 
-    public SerializedEntity(String uniqueID, String image, Position<Float, Float> position, boolean delete) {
+    public SerializedEntity(String uniqueID, String image, Vertex2f position, boolean delete) {
         super(uniqueID);
         this.image = image;
         this.position = position;
@@ -33,11 +34,11 @@ public class SerializedEntity extends SerializedObject {
         this.image = image;
     }
 
-    public Position<Float, Float> getPosition() {
+    public Vertex2f getPosition() {
         return position;
     }
     
-    public void setPosition(Position<Float, Float> position) {
+    public void setPosition(Vertex2f position) {
         this.position = position;
     }
     

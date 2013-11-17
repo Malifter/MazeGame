@@ -1,0 +1,5 @@
+package game.levelloader;
+
+public class Level {
+    
+}

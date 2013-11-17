@@ -1,0 +1,18 @@
+package engine.physics;
+
+import engine.Vertex2;
+
+public class RigidBody {
+    private Vertex2<Float, Float> max;
+    private Vertex2<Float, Float> center;
+    private Vertex2<Float, Float> min;
+    private Vertex2<Float, Float> delta;
+    private Vertex2<Float, Float> velocity;
+    protected float radius;
+    protected float width;
+    protected float height;
+    
+    public RigidBody() {
+        
+    }
+}

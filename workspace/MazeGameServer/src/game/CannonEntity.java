@@ -26,10 +26,10 @@ public class CannonEntity extends Entity {
     MazeGameServer game;
     private float direction = 0;
     private long directionTime = 0;
-    private String imageArray[] = {"\\enemies\\cannon1floor.gif","\\enemies\\cannon3floor.gif"};
-    private String imageArrayRight[] = {"\\enemies\\cannon1floorRight.gif","\\enemies\\cannon3floorRight.gif"};
-    private String dieArray[] = {"\\enemies\\cannon1floorDie.gif","\\enemies\\cannon2floorDie.gif","damage3.gif"};
-    private String dieArrayRight[] = {"\\enemies\\cannon1floorRightDie.gif","\\enemies\\cannon2floorRightDie.gif","damage3.gif"};
+    private String imageArray[] = {"\\animations\\cannon\\cannon1floor.gif","\\animations\\cannon\\cannon3floor.gif"};
+    private String imageArrayRight[] = {"\\animations\\cannon\\cannon1floorRight.gif","\\animations\\cannon\\cannon3floorRight.gif"};
+    private String dieArray[] = {"\\animations\\cannon\\cannon1floorDie.gif","\\animations\\cannon\\cannon2floorDie.gif","damage3.gif"};
+    private String dieArrayRight[] = {"\\animations\\cannon\\cannon1floorRightDie.gif","\\animations\\cannon\\cannon2floorRightDie.gif","damage3.gif"};
     private int imageIndex = 0;
     private int numBullets;
     private boolean spawned = false;
@@ -74,28 +74,28 @@ public class CannonEntity extends Entity {
         //GameEngine.playSound(game.sound_shot);
         if(isRight && !angleShot) {
             image = imageArrayRight[0];
-            shots.add(new ShotEntity(game, "\\enemies\\cannonShot.gif",(int) maxX,
+            shots.add(new ShotEntity(game, "cannonShot.gif",(int) maxX,
                     (int) minY+8, Face.RIGHT, BLASTER_DAMAGE, AGGRO_RANGE));
             shots.get(shots.size()-1).disableY();
             angleShot = true;
         }
         else if(!isRight && !angleShot) {
             image = imageArray[0];
-            shots.add(new ShotEntity(game, "\\enemies\\cannonShot.gif",(int) minX,
+            shots.add(new ShotEntity(game, "cannonShot.gif",(int) minX,
                     (int) minY+8, Face.LEFT, BLASTER_DAMAGE, AGGRO_RANGE));
             shots.get(shots.size()-1).disableY();
             angleShot = true;
         }
         else if(isRight && angleShot) {
             image = imageArrayRight[1];
-            shots.add(new ShotEntity(game, "\\enemies\\cannonShot.gif",(int) maxX-12,
+            shots.add(new ShotEntity(game, "cannonShot.gif",(int) maxX-12,
                     (int) minY, Face.RIGHT, BLASTER_DAMAGE, AGGRO_RANGE));
             shots.get(shots.size()-1).enableY();
             angleShot = false;
         }
         else if(!isRight && angleShot) {
             image = imageArray[1];
-            shots.add(new ShotEntity(game, "\\enemies\\cannonShot.gif",(int) minX+4,
+            shots.add(new ShotEntity(game, "cannonShot.gif",(int) minX+4,
                     (int) minY, Face.LEFT, BLASTER_DAMAGE, AGGRO_RANGE));
             shots.get(shots.size()-1).enableY();
             angleShot = false;
@@ -163,11 +163,11 @@ public class CannonEntity extends Entity {
             else {
                 if(player.getMidX()-midX > 0) {
                     facingRight = true;
-                    image = "\\enemies\\cannon1floorRight.gif";
+                    image = "\\animations\\cannon\\cannon1floorRight.gif";
                 }
                 else {
                     facingRight = false;
-                    image = "\\enemies\\cannon1floor.gif";
+                    image = "\\animations\\cannon\\cannon1floor.gif";
                 }
             }
             shotTimer++;

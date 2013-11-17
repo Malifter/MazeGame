@@ -1,0 +1,40 @@
+package game.levelloader;
+
+/*
+* Classname:            RenderableLevel
+*
+* Version information:  1.0
+*
+* Date:                 11/17/2013
+*
+* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+*/
+
+import game.RenderableRoom;
+
+import java.util.ArrayList;
+
+public class RenderableLevel {
+    
+    private ArrayList<RenderableRoom> rooms = new ArrayList<RenderableRoom>();
+    private Exterior exterior = null;
+    
+    public Level() {   
+    }
+    
+    public void addRoom(Interior room) {
+        rooms.add(room);
+    }
+    
+    public ArrayList<Interior> getRooms() {
+        return rooms;
+    }
+    
+    public void setExterior(Exterior outer) {
+        exterior = outer;
+    }
+    
+    public Exterior getExterior() {
+        return exterior;
+    }
+}

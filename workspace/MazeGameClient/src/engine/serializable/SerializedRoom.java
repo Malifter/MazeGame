@@ -1,7 +1,6 @@
 package engine.serializable;
 
-import engine.Position;
-import game.Room;
+import engine.Vertex2;
 
 /*
 * Classname:            SerializedRoom.java
@@ -15,22 +14,32 @@ import game.Room;
 
 public class SerializedRoom extends SerializedObject {
     private static final long serialVersionUID = 6807826454185661545L;
-    private Position<Integer, Integer> position;
+    private Vertex2 position;
+    private Integer index;
 
-    public SerializedRoom(Position<Integer, Integer> position) {
+    public SerializedRoom(Vertex2 position, int index) {
         super(null);
         this.position = position;
+        this.index = index;
     }
 
-    public Position<Integer, Integer> getPosition() {
+    public Vertex2 getPosition() {
         return position;
     }
     
-    public void setPosition(Position<Integer, Integer> position) {
+    public void setPosition(Vertex2 position) {
         this.position = position;
     }
     
-    public static SerializedRoom serialize(Room room) {
-        return new SerializedRoom(room.getCenter());
+    public int getIndex() {
+        return index;
     }
+    
+    public void setIndex(int index) {
+        this.index = index;
+    }
+    /*
+    public static SerializedRoom serialize(Interior room) {
+        return new SerializedRoom(room.getCenter(), );
+    }*/
 }

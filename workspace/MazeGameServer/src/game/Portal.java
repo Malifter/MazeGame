@@ -1,8 +1,9 @@
 package game;
 
+import game.Door.Side;
+
 import java.util.ArrayList;
 import java.util.Random;
-import engine.Position;
 /*
 * Classname:            Portal.java
 *
@@ -24,10 +25,9 @@ public class Portal extends Entity {
      */
     private static final long serialVersionUID = 4081052719686701412L;
     public static final int TILESIZE = 16;
-    private ArrayList<Room> rooms; 
-    private Room myRoom;
-    private Room linkedRoom;
-    public static enum Side {TOP, LEFT, RIGHT, BOTTOM};
+    private ArrayList<Interior> rooms; 
+    private Interior myRoom;
+    private Interior linkedRoom;
     private boolean activated = false;
     
 
@@ -38,7 +38,7 @@ public class Portal extends Entity {
      * @param x - the starting location x
      * @param y - the starting location y
      */
-    public Portal(Game g, String anImage, int x, int y, Room myRoom, ArrayList<Room> rooms) {
+    public Portal(Game g, String anImage, int x, int y, Interior myRoom, ArrayList<Interior> rooms) {
         super(g,anImage,x,y,TILESIZE+8,TILESIZE+8);
         minX = x-4;
         minY = y-4;

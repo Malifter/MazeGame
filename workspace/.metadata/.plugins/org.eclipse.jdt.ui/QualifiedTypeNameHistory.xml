@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="game.Game"/>
+<fullyQualifiedTypeName name="game.Chest"/>
+<fullyQualifiedTypeName name="game.GameEngine"/>
+<fullyQualifiedTypeName name="game.Obstacle"/>
+<fullyQualifiedTypeName name="game.Room"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="game.Exterior"/>
+<fullyQualifiedTypeName name="game.Interior"/>
+<fullyQualifiedTypeName name="game.MazeGameServer"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="game.Door.Side"/>
+<fullyQualifiedTypeName name="game.levelloader.LevelLoader.LevelSize"/>
+<fullyQualifiedTypeName name="game.levelloader.Level"/>
+<fullyQualifiedTypeName name="engine.Vertex2f"/>
 <fullyQualifiedTypeName name="game.Entity"/>
+<fullyQualifiedTypeName name="engine.serializable.SerializedObject"/>
+<fullyQualifiedTypeName name="game.levelloader.LevelLoader"/>
+<fullyQualifiedTypeName name="game.RenderableRoom"/>
+<fullyQualifiedTypeName name="engine.serializable.SerializedRoom"/>
 </qualifiedTypeNameHistroy>

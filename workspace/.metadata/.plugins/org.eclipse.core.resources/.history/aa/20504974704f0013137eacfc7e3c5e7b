@@ -1,0 +1,36 @@
+package engine.serializable;
+
+import engine.Vertex2;
+import game.Room;
+
+/*
+* Classname:            SerializedRoom.java
+*
+* Version information:  1.0
+*
+* Date:                 11/6/2013
+*
+* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+*/
+
+public class SerializedRoom extends SerializedObject {
+    private static final long serialVersionUID = 6807826454185661545L;
+    private Vertex2<Integer, Integer> position;
+
+    public SerializedRoom(Vertex2<Integer, Integer> position) {
+        super(null);
+        this.position = position;
+    }
+
+    public Vertex2<Integer, Integer> getPosition() {
+        return position;
+    }
+    
+    public void setPosition(Vertex2<Integer, Integer> position) {
+        this.position = position;
+    }
+    
+    public static SerializedRoom serialize(Room room) {
+        return new SerializedRoom(room.getCenter());
+    }
+}

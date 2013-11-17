@@ -29,6 +29,7 @@ import engine.render.IDisplay;
 import engine.render.Sprite;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
+import engine.serializable.SerializedRoom;
 import engine.soundmanager.SoundManager;
 
 /*
@@ -255,8 +256,9 @@ public class GameEngine {
         theGame = aGame;
         setDisplay(theGame.getDisplay());
         theDisplay.init();
-        inputs = theGame.initInputs();
         createSocket();
+        inputs = theGame.initInputs(checkForServerLevel());
+        
         gameLoop();
         theGame.shutdown();
     }
@@ -312,7 +314,7 @@ public class GameEngine {
                         SerializedEntity se = (SerializedEntity)so;
                         //System.out.println(so.getID() + "\t" + so.getImage() + "\t" + so.getPosition() + "\t" + so.needsDelete());
                         Sprite sprite = theGame.getDisplay().getSprite(se.getImage());
-                        sprite.draw(se.getPosition().getX().intValue(), se.getPosition().getY().intValue());
+                        sprite.draw((int)se.getPosition().getX(), (int)se.getPosition().getY());
                     }
                 }
             }
@@ -356,10 +358,16 @@ public class GameEngine {
      */
     @SuppressWarnings("unchecked")
     protected static List<SerializedObject> checkForServerUpdates() throws IOException, ClassNotFoundException {
-        // Only receive the position/image for objects on screen (maybe their type too)
-        // The Client will store ALL static parts of the game that don't move and only display them if in the room.
         try {
             return (List<SerializedObject>) ois.readObject();
+        } catch(Exception ignore) {}
+        return null;
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected static List<SerializedRoom> checkForServerLevel() {
+        try {
+            return (List<SerializedRoom>) ois.readObject();
         } catch(Exception ignore) {}
         return null;
     }

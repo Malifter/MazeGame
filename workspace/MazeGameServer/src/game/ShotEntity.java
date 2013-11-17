@@ -30,6 +30,8 @@ public class ShotEntity extends Entity {
     
     private static int range;
     
+    private final static String projectilePath = "animations/projectiles/";
+    
     int startX;
     int startY;
     
@@ -46,7 +48,7 @@ public class ShotEntity extends Entity {
      *            The initial y location of the shot
      */
     public ShotEntity(Game g, String img, int x, int y, Face direction, int damage, int range) {
-        super(g, img, x, y, 8, 6);
+        super(g, projectilePath+img, x, y, 8, 6);
         this.startX = x;
         this.startY = y;
         this.damage = damage;
@@ -75,7 +77,7 @@ public class ShotEntity extends Entity {
                 dx = 0;
                 break;
         }
-        if(image == null) image = "shot.gif";
+        if(image == null) image = projectilePath+"shot.gif";
         this.game = (MazeGameServer) g;
         
     }

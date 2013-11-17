@@ -1,0 +1,85 @@
+package game;
+
+import java.util.ArrayList;
+
+import engine.Vertex2;
+
+/*
+* Classname:            Room.java
+*
+* Version information:  1.0
+*
+* Date:                 11/3/2013
+*
+* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+*/
+
+public class Room {
+    private static final int OFFSET_X = 120;
+    private static final int OFFSET_Y = 72;
+    public static final int HEIGHT = 144;
+    public static final int WIDTH = 240;
+    private Vertex2 center;
+    private Vertex2 location;
+    private ArrayList<Entity> enemies = new ArrayList<Entity>();
+    private ArrayList<Entity> foreground = new ArrayList<Entity>();
+    private ArrayList<Entity> background = new ArrayList<Entity>();
+    //private ArrayList<Entity> traps = new ArrayList<Entity>();
+    
+    public Room(Vertex2 location) {
+        this.location = location;
+        this.center = new Vertex2(location.getX() + OFFSET_X, location.getY() + OFFSET_Y);
+    }
+    
+    public void addToForeground(Entity tile) {
+        foreground.add(tile);
+    }
+    
+    public void addToBackground(Entity tile) {
+        background.add(tile);
+    }
+    
+    public void addTrap(Entity trap) {
+        traps.add(trap);
+    }
+    
+    public void addPlayer(Entity player) {
+        players.add(player);
+    }
+    
+    public void addEnemy(Entity enemy) {
+        enemies.add(enemy);
+    }
+    
+    public void addDoor() {
+        
+    }
+    
+    public ArrayList<Entity> getEnemies() {
+        return enemies;
+    }
+    
+    public ArrayList<Entity> getTraps() {
+        return traps;
+    }
+    
+    public ArrayList<Entity> getBackground() {
+        return background;
+    }
+    
+    public ArrayList<Entity> getForeground() {
+        return foreground;
+    }
+    
+    public Vertex2 getLocation() {
+        return location;
+    }
+    
+    public Vertex2 getCenter() {
+        return center;
+    }
+    
+    public void getDoors() {
+        
+    }
+}

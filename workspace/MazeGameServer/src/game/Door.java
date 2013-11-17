@@ -1,6 +1,10 @@
 package game;
 
-import engine.Position;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import engine.Vertex2;
 /*
 * Classname:            Door.java
 *
@@ -23,8 +27,37 @@ public class Door extends Entity {
     public static final int TILESIZE = 16;
     private Door linkedDoor;
     private Room room;
-    private Position<Integer, Integer> exitLocation;
-    public static enum Side {TOP, LEFT, RIGHT, BOTTOM};
+    private Vertex2 exitLocation;
+    public static enum Side {
+        TOP("top",0), LEFT("left",1), RIGHT("right",2), BOTTOM("bottom",3);
+        private static final Side[] VALUES = values();
+        private static final int SIZE = VALUES.length;
+        private final String value;
+        private final int index;
+        private Side(String value, int index) {
+            this.value = value;
+            this.index = index;
+        }
+        public static Side findByValue(String value) {
+            for(int i = 0; i < SIZE; i++) {
+                if(VALUES[i].getValue().equalsIgnoreCase(value)) return VALUES[i];
+            }
+            return null;
+        }
+        public Side opposite() {
+            if(this.equals(TOP)) return BOTTOM;
+            else if(this.equals(BOTTOM)) return TOP;
+            else if(this.equals(RIGHT)) return LEFT;
+            else if(this.equals(LEFT)) return RIGHT;
+            return null;
+        }
+        public int getIndex() {
+            return index;
+        }
+        public String getValue() {
+            return value;
+        }
+    };
     private Side side;
     private boolean locked = false; // Implement later
     
@@ -36,7 +69,7 @@ public class Door extends Entity {
      * @param x
      * @param y
      */
-    public Door(Game g, String anImage, int x, int y, Position<Integer, Integer> exitLoc, Room room, Door linkedDoor, Side side) {
+    public Door(Game g, String anImage, int x, int y, Vertex2 exitLoc, Room room, Door linkedDoor, Side side) {
         super(g,anImage,x,y,TILESIZE+8,TILESIZE+8);
         minX = x-4;
         minY = y-4;
@@ -77,7 +110,7 @@ public class Door extends Entity {
         return side;
     }
     
-    public Position<Integer, Integer> getExit() {
+    public Vertex2 getExit() {
         return exitLocation;
     }
     
@@ -91,5 +124,6 @@ public class Door extends Entity {
     
     public void setLink(Door linkedDoor) {
         this.linkedDoor = linkedDoor;
+        this.linkedDoor.linkedDoor = this;
     }
 }

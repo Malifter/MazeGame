@@ -24,6 +24,7 @@ public class ShieldGuyEntity extends Entity {
     MazeGameServer game;
     private float direction = 0;
     private long directionTime = 0;
+    private final static String animationPath = "animations/shieldguy/";
     private String imageArray[] = {"shieldguy1.gif","shieldguy2.gif","shieldguy3.gif","shieldguy2.gif","shieldguy1.gif"};
     private String imageArrayRight[] = {"shieldguyRight1.gif","shieldguyRight2.gif","shieldguyRight3.gif","shieldguyRight2.gif","shieldguyRight1.gif"};
     private String dieArray[] = {"shieldguyDie1.gif","shieldguyDie2.gif","damage3.gif"};
@@ -55,7 +56,7 @@ public class ShieldGuyEntity extends Entity {
         super(g, file, iX, iY, w, h);
         game = (MazeGameServer) g;
         imageIndex = imageIndex + 10; 
-        image = imageArray[0];
+        image = animationPath+imageArray[0];
         minX = x;
         minY = y;
         width = w;
@@ -208,11 +209,11 @@ public class ShieldGuyEntity extends Entity {
             else {
                 if(player.getMidX()-midX > 0) {
                     facingRight = true;
-                    image = "shieldguyRight1.gif";
+                    image = animationPath+"shieldguyRight1.gif";
                 }
                 else {
                     facingRight = false;
-                    image = "shieldguy1.gif";
+                    image = animationPath+"shieldguy1.gif";
                 }
                 isBlocking = true;
             }/*
@@ -224,10 +225,10 @@ public class ShieldGuyEntity extends Entity {
             }*/
             if(isBlocking){
                 if(facingRight) {
-                    image = "shieldguyRight1.gif";
+                    image = animationPath+"shieldguyRight1.gif";
                 }
                 else if(!facingRight) {
-                    image = "shieldguy1.gif";
+                    image = animationPath+"shieldguy1.gif";
                 }
             }/*
             if(isFalling && isJump) {
@@ -241,10 +242,10 @@ public class ShieldGuyEntity extends Entity {
             else if(isFire /*&& !isFalling && !isJump*/ && !isBlocking){
                 isFire = false;
                 if(facingRight) {
-                    image = "shieldguyRight3.gif";
+                    image = animationPath+"shieldguyRight3.gif";
                 }
                 else if(!facingRight) {
-                    image = "shieldguy3.gif";
+                    image = animationPath+"shieldguy3.gif";
                 }
             }
             shotTimer++;
@@ -260,10 +261,10 @@ public class ShieldGuyEntity extends Entity {
                 imageIndex = 0;
             }
             if(facingRight) {
-                image = dieArrayRight[imageIndex/100];
+                image = animationPath+dieArrayRight[imageIndex/100];
             }
             else if(!facingRight) {
-                image = dieArray[imageIndex/100];
+                image = animationPath+dieArray[imageIndex/100];
             }
             
             if(isDying >= 3){

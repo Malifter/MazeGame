@@ -84,13 +84,14 @@ public class GameServer implements Runnable{
                 playerID = playerMap.size();
                 playerMap.put(clientSocket.getRemoteSocketAddress(), playerID);
             }
-            if(playerID != 0) { // tmp since don't know spawn location
-                MazeGameServer g = ((MazeGameServer) engine.theGame);
-                g.rooms.get(0).addPlayer(new Player(engine.theGame, "spawn1.gif", g.rooms.get(0).getCenter().getX(),
-                        g.rooms.get(0).getCenter().getY(), g.rooms.get(0).getCenter().getX()+11, g.rooms.get(0).getCenter().getY()+19, 12, 11, 3, playerID));
-                //engine.clientInputs.add(new ArrayList<Integer>());
-                engine.inputLocks.add(new ReentrantLock());
-            }
+            MazeGameServer g = ((MazeGameServer) engine.theGame);
+            g.level.getExterior().addPlayer(new Player(engine.theGame, "spawn1.gif",
+                    g.level.getExterior().getPlayerSpawns().get(playerID).getX(),
+                    g.level.getExterior().getPlayerSpawns().get(playerID).getY(),
+                    g.level.getExterior().getPlayerSpawns().get(playerID).getX()+11,
+                    g.level.getExterior().getPlayerSpawns().get(playerID).getY()+19, 12, 11, 3, playerID));
+            //engine.clientInputs.add(new ArrayList<Integer>());
+            engine.inputLocks.add(new ReentrantLock());
             System.out.println(playerID);
             threadPoolExecutor.execute(new PlayerHandlerThread(clientSocket, playerID, engine));
         }

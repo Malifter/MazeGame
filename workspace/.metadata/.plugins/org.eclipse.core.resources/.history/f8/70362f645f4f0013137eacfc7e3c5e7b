@@ -1,0 +1,17 @@
+package game.levelloader;
+
+import game.Exterior;
+import game.Room;
+
+import java.util.ArrayList;
+
+public class Level {
+    
+    private static ArrayList<Interior> rooms;
+    private static Exterior exterior;
+    
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
+    
+}

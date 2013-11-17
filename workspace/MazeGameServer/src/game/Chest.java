@@ -2,7 +2,6 @@ package game;
 
 import java.util.ArrayList;
 
-import engine.Position;
 /*
 * Classname:            Chest.java
 *

@@ -1,6 +1,7 @@
 package engine.serializable;
 
-import engine.Position;
+import engine.Vertex2;
+import engine.Vertex2f;
 
 /*
 * Classname:            SerializedPlayer.java
@@ -18,9 +19,9 @@ public class SerializedPlayer extends SerializedObject {
      */
     private static final long serialVersionUID = 2223980202920884570L;
     private String image;
-    private Position<Float, Float> position;
+    private Vertex2f position;
 
-    public SerializedPlayer(String uniqueID, String image, Position<Float, Float> position) {
+    public SerializedPlayer(String uniqueID, String image, Vertex2f position) {
         super(uniqueID);
         this.image = image;
         this.position = position;
@@ -34,11 +35,11 @@ public class SerializedPlayer extends SerializedObject {
         this.image = image;
     }
 
-    public Position<Float, Float> getPosition() {
+    public Vertex2f getPosition() {
         return position;
     }
     
-    public void setPosition(Position<Float, Float> position) {
+    public void setPosition(Vertex2f position) {
         this.position = position;
     }
     

@@ -24,10 +24,10 @@ public class WoodManEntity extends Entity {
     MazeGameServer game;
     private float direction = 0;
     private long directionTime = 0;
-    private String imageArray[] = {"\\enemies\\woodman1.gif","\\enemies\\woodman2.gif"};
-    private String imageArrayRight[] = {"\\enemies\\woodman1Right.gif","\\enemies\\woodman2Right.gif"};
-    private String dieArray[] = {"\\enemies\\woodmanDeath1.gif","\\enemies\\woodmanDeath2.gif","\\enemies\\woodmanDeath3.gif","damage3.gif","damage4.gif"};
-    private String dieArrayRight[] = {"\\enemies\\woodmanDeathRight1.gif","\\enemies\\woodmanDeathRight2.gif","\\enemies\\woodmanDeathRight3.gif","damage3.gif","damage4.gif"};
+    private String imageArray[] = {"\\animations\\woodman\\woodman1.gif","\\animations\\woodman\\woodman2.gif"};
+    private String imageArrayRight[] = {"\\animations\\woodman\\woodman1Right.gif","\\animations\\woodman\\woodman2Right.gif"};
+    private String dieArray[] = {"\\animations\\woodman\\woodmanDeath1.gif","\\animations\\woodman\\woodmanDeath2.gif","\\animations\\woodman\\woodmanDeath3.gif","damage3.gif","damage4.gif"};
+    private String dieArrayRight[] = {"\\animations\\woodman\\woodmanDeathRight1.gif","\\animations\\woodman\\woodmanDeathRight2.gif","\\animations\\woodman\\woodmanDeathRight3.gif","damage3.gif","damage4.gif"};
     private int imageIndex = 0;
     private int numBullets;
     private boolean isJump = false;
@@ -102,11 +102,11 @@ public class WoodManEntity extends Entity {
     public void fire(boolean isRight) {
         //GameEngine.playSound(game.sound_shot);
         if(isRight) {
-            shots.add(new ShotEntity(game, "\\enemies\\woodmanLeaf1.gif",(int) maxX,
+            shots.add(new ShotEntity(game, "woodmanLeaf1.gif",(int) maxX,
                     (int) minY+8, Face.RIGHT, LEAF_DAMAGE, AGGRO_RANGE));
         }
         else if(!isRight) {
-            shots.add(new ShotEntity(game, "\\enemies\\woodmanLeaf4.gif",(int) minX,
+            shots.add(new ShotEntity(game, "woodmanLeaf4.gif",(int) minX,
                     (int) minY+8, Face.LEFT, LEAF_DAMAGE, AGGRO_RANGE));
         }
         lastShotTime = GameEngine.getTime();
@@ -233,10 +233,10 @@ public class WoodManEntity extends Entity {
             if(isFire){
                 isFire = false;
                 if(facingRight) {
-                    image = "\\enemies\\woodman4Right.gif";
+                    image = "\\animations\\woodman\\woodman4Right.gif";
                 }
                 else if(!facingRight) {
-                    image = "\\enemies\\woodman4.gif";
+                    image = "\\animations\\woodman\\woodman4.gif";
                 }
             }
             shotTimer++;
@@ -260,7 +260,8 @@ public class WoodManEntity extends Entity {
             
             if(isDying >= 4){
                 remove = true;
-                game.setWin(true);
+                //game.setWin(true);
+                // WIN
             }
         }
     }

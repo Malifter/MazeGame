@@ -767,3 +767,2147 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
 	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
 	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY org.eclipse.wst.server.core 4 0 2013-11-08 21:38:58.406
+!MESSAGE Error during shutdown
+!STACK 0
+org.eclipse.core.runtime.AssertionFailedException: null argument:
+	at org.eclipse.core.runtime.Assert.isNotNull(Assert.java:85)
+	at org.eclipse.core.runtime.Assert.isNotNull(Assert.java:73)
+	at org.eclipse.core.internal.events.ResourceChangeListenerList.remove(ResourceChangeListenerList.java:146)
+	at org.eclipse.core.internal.events.NotificationManager.removeListener(NotificationManager.java:305)
+	at org.eclipse.core.internal.resources.Workspace.removeResourceChangeListener(Workspace.java:1934)
+	at org.eclipse.wst.server.core.internal.ResourceManager.shutdownImpl(ResourceManager.java:367)
+	at org.eclipse.wst.server.core.internal.ResourceManager.shutdown(ResourceManager.java:313)
+	at org.eclipse.wst.server.core.internal.ServerPlugin.stop(ServerPlugin.java:367)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$2.run(BundleContextImpl.java:843)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.stop(BundleContextImpl.java:836)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.stopWorker(BundleHost.java:501)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.suspend(AbstractBundle.java:550)
+	at org.eclipse.osgi.framework.internal.core.Framework.suspendBundle(Framework.java:1097)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.decFWSL(StartLevelManager.java:597)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:257)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.shutdown(StartLevelManager.java:215)
+	at org.eclipse.osgi.framework.internal.core.InternalSystemBundle.suspend(InternalSystemBundle.java:266)
+	at org.eclipse.osgi.framework.internal.core.Framework.shutdown(Framework.java:690)
+	at org.eclipse.osgi.framework.internal.core.Framework.close(Framework.java:588)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.shutdown(EclipseStarter.java:415)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:198)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:620)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:575)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1408)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1384)
+!SESSION 2013-11-09 23:22:58.514 -----------------------------------------------
+eclipse.buildId=M20110210-1200
+java.version=1.7.0_13
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.epp.usagedata.recording 1 0 2013-11-09 23:25:52.564
+!MESSAGE Usage data upload to http://udc.eclipse.org/upload.php failed with error code 404.
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 19:40:50.809
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 19:42:34.523
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 19:43:22.223
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 19:44:38.445
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 19:45:59.505
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 19:52:20.998
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 19:52:30.482
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-11 22:09:17.394
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+!SESSION 2013-11-14 17:39:28.661 -----------------------------------------------
+eclipse.buildId=M20110210-1200
+java.version=1.7.0_13
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -data C:\Users\Malificiece\Documents\GitHub\MazeGame\workspace -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:25:47.781
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:25:48.340
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:25:48.343
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:29:51.651
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:29:51.656
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:42:42.720
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:42:42.764
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:42:42.768
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:43:13.788
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:43:13.793
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:58:27.550
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-14 19:58:27.556
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY org.eclipse.epp.usagedata.recording 1 0 2013-11-15 23:27:23.662
+!MESSAGE Usage data upload to http://udc.eclipse.org/upload.php failed with error code 404.
+
+!ENTRY org.eclipse.jdt.ui 4 10001 2013-11-17 03:06:19.577
+!MESSAGE Internal Error
+!STACK 1
+Java Model Exception: Java Model Status [EntryType [in [Working copy] LevelLoader.java [in game.levelloader [in src [in MazeGameServer]]]] does not exist]
+	at org.eclipse.jdt.internal.core.JavaElement.newNotPresentException(JavaElement.java:492)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:526)
+	at org.eclipse.jdt.internal.core.JavaElement.getElementInfo(JavaElement.java:252)
+	at org.eclipse.jdt.internal.core.JavaElement.getElementInfo(JavaElement.java:238)
+	at org.eclipse.jdt.internal.core.SourceRefElement.getSourceRange(SourceRefElement.java:218)
+	at org.eclipse.jdt.internal.core.Member.getJavadocRange(Member.java:266)
+	at org.eclipse.jdt.internal.ui.text.javadoc.JavadocContentAccess2.getHTMLContentFromSource(JavadocContentAccess2.java:570)
+	at org.eclipse.jdt.internal.ui.text.javadoc.JavadocContentAccess2.getHTMLContent(JavadocContentAccess2.java:466)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.getHoverInfo(JavadocHover.java:609)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.internalGetHoverInfo(JavadocHover.java:555)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavadocHover.getHoverInfo2(JavadocHover.java:547)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:141)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:82)
+	at org.eclipse.jface.text.TextViewerHoverManager$4.run(TextViewerHoverManager.java:166)
+!SUBENTRY 1 org.eclipse.jdt.core 4 969 2013-11-17 03:06:19.578
+!MESSAGE EntryType [in [Working copy] LevelLoader.java [in game.levelloader [in src [in MazeGameServer]]]] does not exist
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:11:24.936
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:11:25.465
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:11:25.468
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:14:48.867
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:14:48.872
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:14:48.875
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:17:51.494
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:17:51.698
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:17:51.702
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:19:11.404
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:19:11.520
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:19:11.523
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:20:21.945
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:20:21.950
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:20:21.954
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:20:44.852
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:20:44.872
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:20:44.875
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:24:59.291
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:24:59.297
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:24:59.300
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:27:27.704
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:28:07.592
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:28:19.324
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:29:04.918
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:29:57.753
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:33:24.483
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:36:52.849
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:36:52.854
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:37:22.136
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:37:22.140
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:38:08.877
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:38:09.015
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:38:09.018
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:38:57.574
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:38:57.752
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:38:57.755
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:40:20.306
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:40:20.311
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:40:20.315
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:41:24.863
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:41:24.867
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:45:57.915
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:45:58.070
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:45:58.073
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:46:13.153
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:46:13.283
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:46:13.287
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:49:31.989
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:49:32.462
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:49:32.466
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:52:00.208
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:52:00.339
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:52:00.343
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:53:12.896
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:53:13.003
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:53:13.006
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:55:26.600
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:55:26.738
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:55:26.741
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:55:34.435
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:55:34.618
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:55:34.622
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:56:43.718
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:56:43.864
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:56:43.868
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:57:00.376
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:57:00.506
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:57:00.509
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:58:02.626
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:58:02.752
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 07:58:02.755
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:00:25.473
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:00:25.648
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:00:25.652
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:00:34.545
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:00:34.720
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:00:34.724
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:10:15.412
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:10:15.580
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:10:15.583
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:10:55.149
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:10:55.288
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:10:55.291
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:13:22.360
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:13:22.547
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:13:22.550
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:14:33.447
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:14:33.605
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:14:33.608
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:02.201
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:02.368
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:02.371
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:32.235
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:32.382
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:32.385
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:47.011
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:47.152
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:15:47.155
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:17:46.097
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:17:46.302
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:17:46.306
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:18:04.052
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:18:04.245
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:18:04.249
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:18:29.574
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:18:29.741
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:18:29.744
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:19:23.918
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:19:24.055
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:19:24.059
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:19:36.240
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:19:36.388
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:19:36.392
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:21:01.551
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:21:01.739
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:21:01.742
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY org.eclipse.jdt.debug.ui 4 4 2013-11-17 08:21:07.266
+!MESSAGE org.eclipse.jdi.TimeoutException: Timeout occurred while waiting for packet 11456. occurred retrieving fields of declaring type.
+!STACK 0
+org.eclipse.jdi.TimeoutException: Timeout occurred while waiting for packet 11456.
+	at org.eclipse.jdi.internal.connect.PacketReceiveManager.getReply(PacketReceiveManager.java:171)
+	at org.eclipse.jdi.internal.connect.PacketReceiveManager.getReply(PacketReceiveManager.java:180)
+	at org.eclipse.jdi.internal.MirrorImpl.requestVM(MirrorImpl.java:174)
+	at org.eclipse.jdi.internal.MirrorImpl.requestVM(MirrorImpl.java:192)
+	at org.eclipse.jdi.internal.MirrorImpl.requestVM(MirrorImpl.java:222)
+	at org.eclipse.jdi.internal.ReferenceTypeImpl.fields(ReferenceTypeImpl.java:839)
+	at org.eclipse.jdi.internal.ReferenceTypeImpl.allFields(ReferenceTypeImpl.java:699)
+	at org.eclipse.jdt.internal.debug.core.model.JDIStackFrame.getVariables0(JDIStackFrame.java:281)
+	at org.eclipse.jdt.internal.debug.core.model.JDIStackFrame.getVariables(JDIStackFrame.java:259)
+	at org.eclipse.jdt.internal.debug.core.model.JDIStackFrame.findVariable(JDIStackFrame.java:640)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.findLocalVariable(JavaDebugHover.java:136)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.getHoverInfo2(JavaDebugHover.java:393)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:141)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:82)
+	at org.eclipse.jface.text.TextViewerHoverManager$4.run(TextViewerHoverManager.java:166)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:23:34.288
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:23:34.439
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:23:34.443
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:23:53.290
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:23:53.463
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:23:53.466
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:24:33.571
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:24:33.723
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:24:33.727
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:25:01.682
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:25:01.828
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:25:01.832
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:28:26.165
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:28:26.328
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:28:26.331
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:31:04.151
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:31:04.384
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:31:04.388
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:32:07.860
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:32:08.065
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:32:08.068
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:32:47.738
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:32:47.908
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:32:47.911
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:34:29.092
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:34:29.263
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:34:29.267
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:42:31.479
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:42:31.692
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:42:31.696
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:42:41.176
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:42:41.357
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:42:41.361
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:44:20.770
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:44:20.947
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:44:20.951
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:44:28.145
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:44:28.346
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:44:28.349
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:48:26.047
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:48:26.377
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:48:26.380
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:49:18.961
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:49:19.135
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:49:19.138
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:49:49.291
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:49:49.481
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:49:49.485
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:50:04.355
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:50:04.538
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:50:04.542
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:50:44.964
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:50:45.132
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:50:45.135
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:51:21.376
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:51:21.558
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:51:21.562
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:54:16.439
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:54:16.581
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 08:54:16.584
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:10:09.307
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:10:09.508
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:10:09.511
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:13:21.866
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:13:22.029
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:13:22.033
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:13:56.554
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:13:56.683
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:13:56.686
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:17:22.976
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:17:23.111
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:17:23.115
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:18:54.686
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:18:54.824
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:18:54.828
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:23:58.953
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:23:59.115
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:23:59.119
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:32:51.375
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:32:51.554
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:32:51.557
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:33:10.496
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:33:10.627
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:33:10.631
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:33:20.926
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:33:21.055
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:33:21.058
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:35:00.006
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:35:00.163
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:35:00.166
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:38:34.594
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:38:34.742
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:38:34.745
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:45:42.510
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:45:42.683
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:45:42.686
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:46:40.525
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:46:40.669
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:46:40.673
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:52:42.295
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:52:42.436
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:52:42.439
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:53:59.454
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:53:59.614
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:53:59.617
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:55:01.626
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:55:01.766
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:55:01.769
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:56:38.631
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:56:38.834
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:56:38.837
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:58:10.847
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:58:11.007
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 09:58:11.010
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:25:12.353
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:25:12.540
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:25:12.544
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:25:59.217
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:25:59.384
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:25:59.387
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:26:39.225
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:26:39.439
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:26:39.442
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:06.307
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:06.459
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:06.463
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:15.066
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:15.241
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:15.244
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:29.154
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:29.358
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:31:29.362
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:32:04.631
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:32:04.786
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:32:04.789
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:33:02.905
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:33:03.085
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:33:03.088
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:37:37.742
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:37:37.923
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:37:37.926
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:44:55.788
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:44:55.948
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:44:55.951
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:45:43.678
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:45:43.690
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:45:43.693
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:46:07.478
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:46:07.484
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:46:07.488
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:46:31.235
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:46:31.410
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 10:46:31.414
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 11:54:59.249
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 11:54:59.435
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 11:54:59.438
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 11:57:50.354
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 11:57:50.359
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:19:32.001
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:19:32.006
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:19:58.855
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:19:58.860
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:21:06.278
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:22:14.322
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:24:08.064
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:24:53.232
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:24:58.663
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:26:13.659
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:33:18.374
+!MESSAGE Can't initialize AbstractMetricSource for Vertex2.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:33:18.377
+!MESSAGE Can't initialize AbstractMetricSource for Vertex2f.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:41:41.843
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:41:41.848
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:51:04.894
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:51:04.899
+!MESSAGE Can't initialize AbstractMetricSource for RenderableLevel.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:51:04.901
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:52:52.268
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:52:52.274
+!MESSAGE Can't initialize AbstractMetricSource for RenderableLevel.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 12:52:52.276
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:03:32.876
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:03:48.962
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:03:48.967
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:06:45.275
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:06:45.281
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:06:45.897
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:06:45.902
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:06:45.905
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:08:22.867
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:08:22.873
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:08:22.876
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:12:26.576
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:12:26.581
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:14:05.330
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:14:05.335
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:14:32.246
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:14:32.249
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:15:25.626
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:15:25.630
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:16:51.810
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:16:51.815
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:17:26.527
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:17:26.532
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:18:16.758
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:18:16.763
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:21:55.473
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:21:55.695
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:21:55.699
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:23:47.774
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:23:47.779
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:25:09.570
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:25:09.576
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:27:22.889
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:27:22.895
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:27:22.898
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:27:28.759
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:27:28.764
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:29:16.352
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:29:16.357
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:29:25.315
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:29:25.319
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:31:08.030
+!MESSAGE Can't initialize AbstractMetricSource for GateKeeper.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:31:08.035
+!MESSAGE Can't initialize AbstractMetricSource for Exterior.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:41:57.386
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:41:57.391
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:44:41.414
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:44:41.420
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:46:55.429
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:46:55.434
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:48:28.112
+!MESSAGE CompilationUnitMetrics::addInnerClasses
+!STACK 0
+java.lang.ArrayIndexOutOfBoundsException: 0
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.addInnerClasses(CompilationUnitMetrics.java:100)
+	at net.sourceforge.metrics.core.sources.CompilationUnitMetrics.initializeChildren(CompilationUnitMetrics.java:88)
+	at net.sourceforge.metrics.core.sources.AbstractMetricSource.recurse(AbstractMetricSource.java:297)
+	at net.sourceforge.metrics.core.sources.Dispatcher.calculateAbstractMetricSource(Dispatcher.java:109)
+	at net.sourceforge.metrics.builder.MetricsBuilder$ChangedCommand.execute(MetricsBuilder.java:509)
+	at net.sourceforge.metrics.builder.MetricsBuilder$CalculatorThread.run(MetricsBuilder.java:713)
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:48:28.117
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:50:02.129
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java
+
+!ENTRY net.sourceforge.metrics 4 4 2013-11-17 13:51:32.027
+!MESSAGE Can't initialize AbstractMetricSource for RenderableRoom.java

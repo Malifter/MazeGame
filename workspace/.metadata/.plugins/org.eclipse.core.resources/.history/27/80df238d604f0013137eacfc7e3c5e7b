@@ -1,0 +1,39 @@
+package game.levelloader;
+
+/*
+* Classname:            Level.java
+*
+* Version information:  1.0
+*
+* Date:                 11/15/2013
+*
+* Copyright notice:     Copyright (c) 2013 Garrett Benoit
+*/
+
+import game.Exterior;
+import game.Interior;
+import game.Room;
+
+import java.util.ArrayList;
+
+public class Level {
+    
+    private static ArrayList<Interior> rooms;
+    private static Exterior exterior;
+    
+    public static void addRoom(Interior room) {
+        rooms.add(room);
+    }
+    
+    public static ArrayList<Interior> getRooms() {
+        return rooms;
+    }
+    
+    public static void setExterior(Exterior outer) {
+        exterior = outer;
+    }
+    
+    public static Exterior getExterior() {
+        return exterior;
+    }
+}

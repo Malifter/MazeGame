@@ -13,8 +13,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
-import engine.Position;
 import engine.serializable.SerializedObject;
+import engine.serializable.SerializedRoom;
+import game.levelloader.LevelLoader;
 
 /*
 * Classname:            PlayerHandlerThread.java
@@ -70,6 +71,7 @@ public class PlayerHandlerThread implements Runnable {
             
             // Setup initial socket properties.
             setUp();
+            sendLevelToClient(LevelLoader.getLevelLayout());
             while(engine.playingGame) {                
                 List<GameEngine.Pressed> inputs = checkForClientInputs();
                 if(inputs != null) {
@@ -132,6 +134,10 @@ public class PlayerHandlerThread implements Runnable {
      */
     protected void sendUpdatesToClient(List<SerializedObject> updates) throws IOException {
         oos.writeObject(updates);
+    }
+    
+    protected void sendLevelToClient(ArrayList<SerializedRoom> levelLayout) throws IOException {
+        oos.writeObject(levelLayout);
     }
 
     /**

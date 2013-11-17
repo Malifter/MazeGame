@@ -5,6 +5,7 @@ import java.util.List;
 import engine.inputhandler.Input;
 import engine.render.IDisplay;
 import engine.serializable.SerializedObject;
+import engine.serializable.SerializedRoom;
 
 /*
 * Classname:            Game.java
@@ -41,10 +42,11 @@ public abstract class Game {
     /**
      * init: initializes the game and returns a list of the inputs the
      * game is interested in
+     * @param levelLayout 
      * 
      * @return a list of the inputs the game will use
      */
-    public ArrayList<Input> initInputs() {
+    public ArrayList<Input> initInputs(List<SerializedRoom> levelLayout) {
         return null;
     }
     

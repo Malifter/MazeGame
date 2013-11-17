@@ -18,6 +18,7 @@ package game;
 public class Player extends Entity {
     private static final long serialVersionUID = -8044414761618085107L;
     private MazeGameServer game;
+    private final String animationPath = "animations/player/";
     private String imageArrayLeft[] = {"damage1.gif","damage2.gif","damage3.gif","damage4.gif"};
     private String imageArrayRight[] = {"damageRight1.gif","damageRight2.gif","damage3.gif","damage4.gif"};
     private String runningLeftArray[] = {"running1.gif","running2.gif","running3.gif","running4.gif"};
@@ -61,7 +62,7 @@ public class Player extends Entity {
         super(g, file, iX, iY, w, h);
         game = (MazeGameServer) g;
         imageIndex = imageIndex + 5; 
-        image = spawnArray[0];
+        image = animationPath+spawnArray[0];
         imgArraySize = spawnArray.length;
         minX = x;
         minY = y;
@@ -94,7 +95,7 @@ public class Player extends Entity {
         setMinX(spawnX);
         setMinY(spawnY);
         imageIndex = imageIndex + 5; 
-        image = spawnArray[0];
+        image = animationPath+spawnArray[0];
         imgArraySize = spawnArray.length;
         lastShotTime = 0;
         calculateBounds();
@@ -124,8 +125,8 @@ public class Player extends Entity {
                 imageIndex = 0;
             }
             int test = imageIndex/100;
-            image = spawnArray[test];
-            if(image.equals("spawn5.gif")){
+            image = animationPath+spawnArray[test];
+            if(image.equals(animationPath+"spawn5.gif")){
                 spawned = true;
             }
         }
@@ -139,19 +140,19 @@ public class Player extends Entity {
         if(!isFire && shotTimer >= 10){
             switch (direction) {
                 case RIGHT:
-                    image = runningRightArray[imageIndex/100];
+                    image = animationPath+runningRightArray[imageIndex/100];
                     imgArraySize = runningRightArray.length;
                     break;
                 case LEFT:
-                    image = runningLeftArray[imageIndex/100];
+                    image = animationPath+runningLeftArray[imageIndex/100];
                     imgArraySize = runningLeftArray.length;
                     break;
                 case UP:
-                    image = runningUpArray[imageIndex/100];
+                    image = animationPath+runningUpArray[imageIndex/100];
                     imgArraySize = runningUpArray.length;
                     break;
                 case DOWN:
-                    image = runningDownArray[imageIndex/100];
+                    image = animationPath+runningDownArray[imageIndex/100];
                     imgArraySize = runningDownArray.length;
                     break;
             }
@@ -159,19 +160,19 @@ public class Player extends Entity {
         else if(isFire) {
             switch (direction) {
                 case RIGHT:
-                    image = runningRightShootArray[imageIndex/100];
+                    image = animationPath+runningRightShootArray[imageIndex/100];
                     imgArraySize = runningRightShootArray.length;
                     break;
                 case LEFT:
-                    image = runningLeftShootArray[imageIndex/100];
+                    image = animationPath+runningLeftShootArray[imageIndex/100];
                     imgArraySize = runningLeftShootArray.length;
                     break;
                 case UP:
-                    image = runningUpArray[imageIndex/100];
+                    image = animationPath+runningUpArray[imageIndex/100];
                     imgArraySize = runningUpArray.length;
                     break;
                 case DOWN:
-                    image = runningDownArray[imageIndex/100];
+                    image = animationPath+runningDownArray[imageIndex/100];
                     imgArraySize = runningDownArray.length;
                     break;
             }
@@ -255,25 +256,25 @@ public class Player extends Entity {
                         movingDown = false;
                         float moveX = 0.0f;
                         float moveY = 0.0f;
-                        if (((MazeGameServer) game).inputs.get(playerID).get(GameEngine.Pressed.RIGHT.getValue())) {
+                        if (game.inputs.get(playerID).get(GameEngine.Pressed.RIGHT.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.RIGHT;
                             movingRight = true;
                             //move((int) (speed * (time / moveFactor)), 0);
                             moveX += (SPEED * speedRatio * (time / moveFactor));
                         } else if (firstMove.compareTo(Move.RIGHT) == 0) firstMove = Move.NONE;
-                        if (((MazeGameServer) game).inputs.get(playerID).get(GameEngine.Pressed.LEFT.getValue())) {
+                        if (game.inputs.get(playerID).get(GameEngine.Pressed.LEFT.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.LEFT;
                             movingLeft = true;
                             //move(-(int) (speed * (time / moveFactor)), 0);
                             moveX -= (SPEED * speedRatio * (time / moveFactor));
                         } else if (firstMove.compareTo(Move.LEFT) == 0) firstMove = Move.NONE;
-                        if (((MazeGameServer) game).inputs.get(playerID).get(GameEngine.Pressed.UP.getValue())) {
+                        if (game.inputs.get(playerID).get(GameEngine.Pressed.UP.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.UP;
                             movingUp = true;
                             //move(0, -(int) (speed * (time / moveFactor)));
                             moveY -= (SPEED * speedRatio * (time / moveFactor));
                         } else if (firstMove.compareTo(Move.UP) == 0) firstMove = Move.NONE;
-                        if (((MazeGameServer) game).inputs.get(playerID).get(GameEngine.Pressed.DOWN.getValue())) {
+                        if (game.inputs.get(playerID).get(GameEngine.Pressed.DOWN.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.DOWN;
                             movingDown = true;
                             //move(0, (int) (speed * (time / moveFactor)));
@@ -293,7 +294,7 @@ public class Player extends Entity {
                         }
                         move(moveX, moveY);
                         
-                        if (((MazeGameServer) game).inputs.get(playerID).get(GameEngine.Pressed.FIRE.getValue()) && !isShooting) {
+                        if (game.inputs.get(playerID).get(GameEngine.Pressed.FIRE.getValue()) && !isShooting) {
                             if(numBullets <= 2 && GameEngine.getTime() - lastShotTime > 100){
                                 fire(facing); // need to change to fire in mouse direction instead of facing direction
                                 numBullets++;
@@ -302,7 +303,7 @@ public class Player extends Entity {
                             isFire = true;
                             shotTimer = 0;
                         }
-                        else if(!((MazeGameServer) game).inputs.get(playerID).get(GameEngine.Pressed.FIRE.getValue()) && isShooting) {
+                        else if(!game.inputs.get(playerID).get(GameEngine.Pressed.FIRE.getValue()) && isShooting) {
                             isShooting = false;
                         }
 
@@ -386,19 +387,19 @@ public class Player extends Entity {
                             case NONE:
                                 switch (facing) {
                                     case RIGHT:
-                                        image = isFire ? "shootingRight1.gif" : shotTimer > 10 ? "standingRight.gif" : image;
+                                        image = isFire ? animationPath+"shootingRight1.gif" : shotTimer > 10 ? animationPath+"standingRight.gif" : image;
                                         imgArraySize = 1;
                                         break;
                                     case LEFT:
-                                        image = isFire ? "shooting1.gif" : shotTimer > 10 ? "standing.gif" : image;
+                                        image = isFire ? animationPath+"shooting1.gif" : shotTimer > 10 ? animationPath+"standing.gif" : image;
                                         imgArraySize = 1;
                                         break;
                                     case UP:
-                                        image = isFire ? "climbshoot.gif" : shotTimer > 10 ? "climbing1.gif" : image;
+                                        image = isFire ? animationPath+"climbshoot.gif" : shotTimer > 10 ? animationPath+"climbing1.gif" : image;
                                         imgArraySize = 1;
                                         break;
                                     case DOWN:
-                                        image = isFire ? "jumpshoot1.gif" : shotTimer > 10 ? "jumping1.gif" : image;
+                                        image = isFire ? animationPath+"jumpshoot1.gif" : shotTimer > 10 ? animationPath+"jumping1.gif" : image;
                                         imgArraySize = 1;
                                         break;
                                 }
@@ -418,10 +419,10 @@ public class Player extends Entity {
                             imageIndex = 0;
                         }
                         if(facing.compareTo(Face.RIGHT) == 0 || facing.compareTo(Face.UP) == 0) {
-                            image = imageArrayRight[imageIndex/100];
+                            image = animationPath+imageArrayRight[imageIndex/100];
                         }
                         else if(facing.compareTo(Face.LEFT) == 0 || facing.compareTo(Face.DOWN) == 0) {
-                            image = imageArrayLeft[imageIndex/100];
+                            image = animationPath+imageArrayLeft[imageIndex/100];
                         }
                         
                         if(isDamage >= 4){
@@ -432,7 +433,7 @@ public class Player extends Entity {
                     flash++;
                 }
                 else{
-                    image = "damage4.gif";
+                    image = animationPath+"damage4.gif";
                     flash = 0;
                 }
             }
@@ -446,7 +447,7 @@ public class Player extends Entity {
                 if(imageIndex >= 500) {
                     imageIndex = 0;
                 }
-                image = deathArray[imageIndex/100];         
+                image = animationPath+deathArray[imageIndex/100];         
                 if(isDying >= 5){
                     isDying = 0;
                     remove = true;
