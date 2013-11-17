@@ -43,10 +43,7 @@ public class RenderableLevel {
     }
     
     public void setCurrentRoom(int currentRoom) {
-        if(currentRoom <= rooms.size()) {
-            this.currentRoom = currentRoom;
-        }
-        this.currentRoom = 0;
+        this.currentRoom = currentRoom;
     }
     
     public RenderableRoom getCurrentRoom() {

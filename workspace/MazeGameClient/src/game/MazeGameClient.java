@@ -138,7 +138,7 @@ public class MazeGameClient extends Game {
     public ArrayList<Input> initInputs(List<SerializedRoom> levelLayout) {
         level = new RenderableLevel(this);
         level.addRoom(RenderableLevel.createOuter(levelLayout.get(0).getIndex()));
-        for(int i = 1; i < 2; i++) {
+        for(int i = 1; i < levelLayout.size(); i++) {
             level.addRoom(RenderableLevel.createRoom(levelLayout.get(i).getIndex(), levelLayout.get(i).getPosition()));
         }
         cam.setOrientation(512,0,0,1);
@@ -195,9 +195,11 @@ public class MazeGameClient extends Game {
             for(SerializedObject so: updateObjects) {
                 if(so instanceof SerializedRoom) {
                     SerializedRoom sr = (SerializedRoom) so;
+                    System.out.println(sr.getIndex());
                     level.setCurrentRoom(sr.getIndex());
                     if(sr.getIndex() != 0) {
-                        cam.setOrientation(sr.getPosition().getX(), sr.getPosition().getY()-32, 0, 1);
+                        cam.setFocusObject(null);
+                        cam.setOrientation(sr.getPosition().getX(), sr.getPosition().getY()-48, 0, 1);
                     }
                 }
                 else if(so instanceof SerializedEntity) {

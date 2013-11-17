@@ -148,8 +148,8 @@ public class MazeGameServer extends Game {
         
         for(int room = 0; room < level.getRooms().size(); room++) {
             Interior r = level.getRooms().get(room);
-            generatedUpdates.add(new SerializedRoom(r.getCenter(), room+1));
             if(r.numPlayers() > 0) {
+                generatedUpdates.add(new SerializedRoom(r.getLocation(), room+1));
                 for(Entity p: r.getPlayers()) {
                     if(p.needsDelete()) {
                         if(p.getLives() > 0) {
