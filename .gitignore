@@ -211,6 +211,9 @@ pip-log.txt
 #Translations
 *.mo
 
+#Mr Developer
+.mr.developer.cfg
+
 #ours Maze Game ignore file ext
 *.index
 *.lg
@@ -224,10 +227,3 @@ pip-log.txt
 *.core
 *.refactorings
 .metadata/
-workspace\.metadata
-
-
-#Mr Developer
-.mr.developer.cfg
-
-
