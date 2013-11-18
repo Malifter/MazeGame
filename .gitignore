@@ -227,3 +227,4 @@ pip-log.txt
 *.core
 *.refactorings
 .metadata/
+\MazeGame\workspace\.metadata
