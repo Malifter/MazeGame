@@ -226,4 +226,3 @@ pip-log.txt
 *.plugins
 *.core
 *.refactorings
-.metadata/
