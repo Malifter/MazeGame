@@ -190,6 +190,16 @@ public class MazeGameServer extends Game {
                     generatedUpdates.add(p.serialize());
                 }
                 
+                for(GateKeeper g: r.getGateKeepers()){ 
+                    int i = 0;
+                    while(i < r.getPlayers().size()) {
+                        if(g.contains(r.getPlayers().get(i))) {
+                                g.negotiate(r.getPlayers().get(i));
+                        } else i++;
+                    }
+                    generatedUpdates.add(g.serialize());
+                  
+                }
                 //healthbar.get(players.get(0).getHealthPoints()).update(time);
                 //generatedUpdates.add(healthbar.get(players.get(0).getHealthPoints()).serialize());
                 
@@ -245,22 +255,6 @@ public class MazeGameServer extends Game {
                     }
                 }
             }
-            for(GateKeeper gateKeeper: room.getGateKeepers()){
-                if(Collisions.detectCollision(player, gateKeeper)){
-                    gateKeeper.negotiate(player);
-                    ArrayList<PenetrationData<Collisions.Position, Float, Float>> pen = new ArrayList<PenetrationData<Collisions.Position, Float, Float>>();
-                    pen.add(Collisions.calculatePenetration(player, gateKeeper));
-                    if(pen.size() > 0) Collisions.applyPenetrationCorrections(player, pen);
-                }
-                generatedUpdates.add(gateKeeper.serialize());
-            }
-           for(Portal portal: room.getPortals()){
-               if(!portal.isActivated()){
-                   ArrayList<PenetrationData<Collisions.Position, Float, Float>> pen = new ArrayList<PenetrationData<Collisions.Position, Float, Float>>();
-                   pen.add(Collisions.calculatePenetration(player, portal));
-                   if(pen.size() > 0) Collisions.applyPenetrationCorrections(player, pen);
-               }
-           }  
         }
         for(Entity trap: room.getTraps()) {
             for(Entity player: room.getPlayers()) {

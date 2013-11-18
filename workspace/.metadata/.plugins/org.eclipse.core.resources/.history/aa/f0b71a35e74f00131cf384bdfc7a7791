@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import game.Entity;
 
 public class Collisions {
-    public static enum Position { NONE, RIGHT, LEFT, ABOVE, BELOW, AboveRIGHT, AboveLEFT, BelowRIGHT, BelowLEFT};
+    private static enum Position { NONE, RIGHT, LEFT, ABOVE, BELOW, AboveRIGHT, AboveLEFT, BelowRIGHT, BelowLEFT};
 
     /**
      * applyEnvironmentCollision: A simple class that detects collision between an entity and the environment. 

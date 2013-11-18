@@ -493,7 +493,7 @@ public class LevelLoader {
                                 
                                 Portal portal = new Portal(game, tilesetPath+"tiles_mm1_elec/6.gif", x, y, room, level.getRooms());
                                 room.addPortals(portal);
-                                room.addGateKeeper(new GateKeeper(game, animationPath+"alien/alien.gif", gkLoc.getX(), gkLoc.getY(), gkLoc.getX(), gkLoc.getY(),43,29, portal));
+                                room.addGateKeeper(new GateKeeper(game, animationPath+"alien/alien.gif", gkLoc.getX(), gkLoc.getY(), gkLoc.getX(), gkLoc.getY(),20,20, portal));
                             } else {
                                 room.addToForeground(new EnvironmentTile(game, tilesetPath+"invisible.gif", x, y));
                             }

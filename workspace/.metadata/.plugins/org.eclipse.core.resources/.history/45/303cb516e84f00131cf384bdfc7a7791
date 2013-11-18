@@ -83,7 +83,6 @@ public class Portal extends Entity {
             player.setMinY(linkedRoom.getCenter().getY());
             //linkedRoom.removePlayer(player); // ignore this for portal, I'll fix this later
             linkedRoom.addPlayer(player);
-            deactivate();
         }
         //for testing purpose
         //deactivate();

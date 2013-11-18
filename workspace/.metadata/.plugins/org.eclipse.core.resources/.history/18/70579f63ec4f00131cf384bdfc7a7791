@@ -91,6 +91,7 @@ public class GateKeeper extends Entity {
             //push player so that collision stops  
             
             
+            System.out.println("Negociating is going on!!!");
             // if player has myItem selected
                 // activate myPortal
             // else if player has gold selected

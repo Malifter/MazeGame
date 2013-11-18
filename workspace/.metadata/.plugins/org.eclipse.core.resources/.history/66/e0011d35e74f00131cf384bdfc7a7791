@@ -65,42 +65,54 @@ public class GateKeeper extends Entity {
         // this is not needed for now
     }
     
-
+    public boolean contains(Entity player) {
+        if(player.getMaxX() >= this.getMaxX())
+            return false;
+        if(player.getMinX() <=  this.getMinX())
+            return false;
+        if(player.getMaxY() >=  this.getMaxY())
+            return false;
+        if(player.getMinY() <=  this.getMinY())
+            return false;
+        return true;
+    }
+    
     // This might be moved later if I apply a strategy pattern to the collisions.
     // This happens when a collision is detected between the player and the gatekeeper.
-    public void negotiate(Entity player) {
-        if(!myPortal.isActivated()){
-            
-            // NOTE: Player doesn't yet have an inventory or items, so use psuedo
-            // code if necessary or comment out the code you think should be placed here.
-            
-            //items = player.getItems() //get the item list from players
-            //if (items matches the negociator's wish list)
-            //{
-                //remove player's item from inventory
-                //open warmwhoe
-            //}
-            //else{
-                //remove a certain amount of gold from player
-                //open warmwhoe
-            //}
-            //else{
-                //reduce player's health
-                //open warmwhoe
-            //}
-            //push player so that collision stops  
-            
-            
-            // if player has myItem selected
-                // activate myPortal
-            // else if player has gold selected
-                // activate myPortal
-            // else player has neither of those selected
-                // damage player
-                // possibly activate myPortal (up for discussion) - but I like this idea
-            // anything else that should be here
-            activateWarmHole();
-        }
+    public boolean negotiate(Entity player) {
+        // NOTE: Player doesn't yet have an inventory or items, so use psuedo
+        // code if necessary or comment out the code you think should be placed here.
+        
+        //items = player.getItems() //get the item list from players
+        //if (items matches the negociator's wish list)
+        //{
+            //remove player's item from inventory
+            //open warmwhoe
+        //}
+        //else{
+            //remove a certain amount of gold from player
+            //open warmwhoe
+        //}
+        //else{
+            //reduce player's health
+            //open warmwhoe
+        //}
+        //push player so that collision stops  
+        
+        
+        System.out.println("Negociating is going on!!!");
+        // if player has myItem selected
+            // activate myPortal
+        // else if player has gold selected
+            // activate myPortal
+        // else player has neither of those selected
+            // damage player
+            // possibly activate myPortal (up for discussion) - but I like this idea
+        // anything else that should be here
+        player.setMinX(50);
+        player.setMinY(50);
+        activateWarmHole();
+        return false;
     }
     
     public Portal getPortal() {
