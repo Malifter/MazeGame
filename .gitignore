@@ -213,3 +213,16 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#ours Maze Game ignore file ext
+*.index
+*.lg
+*.xmi
+*.history
+*.dat
+*.db
+*.resources
+*.metadata
+*.plugins
+*.core
+*.refactorings
