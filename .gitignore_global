@@ -43,3 +43,7 @@ Thumbs.db
 *.dat
 *.db
 *.resources
+*.metadata
+*.plugins
+*.core
+*.refactorings
