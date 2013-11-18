@@ -12,7 +12,7 @@ bin/
 *.history
 *.dat
 *.db
-.metadata/
+.metadata/*
 tmp/
 *.tmp
 *.bak
