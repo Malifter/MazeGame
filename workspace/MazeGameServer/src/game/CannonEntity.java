@@ -28,8 +28,8 @@ public class CannonEntity extends Entity {
     private long directionTime = 0;
     private String imageArray[] = {"\\animations\\cannon\\cannon1floor.gif","\\animations\\cannon\\cannon3floor.gif"};
     private String imageArrayRight[] = {"\\animations\\cannon\\cannon1floorRight.gif","\\animations\\cannon\\cannon3floorRight.gif"};
-    private String dieArray[] = {"\\animations\\cannon\\cannon1floorDie.gif","\\animations\\cannon\\cannon2floorDie.gif","damage3.gif"};
-    private String dieArrayRight[] = {"\\animations\\cannon\\cannon1floorRightDie.gif","\\animations\\cannon\\cannon2floorRightDie.gif","damage3.gif"};
+    private String dieArray[] = {"\\animations\\cannon\\cannon1floorDie.gif","\\animations\\cannon\\cannon2floorDie.gif","\\animations\\cannon\\damage3.gif"};
+    private String dieArrayRight[] = {"\\animations\\cannon\\cannon1floorRightDie.gif","\\animations\\cannon\\cannon2floorRightDie.gif","\\animations\\cannon\\damage3.gif"};
     private int imageIndex = 0;
     private int numBullets;
     private boolean spawned = false;

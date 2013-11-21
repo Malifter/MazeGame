@@ -63,6 +63,10 @@ public class MazeGameClient extends Game {
             new PhysicalInput[] { PhysicalInput.KEYBOARD_F2 });
     public Button startGame = new Button(
             new PhysicalInput[] { PhysicalInput.KEYBOARD_RETURN });
+    public Button selectForward = new Button(
+            new PhysicalInput[] { PhysicalInput.KEYBOARD_E});
+    public Button selectBackward = new Button(
+            new PhysicalInput[] { PhysicalInput.KEYBOARD_Q});
     
     public static enum Sound {
         HIT(0), SHOT(1), DEFLECT(2), SPAWN(3), DEAD(4), MUSIC(5);

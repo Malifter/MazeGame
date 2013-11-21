@@ -79,6 +79,8 @@ public class MazeGameServer extends Game {
             tmpInputs.add(false); //inputs.add(escape);
             tmpInputs.add(false); //inputs.add(pause);
             tmpInputs.add(false); //inputs.add(startGame);
+            tmpInputs.add(false);//input.forward
+            tmpInputs.add(false);//input.backward
             inputs.add(tmpInputs);
         }
         /*for(int i = 0; i < 29; i++) {
@@ -255,10 +257,12 @@ public class MazeGameServer extends Game {
                 generatedUpdates.add(gateKeeper.serialize());
             }
            for(Portal portal: room.getPortals()){
-               if(!portal.isActivated()){
-                   ArrayList<PenetrationData<Collisions.Position, Float, Float>> pen = new ArrayList<PenetrationData<Collisions.Position, Float, Float>>();
-                   pen.add(Collisions.calculatePenetration(player, portal));
-                   if(pen.size() > 0) Collisions.applyPenetrationCorrections(player, pen);
+               if(Collisions.detectCollision(player, portal)){
+                   if(!portal.isActivated()){
+                       ArrayList<PenetrationData<Collisions.Position, Float, Float>> pen = new ArrayList<PenetrationData<Collisions.Position, Float, Float>>();
+                       pen.add(Collisions.calculatePenetration(player, portal));
+                       if(pen.size() > 0) Collisions.applyPenetrationCorrections(player, pen);
+                   }
                }
            }  
         }

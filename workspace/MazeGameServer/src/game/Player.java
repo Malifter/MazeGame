@@ -232,7 +232,8 @@ public class Player extends Entity {
     public void takeDamage(int d) {
         if(isDamage == 0 && isVuln){
             //GameEngine.playSound(game.sound_hit);
-            setHealthPoints(getHealthPoints()-d);
+            //setHealthPoints(getHealthPoints()-d);
+            setHealthPoints(getHealthPoints()-0);//for testing purpose
             isDamage = 1;
             imageIndex = 0;
             currentTime = GameEngine.getTime();

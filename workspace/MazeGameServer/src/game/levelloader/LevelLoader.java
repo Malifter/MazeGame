@@ -452,8 +452,8 @@ public class LevelLoader {
                             }
                         }
                         else if(parts[1].contains("spike")) {
-                            room.addTrap(new SpikeEntity(game, "spikeFloor.gif", x, y, x+7, y+2, 10, 15));
-                        }
+
+ }
                         else if(parts[1].contains("door")) {
                             Side side = Side.findByValue(parts[5].split("\"")[1]);
                             if(generateEntry[side.getIndex()].equals(EntryType.DOOR)) {
@@ -493,7 +493,7 @@ public class LevelLoader {
                                 
                                 Portal portal = new Portal(game, tilesetPath+"tiles_mm1_elec/6.gif", x, y, room, level.getRooms());
                                 room.addPortals(portal);
-                                room.addGateKeeper(new GateKeeper(game, animationPath+"alien/alien.gif", gkLoc.getX(), gkLoc.getY(), gkLoc.getX(), gkLoc.getY(),20,20, portal));
+                                room.addGateKeeper(new GateKeeper(game, animationPath+"alien/alien4.gif", gkLoc.getX(), gkLoc.getY(), gkLoc.getX(), gkLoc.getY(),28,19, portal));
                             } else {
                                 room.addToForeground(new EnvironmentTile(game, tilesetPath+"invisible.gif", x, y));
                             }

@@ -26,8 +26,8 @@ public class WoodManEntity extends Entity {
     private long directionTime = 0;
     private String imageArray[] = {"\\animations\\woodman\\woodman1.gif","\\animations\\woodman\\woodman2.gif"};
     private String imageArrayRight[] = {"\\animations\\woodman\\woodman1Right.gif","\\animations\\woodman\\woodman2Right.gif"};
-    private String dieArray[] = {"\\animations\\woodman\\woodmanDeath1.gif","\\animations\\woodman\\woodmanDeath2.gif","\\animations\\woodman\\woodmanDeath3.gif","damage3.gif","damage4.gif"};
-    private String dieArrayRight[] = {"\\animations\\woodman\\woodmanDeathRight1.gif","\\animations\\woodman\\woodmanDeathRight2.gif","\\animations\\woodman\\woodmanDeathRight3.gif","damage3.gif","damage4.gif"};
+    private String dieArray[] = {"\\animations\\woodman\\woodmanDeath1.gif","\\animations\\woodman\\woodmanDeath2.gif","\\animations\\woodman\\woodmanDeath3.gif","\\animations\\woodman\\damage3.gif","\\animations\\woodman\\damage4.gif"};
+    private String dieArrayRight[] = {"\\animations\\woodman\\woodmanDeathRight1.gif","\\animations\\woodman\\woodmanDeathRight2.gif","\\animations\\woodman\\woodmanDeathRight3.gif","\\animations\\woodman\\damage3.gif","\\animations\\woodman\\damage4.gif"};
     private int imageIndex = 0;
     private int numBullets;
     private boolean isJump = false;
