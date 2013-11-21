@@ -1,13 +1,14 @@
-package game;
+package items;
 
-public class Shield extends Item {
-    
-    
+import game.Game;
+import game.Player;
+
+public class Shield extends NotConsumable {
     int strength;
     
     public Shield(Game g, String anImage, int x, int y, float w, float h,
-            int itemId, String name) {
-        super(g, anImage, x, y, w, h, itemId, name);
+            int itemId, String name, Player p) {
+        super(g, anImage, x, y, w, h, itemId, name, p);
         // TODO Auto-generated constructor stub
     }
     
@@ -18,6 +19,4 @@ public class Shield extends Item {
             isDestroyed = true;
 
         }
-    
-    
 }

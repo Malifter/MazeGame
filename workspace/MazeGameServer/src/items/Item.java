@@ -1,5 +1,9 @@
-package game;
+package items;
 
+import game.Entity;
+import game.Game;
+import game.MazeGameServer;
+import game.Player;
 
 /*
 * Classname:            Item.java
@@ -17,13 +21,14 @@ public abstract class Item extends Entity{
     private int imageIndex = 0;
     private int itemId = 0;
     private String name = null;
+    private Player player;
     
-    //public static enum ItemType {FOOD, WEAPON, KEY};
+    //public enum ItemType {HEALTHBOOSTER, WEAPON, KEY};
     //public ItemType type;
     public boolean isDestroyed = false;
     
 
-    public Item(Game g, String anImage, int x, int y, float w, float h, int itemId, String name) {
+    public Item(Game g, String anImage, int x, int y, float w, float h, int itemId, String name, Player player) {
         super(g, anImage, x, y, w, h);
         game = (MazeGameServer) g;
         imageIndex = imageIndex + 10; 
@@ -37,11 +42,10 @@ public abstract class Item extends Entity{
         
         this.itemId  = itemId;
         this.name  = name;
-        
+        this.player = player;
 
     }
-    
-    
+
     public int getId() { 
         return itemId;
     }
