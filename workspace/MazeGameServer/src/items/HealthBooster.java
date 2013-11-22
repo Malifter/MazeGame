@@ -4,9 +4,9 @@ import game.Game;
 import game.Player;
 public class HealthBooster extends Consumable {
     
-    public HealthBooster(Game g, String anImage, int x, int y, float w,
-            float h, int itemId, String name, Player p) {
-        super(g, anImage, x, y, w, h, itemId, name, p);
+    public HealthBooster(Game g, int x, int y, float w,
+            float h) {
+        super(g, "imagepath", x, y, w, h);
         // TODO Auto-generated constructor stub
     }
 

@@ -3,10 +3,9 @@ package items;
 import game.Game;
 import game.Player;
 public class ExtraLife extends Consumable {
-    
-    public ExtraLife(Game g, String anImage, int x, int y, float w,
-            float h, int itemId, String name, Player p) {
-        super(g, anImage, x, y, w, h, itemId, name, p);
+    public ExtraLife(Game g, int x, int y, float w,
+            float h) {
+        super(g, "imagepath", x, y, w, h);
         // TODO Auto-generated constructor stub
     }
 

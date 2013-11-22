@@ -53,7 +53,7 @@ public class LevelLoader {
             return value;
         }
     };
-    private static enum EntryType {
+    public static enum EntryType {
         NONE(0.6f), DOOR(0.3f), PORTAL(0.1f);
         private final float probability;
         private EntryType(float probability) {
@@ -493,7 +493,7 @@ public class LevelLoader {
                                 
                                 Portal portal = new Portal(game, tilesetPath+"tiles_mm1_elec/6.gif", x, y, room, level.getRooms());
                                 room.addPortals(portal);
-                                room.addGateKeeper(new GateKeeper(game, animationPath+"alien/alien4.gif", gkLoc.getX(), gkLoc.getY(), gkLoc.getX(), gkLoc.getY(),28,19, portal));
+                                room.addGateKeeper(new GateKeeper(game, animationPath+"alien/alien4.gif", gkLoc.getX(), gkLoc.getY(), gkLoc.getX(), gkLoc.getY(),15,11, portal));
                             } else {
                                 room.addToForeground(new EnvironmentTile(game, tilesetPath+"invisible.gif", x, y));
                             }

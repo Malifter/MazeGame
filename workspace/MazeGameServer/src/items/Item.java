@@ -17,42 +17,14 @@ import game.Player;
 
 public abstract class Item extends Entity{
 
-    MazeGameServer game;
-    private int imageIndex = 0;
-    private int itemId = 0;
-    private String name = null;
-    private Player player;
-    
     //public enum ItemType {HEALTHBOOSTER, WEAPON, KEY};
     //public ItemType type;
-    public boolean isDestroyed = false;
     
-
-    public Item(Game g, String anImage, int x, int y, float w, float h, int itemId, String name, Player player) {
+    public Item(Game g, String anImage, int x, int y, float w, float h) {
         super(g, anImage, x, y, w, h);
-        game = (MazeGameServer) g;
-        imageIndex = imageIndex + 10; 
-        image = null;
-        minX = x;
-        minY = y;
-        width = w;
-        height = h;
-        
         calculateBounds();
-        
-        this.itemId  = itemId;
-        this.name  = name;
-        this.player = player;
-
     }
 
-    public int getId() { 
-        return itemId;
-    }
-    
-    public String getName() { 
-        return name;
-    }
     
 }
     

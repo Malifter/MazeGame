@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import engine.Vertex2;
 
+
 public class Interior extends Room {
 
     private static final int OFFSET_X = 120;
@@ -89,4 +90,24 @@ public class Interior extends Room {
     public Vertex2 getPortalExit() {
         return portalExit;
     }
+    
+    
+    private static enum ItemType {//randomly generate items in the room
+        GOLD(0.2f), BOMB(0.1f), CELLKEY(0.05f), DISGUISE_TOOL(0.1f), DOORKEY(0.15f), EXTRA_LIFE(0.1f), HEALTH_BOOSTER(0.2f), SHIELD(0.1f);
+        private final float probability;
+        private ItemType(float probability) {
+            this.probability = probability;
+        }
+        
+        public float getProbability() {
+            return probability;
+        }
+    }
+    
+//    public void spawnItem(){
+//        double prob = Math.random();
+//        if(prob <=ItemType.GOLD.getProbability()){
+//            
+//        }
+//    }
 }
