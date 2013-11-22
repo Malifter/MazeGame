@@ -55,7 +55,7 @@ public class InteriorTest {
     public void testInteriorConstructor() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         assertNotNull(this.Interior);
     }
     
@@ -64,7 +64,7 @@ public class InteriorTest {
         Interior = null;
         Vertex2 location = new Vertex2(xPos, yPos);
         Vertex2 center = new Vertex2(xPos + (Interior.WIDTH/2), yPos + (Interior.HEIGHT/2));
-        Interior = new Interior(location);
+        Interior = new Interior(location, xPos);
         assertEquals(Interior.getLocation(), location);
         assertEquals(Interior.getCenter(), center);
     }
@@ -73,7 +73,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetForeground() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(int i = 0; i < foreground.size(); i++) {
             Interior.addToForeground(foreground.get(i));
         }
@@ -84,7 +84,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetTraps() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(int i = 0; i < traps.size(); i++) {
             Interior.addTrap(traps.get(i));
         }
@@ -95,7 +95,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetEnemies() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(int i = 0; i < enemies.size(); i++) {
             Interior.addEnemy(enemies.get(i));
         }
@@ -106,7 +106,7 @@ public class InteriorTest {
     public void testInteriorRemoveEnemy() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(Entity e: enemies) {
             Interior.addEnemy(e);
         }
@@ -121,7 +121,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetPlayers() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(int i = 0; i < players.size(); i++) {
             Interior.addPlayer(players.get(i));
         }
@@ -132,7 +132,7 @@ public class InteriorTest {
     public void testInteriorGetNumberOfPlayers() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(int i = 0; i < players.size(); i++) {
             Interior.addPlayer(players.get(i));
         }
@@ -143,7 +143,7 @@ public class InteriorTest {
     public void testInteriorRemovePlayer() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(Entity p: players) {
             Interior.addPlayer(p);
         }
@@ -158,7 +158,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetDoors() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos));
+        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
         for(int i = 0; i < doors.size(); i++) {
             Interior.addDoor(doors.get(i));
         }

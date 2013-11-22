@@ -142,7 +142,7 @@ public class DoorTest {
             yPos = 72;
             exitLocation = new Vertex2(xPos - Door.TILESIZE, yPos);
             side = Side.RIGHT;
-            room = new Room();
+            //room = new Room();
             player = new Player(game, "player", 120, 72, 120, 72, 10, 10, 1, 0);
         } catch(Exception e) {
             System.out.println("Variable instantiation failed. Aborting JUnit tests.");
