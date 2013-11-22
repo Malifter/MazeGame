@@ -1,4 +1,5 @@
 package game;
+import items.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
@@ -198,7 +199,9 @@ public class MazeGameServer extends Game {
                 int i = 0;
                 while(i < r.getEnemies().size()) {
                     if(r.getEnemies().get(i).needsDelete()) {
+                        r.generateRandomItems(this, 50,50);//cannot pass game parameter
                         r.getEnemies().remove(i);
+                        System.out.println("randomly generating an item");
                     }
                     else {
                         r.getEnemies().get(i).update(time);
@@ -207,6 +210,20 @@ public class MazeGameServer extends Game {
                             generatedUpdates.add(shot.serialize());
                         }
                         i++;
+					}
+				}
+
+                int j = 0;
+                while(j < r.getItems().size()) {
+                    if(r.getItems().get(j).needsDelete()) {
+                        r.getItems().remove(j);
+                    }
+                    else {
+                        //System.out.print("item:"+r.getEnemies().size());
+                        r.getItems().get(j).update(time);
+                        generatedUpdates.add(r.getItems().get(j).serialize());
+                        
+                        j++;
                     }
                 }
         
@@ -247,6 +264,13 @@ public class MazeGameServer extends Game {
                     }
                 }
             }
+
+            for(Entity item: room.getItems()) {
+                if(Collisions.detectCollision(item, player)) {
+                    //player.takeDamage(item.getDamage());
+                }
+                
+            }
             for(GateKeeper gateKeeper: room.getGateKeepers()){
                 if(Collisions.detectCollision(player, gateKeeper)){
                     gateKeeper.negotiate(player);
@@ -282,9 +306,13 @@ public class MazeGameServer extends Game {
         }
         
         if(room instanceof Interior) {
+            for(Entity item: ((Interior) room).getItems()) {
+                Collisions.applyEnvironmentCollision(item, room.getForeground());
+            }
             for(Entity enemy: ((Interior) room).getEnemies()) {
                 Collisions.applyEnvironmentCollision(enemy, room.getForeground());
             }
+            
         }
     }
 }

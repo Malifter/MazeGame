@@ -10,7 +10,13 @@ package game;
 * Copyright notice:     Copyright (c) 2013 Garrett Benoit
 */
 
+import items.Bomb;
+import items.DoorKey;
+import items.Gold;
+import items.Item;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 import engine.Vertex2;
 
@@ -31,12 +37,33 @@ public class Interior extends Room {
     private ArrayList<Entity> traps = new ArrayList<Entity>();
     private ArrayList<Portal> portals = new ArrayList<Portal>();
     private ArrayList<GateKeeper> gatekeepers = new ArrayList<GateKeeper>(); // Change to list of Negotiators (encompasses hostages/gatekeepers)
+    private ArrayList<Entity> items = new ArrayList<Entity>();
     
     public Interior(Vertex2 location, int layout) {
         super(layout);
         this.location = location;
         this.center = new Vertex2(location.getX() + OFFSET_X, location.getY() + OFFSET_Y);
     }
+    
+    public static enum ItemType {
+        BOMB("items/bomb/"),
+        GOLD("items/gold/"),
+        DKEY("items/dkey/");
+        
+        private final String path;
+        private ItemType(String path) {
+            this.path = path;
+        }
+        public String getPath() {
+            return path;
+        }
+        private static final ItemType[] VALUES = values();
+        private static final int SIZE = VALUES.length;
+        private static final Random RANDOM = new Random();
+        public static ItemType randomItem() {
+            return VALUES[RANDOM.nextInt(SIZE)];
+        }
+    };
     
     public Vertex2 getLocation() {
         return location;
@@ -91,23 +118,26 @@ public class Interior extends Room {
         return portalExit;
     }
     
-    
-    private static enum ItemType {//randomly generate items in the room
-        GOLD(0.2f), BOMB(0.1f), CELLKEY(0.05f), DISGUISE_TOOL(0.1f), DOORKEY(0.15f), EXTRA_LIFE(0.1f), HEALTH_BOOSTER(0.2f), SHIELD(0.1f);
-        private final float probability;
-        private ItemType(float probability) {
-            this.probability = probability;
-        }
-        
-        public float getProbability() {
-            return probability;
-        }
+
+    public void addItem(Entity item) {
+        items.add(item);
     }
     
-//    public void spawnItem(){
-//        double prob = Math.random();
-//        if(prob <=ItemType.GOLD.getProbability()){
-//            
-//        }
-//    }
+    public void removeItem(Entity item) {
+        enemies.remove(item);
+    }
+    
+    public ArrayList<Entity> getItems() {
+        return items;
+    }
+    
+    public void generateRandomItems(Game game, int x, int y){
+        if(ItemType.randomItem().equals(ItemType.BOMB)) {
+            this.addItem(new Bomb(game, x, y, x+1, y+2));
+        } else if(ItemType.randomItem().equals(ItemType.GOLD)) {
+            this.addItem(new Gold(game, x, y, x+1, y+2));
+        } else if(ItemType.randomItem().equals(ItemType.DKEY)) {
+            this.addItem(new DoorKey(game, x, y, x+1, y+2));
+        }
+    }
 }

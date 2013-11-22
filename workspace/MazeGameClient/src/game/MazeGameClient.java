@@ -199,7 +199,7 @@ public class MazeGameClient extends Game {
             for(SerializedObject so: updateObjects) {
                 if(so instanceof SerializedRoom) {
                     SerializedRoom sr = (SerializedRoom) so;
-                    System.out.println(sr.getIndex());
+                    //System.out.println(sr.getIndex());
                     level.setCurrentRoom(sr.getIndex());
                     if(sr.getIndex() != 0) {
                         cam.setFocusObject(null);

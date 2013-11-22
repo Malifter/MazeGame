@@ -8,8 +8,10 @@ import game.Door.Side;
 import game.Entity;
 import game.EnvironmentTile;
 import game.Exterior;
+import game.Game;
 import game.GateKeeper;
 import game.Interior;
+import game.Interior.ItemType;
 import game.MazeGameServer;
 import game.Player;
 import game.Portal;
@@ -27,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import items.*;
+
 public class LevelLoader {
     private final static String GIF = ".gif";
     private final static String layoutPath = "assets/layouts/";
@@ -35,6 +39,7 @@ public class LevelLoader {
     private final static String hostageLayout = layoutPath+"rooms/RoomLayout0.oel";//layoutPath+"hostage/HostageRoomLayout.oel";
     private final static String tilesetPath = "tilesets/";
     private final static String animationPath = "animations/";
+    private final static String itemPath = "items/";
     
     private static Level level;
     
@@ -450,6 +455,7 @@ public class LevelLoader {
                             } else if(enemyType.equals(EnemyType.CANNON)) {
                                 room.addEnemy(new CannonEntity(game, enemyType.getPath()+"cannon1floor.gif", x, y, x, y, 35, 25, room));
                             }
+                         room.generateRandomItems(game, x, y);  //generate random items in rooms when starting the game
                         }
                         else if(parts[1].contains("spike")) {
 
