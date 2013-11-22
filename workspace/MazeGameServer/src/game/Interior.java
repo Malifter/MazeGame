@@ -37,7 +37,7 @@ public class Interior extends Room {
     private ArrayList<Entity> traps = new ArrayList<Entity>();
     private ArrayList<Portal> portals = new ArrayList<Portal>();
     private ArrayList<GateKeeper> gatekeepers = new ArrayList<GateKeeper>(); // Change to list of Negotiators (encompasses hostages/gatekeepers)
-    private ArrayList<Entity> items = new ArrayList<Entity>();
+    private ArrayList<Item> items = new ArrayList<Item>();
     
     public Interior(Vertex2 location, int layout) {
         super(layout);
@@ -119,7 +119,7 @@ public class Interior extends Room {
     }
     
 
-    public void addItem(Entity item) {
+    public void addItem(Item item) {
         items.add(item);
     }
     
@@ -127,16 +127,19 @@ public class Interior extends Room {
         enemies.remove(item);
     }
     
-    public ArrayList<Entity> getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
     
     public void generateRandomItems(Game game, int x, int y){
         if(ItemType.randomItem().equals(ItemType.BOMB)) {
+            System.out.println("BOMB ADDED");
             this.addItem(new Bomb(game, x, y, x+1, y+2));
         } else if(ItemType.randomItem().equals(ItemType.GOLD)) {
+            System.out.println("GOLD ADDED");
             this.addItem(new Gold(game, x, y, x+1, y+2));
         } else if(ItemType.randomItem().equals(ItemType.DKEY)) {
+            System.out.println("DKEY ADDED");
             this.addItem(new DoorKey(game, x, y, x+1, y+2));
         }
     }

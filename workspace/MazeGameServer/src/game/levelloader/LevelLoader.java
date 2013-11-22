@@ -448,6 +448,7 @@ public class LevelLoader {
                             room.setPortalExit(new Vertex2(x, y));
                         }
                         else if(parts[1].contains("enemyspawn")) {
+                            System.out.println("coordinants are:"+x+", "+y);
                             if(enemyType.equals(EnemyType.SHIELD)) {
                                 room.addEnemy(new ShieldGuyEntity(game, enemyType.getPath()+"ShieldGuy1.gif", x, y, x+1, y+2, 24, 22, room));
                             } else if(enemyType.equals(EnemyType.WOOD)) {
