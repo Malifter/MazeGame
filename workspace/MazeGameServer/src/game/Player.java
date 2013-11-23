@@ -1,5 +1,6 @@
 package game;
 
+import items.Bomb;
 import items.Consumable;
 import items.Item;
 import items.NotConsumable;
@@ -473,6 +474,11 @@ public class Player extends Entity {
         }else if(item instanceof NotConsumable){
             NotConsumable ncItem = (NotConsumable) item;
             this.addToInventory(ncItem);
+            if(ncItem instanceof Bomb) {
+                ((Bomb) ncItem).startTimer(this);
+                this.takeDamage(((Bomb) ncItem).getPower());
+            }
+            
         }
     }
     
