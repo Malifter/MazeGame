@@ -124,7 +124,7 @@ public class Interior extends Room {
     }
     
     public void removeItem(Entity item) {
-        enemies.remove(item);
+        items.remove(item);
     }
     
     public ArrayList<Item> getItems() {
@@ -134,13 +134,25 @@ public class Interior extends Room {
     public void generateRandomItems(Game game, int x, int y){
         if(ItemType.randomItem().equals(ItemType.BOMB)) {
             System.out.println("BOMB ADDED");
-            this.addItem(new Bomb(game, x, y, x+1, y+2));
+            this.addItem(new Bomb(game, x, y, 16, 16));
         } else if(ItemType.randomItem().equals(ItemType.GOLD)) {
             System.out.println("GOLD ADDED");
-            this.addItem(new Gold(game, x, y, x+1, y+2));
+            this.addItem(new Gold(game, x, y, 16, 16));
         } else if(ItemType.randomItem().equals(ItemType.DKEY)) {
             System.out.println("DKEY ADDED");
-            this.addItem(new DoorKey(game, x, y, x+1, y+2));
+            this.addItem(new DoorKey(game, x, y, 16, 16));
+        }
+    }
+    public void generateRandomItems(Game game){
+        if(ItemType.randomItem().equals(ItemType.BOMB)) {
+            System.out.println("BOMB ADDED");
+            this.addItem(new Bomb(game, this.getCenter().getX(), this.getCenter().getY(), 16, 16));
+        } else if(ItemType.randomItem().equals(ItemType.GOLD)) {
+            System.out.println("GOLD ADDED");
+            this.addItem(new Gold(game, this.getCenter().getX(), this.getCenter().getY(), 16, 16));
+        } else if(ItemType.randomItem().equals(ItemType.DKEY)) {
+            System.out.println("DKEY ADDED");
+            this.addItem(new DoorKey(game, this.getCenter().getX(), this.getCenter().getY(), 16, 16));
         }
     }
 }

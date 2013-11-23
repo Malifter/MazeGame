@@ -57,6 +57,7 @@ public class Player extends Entity {
     private float spawnY = 0;
     private int imgArraySize = 0;
     private int playerID = 0;
+    private Inventory inventory = new Inventory(this);
     
     public Player(Game g, String file, int iX, int iY, int x, int y, int w, int h, int lives, int playerID) {
         super(g, file, iX, iY, w, h);
@@ -77,6 +78,10 @@ public class Player extends Entity {
         setHealthPoints(MAX_HEALTH);
         this.lives = lives;
         this.playerID = playerID;
+    }
+    
+    public Inventory getInventory(){
+        return inventory;
     }
     
     public float getSpawnX() {

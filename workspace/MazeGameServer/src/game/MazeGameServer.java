@@ -199,13 +199,8 @@ public class MazeGameServer extends Game {
                 int i = 0;
                 while(i < r.getEnemies().size()) {
                     if(r.getEnemies().get(i).needsDelete()) {
-                        r.generateRandomItems(this, (int) r.getEnemies().get(i).getMidX()+5, (int) r.getEnemies().get(i).getMidY()+5);//cannot pass game parameter
-                        int index = r.getItems().size() - 1;
-                        Item item = r.getItems().get(index);
-                        //r.addItem(item);
+                        r.generateRandomItems(this, (int) r.getEnemies().get(i).getMidX(), (int) r.getEnemies().get(i).getMidY());//cannot pass game parameter
                         r.getEnemies().remove(i);
-                        System.out.println("randomly generating an item when enermy dies");
-                        generatedUpdates.add(item.serialize());
                     }
                     else {
                         r.getEnemies().get(i).update(time);
@@ -284,7 +279,7 @@ public class MazeGameServer extends Game {
                 }
                 generatedUpdates.add(gateKeeper.serialize());
             }
-           for(Portal portal: room.getPortals()){
+            for(Portal portal: room.getPortals()){
                if(Collisions.detectCollision(player, portal)){
                    if(!portal.isActivated()){
                        ArrayList<PenetrationData<Collisions.Position, Float, Float>> pen = new ArrayList<PenetrationData<Collisions.Position, Float, Float>>();
@@ -292,9 +287,15 @@ public class MazeGameServer extends Game {
                        if(pen.size() > 0) Collisions.applyPenetrationCorrections(player, pen);
                    }
                }
-           }  
+           }
+            for(int i = 0; i< room.getItems().size(); i++){
+                if(Collisions.detectCollision(player, room.getItems().get(i))){
+                    room.removeItem(room.getItems().get(i));
+                }
+            }
         }
-        for(Entity trap: room.getTraps()) {
+        
+            for(Entity trap: room.getTraps()) {
             for(Entity player: room.getPlayers()) {
                 if(Collisions.detectCollision(trap, player)) {
                     player.takeDamage(trap.getDamage());
@@ -310,9 +311,6 @@ public class MazeGameServer extends Game {
         }
         
         if(room instanceof Interior) {
-            for(Entity item: ((Interior) room).getItems()) {
-                Collisions.applyEnvironmentCollision(item, room.getForeground());
-            }
             for(Entity enemy: ((Interior) room).getEnemies()) {
                 Collisions.applyEnvironmentCollision(enemy, room.getForeground());
             }
