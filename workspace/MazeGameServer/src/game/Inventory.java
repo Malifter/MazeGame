@@ -5,7 +5,7 @@ import java.util.List;
 import items.NotConsumable;
 
 public class Inventory {
-    private List<NotConsumable> itemList = new ArrayList<NotConsumable>();
+    private ArrayList<NotConsumable> itemList = new ArrayList<NotConsumable>();
     private Player player;
     public Inventory(Player p){
         this.player = p;
@@ -16,10 +16,10 @@ public class Inventory {
     }
     
     public void removeItem(NotConsumable item){
-        
+        itemList.remove(item);
     }
     
-    public List<NotConsumable> getItem(){
+    public ArrayList<NotConsumable> getItem(){
         return itemList;
     }
     

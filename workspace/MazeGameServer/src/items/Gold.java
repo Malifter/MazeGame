@@ -8,7 +8,7 @@ public class Gold extends Consumable {
         super(g, "items/gold/gold.gif/", x, y, w, h);
         // TODO Auto-generated constructor stub
     }
-    void consumeItem() {
+    void consumed(Player player) {
         // TODO Auto-generated method stub
         //player.addGold();
     }

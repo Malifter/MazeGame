@@ -9,8 +9,5 @@ public abstract class Consumable extends Item{
         // TODO Auto-generated constructor stub
     }
     
-    abstract void consumeItem();
-    private void consume(){
-        //remove the image from the game
-    }
+    abstract void consumed(Player player);
 }
