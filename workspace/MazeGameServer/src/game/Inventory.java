@@ -12,6 +12,7 @@ public class Inventory {
     }
     
     public void addItem(NotConsumable item){
+        System.out.println("Item added to player :" + getPlayer());
         itemList.add(item);
     }
     

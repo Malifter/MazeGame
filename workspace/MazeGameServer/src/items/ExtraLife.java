@@ -10,7 +10,7 @@ public class ExtraLife extends Consumable {
     }
 
     @Override
-    void consumed(Player player) {
+    public void consumed(Player player) {
         // TODO Auto-generated method stub
         
     }

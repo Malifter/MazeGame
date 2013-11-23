@@ -10,7 +10,7 @@ public class HealthBooster extends Consumable {
         // TODO Auto-generated constructor stub
     }
 
-    void consumed(Player player) {
+    public void consumed(Player player) {
         // TODO Auto-generated method stub
         //player.addHealth();
     }

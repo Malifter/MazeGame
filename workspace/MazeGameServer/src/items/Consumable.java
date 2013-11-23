@@ -9,5 +9,5 @@ public abstract class Consumable extends Item{
         // TODO Auto-generated constructor stub
     }
     
-    abstract void consumed(Player player);
+    public abstract void consumed(Player player);
 }

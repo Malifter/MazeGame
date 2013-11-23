@@ -1,5 +1,9 @@
 package game;
 
+import items.Consumable;
+import items.Item;
+import items.NotConsumable;
+
 /*
 * Classname:            Player.java
 *
@@ -460,5 +464,19 @@ public class Player extends Entity {
                 }
             }
         }
+    }
+    
+    public void pickItem(Item item){
+        if(item instanceof Consumable){
+            Consumable cItem = (Consumable) item;
+            cItem.consumed(this);
+        }else if(item instanceof NotConsumable){
+            NotConsumable ncItem = (NotConsumable) item;
+            this.addToInventory(ncItem);
+        }
+    }
+    
+    public void addToInventory(NotConsumable ncItem){
+        this.getInventory().addItem(ncItem);
     }
 }

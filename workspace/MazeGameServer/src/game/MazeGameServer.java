@@ -290,7 +290,8 @@ public class MazeGameServer extends Game {
            }
             for(int i = 0; i< room.getItems().size(); i++){
                 if(Collisions.detectCollision(player, room.getItems().get(i))){
-                    
+                    Player p = (Player) player;
+                    p.pickItem(room.getItems().get(i));
                     room.removeItem(room.getItems().get(i));
                 }
             }

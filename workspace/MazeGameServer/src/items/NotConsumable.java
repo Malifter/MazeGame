@@ -8,8 +8,5 @@ public abstract class NotConsumable extends Item{
         super(g, image, x, y, w, h);
         // TODO Auto-generated constructor stub
     }
-    
-    public void addToInventory(){
-        //remove the image from the game
-    }
+
 }
