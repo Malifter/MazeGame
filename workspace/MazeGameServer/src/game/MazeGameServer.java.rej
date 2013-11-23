@@ -1,0 +1,14 @@
+diff a/workspace/MazeGameServer/src/game/MazeGameServer.java b/workspace/MazeGameServer/src/game/MazeGameServer.java	(rejected hunks)
+@@ -199,10 +199,10 @@
+                 int i = 0;
+                 while(i < r.getEnemies().size()) {
+                     if(r.getEnemies().get(i).needsDelete()) {
+-                        r.generateRandomItems(this, 600,200);//cannot pass game parameter
++                        r.generateRandomItems(this, 600,200);
+                         r.getEnemies().remove(i);
+                         System.out.println("randomly generating an item when enermy dies");
+-                        generatedUpdates.add(r.getItems().get(i).serialize());
++                        //generatedUpdates.add(r.getItems().get(i).serialize());
+                     }
+                     else {
+                         r.getEnemies().get(i).update(time);

@@ -199,10 +199,13 @@ public class MazeGameServer extends Game {
                 int i = 0;
                 while(i < r.getEnemies().size()) {
                     if(r.getEnemies().get(i).needsDelete()) {
-                        r.generateRandomItems(this, 600,200);
+                        r.generateRandomItems(this, (int) r.getEnemies().get(i).getMidX()+5, (int) r.getEnemies().get(i).getMidY()+5);//cannot pass game parameter
+                        int index = r.getItems().size() - 1;
+                        Item item = r.getItems().get(index);
+                        //r.addItem(item);
                         r.getEnemies().remove(i);
                         System.out.println("randomly generating an item when enermy dies");
-                        //generatedUpdates.add(r.getItems().get(i).serialize());
+                        generatedUpdates.add(item.serialize());
                     }
                     else {
                         r.getEnemies().get(i).update(time);
