@@ -7,7 +7,7 @@ public class Shield extends NotConsumable {
     private int strength;
     private boolean isDestroyed;
     public Shield(Game g, int x, int y, float w,float h) {
-        super(g, "imagepath", x, y, w, h);
+        super(g, "items/shield/shield.gif/", x, y, w, h);
         isDestroyed = false;
         // TODO Auto-generated constructor stub
     }

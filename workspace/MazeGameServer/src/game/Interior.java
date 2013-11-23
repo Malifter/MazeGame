@@ -10,10 +10,7 @@ package game;
 * Copyright notice:     Copyright (c) 2013 Garrett Benoit
 */
 
-import items.Bomb;
-import items.DoorKey;
-import items.Gold;
-import items.Item;
+import items.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -48,7 +45,12 @@ public class Interior extends Room {
     public static enum ItemType {
         BOMB("items/bomb/"),
         GOLD("items/gold/"),
-        DKEY("items/dkey/");
+        DKEY("items/dkey/"),
+        CKEY("items/ckey/"),
+        TOOL("items/tool/"),
+        LIFE("items/elife/"),
+        BOOSTER("items/booster/"),
+        SHIELD("items/shield/");
         
         private final String path;
         private ItemType(String path) {
@@ -142,5 +144,21 @@ public class Interior extends Room {
             System.out.println("DKEY ADDED");
             this.addItem(new DoorKey(game, x, y, x+1, y+2));
         }
+        else if(ItemType.randomItem().equals(ItemType.TOOL)) {
+            System.out.println("TOOL ADDED");
+            this.addItem(new DisguiseTool(game, x, y, x+1, y+2));
+        } else if(ItemType.randomItem().equals(ItemType.LIFE)) {
+            System.out.println("LIFE ADDED");
+            this.addItem(new ExtraLife(game, x, y, x+1, y+2));
+        }
+        else if(ItemType.randomItem().equals(ItemType.BOOSTER)) {
+            System.out.println("BOOSTER ADDED");
+            this.addItem(new HealthBooster(game, x, y, x+1, y+2));
+        }
+        else if(ItemType.randomItem().equals(ItemType.SHIELD)) {
+            System.out.println("SHIELD ADDED");
+            this.addItem(new Shield(game, x, y, x+1, y+2));
+        }
+        
     }
 }
