@@ -123,8 +123,8 @@ public class Interior extends Room {
         items.add(item);
     }
     
-    public void removeItem(Entity item) {
-        enemies.remove(item);
+    public void removeItem(Item item) {
+        items.remove(item);
     }
     
     public ArrayList<Item> getItems() {
