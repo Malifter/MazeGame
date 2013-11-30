@@ -1,5 +1,6 @@
 package game.entities;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import engine.Vertex2f;
@@ -45,7 +46,7 @@ public abstract class Entity {
         
     }
     
-    public void update(Boolean[] inputs, long time) {
+    public void update(ArrayList<Boolean> inputs, long time) {
         
     }
     

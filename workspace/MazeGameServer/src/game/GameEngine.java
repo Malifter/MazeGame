@@ -22,26 +22,14 @@ import game.enums.Pressed;
  * IGame interface.
  */
 public class GameEngine {
+    public static boolean playingGame = true;
+    private static long timerTicksPerSecond = Sys.getTimerResolution();
+    private static long lastLoopTime = getTime();
     
     public static ArrayList<ReentrantLock> inputLocks = new ArrayList<ReentrantLock>();
-    private static ReentrantLock updateLock;
-    
-    
-    /** flag indicating that we're playing the game */
-    public static boolean playingGame = true;
-    
-    //public ArrayList<ArrayList<Integer>> clientInputs;
-    
+    private static ReentrantLock updateLock = new ReentrantLock();
+    private static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
     private static List<SerializedObject> objectsToUpdate;
-    
-    /** the number of timer ticks per second */
-    private static long timerTicksPerSecond = Sys.getTimerResolution();
-    
-    /**
-     * The time at which the last rendering looped started from the point
-     * of view of the game logic
-     */
-    private static long lastLoopTime = getTime();
     
     /**
      * Constructor: Private constructor to prevent instantiation.
@@ -50,11 +38,6 @@ public class GameEngine {
     
     public static void init() {
         // init inputs / sounds ? (need ID's for sound)
-        //clientInputs = new ArrayList<ArrayList<Integer>>();
-        //gameInputs = new ArrayList<ArrayList<Boolean>>();
-        //clientInputs.add(new ArrayList<Integer>());
-        inputLocks.add(new ReentrantLock());
-        updateLock = new ReentrantLock();
     }
     
     /**
@@ -92,6 +75,7 @@ public class GameEngine {
             lastLoopTime = getTime();
             
             // Update the world
+            getInputs();
             setUpdates(MazeGameServer.update(delta)); // generate serialized objects
 
             if (MazeGameServer.isDone()) {
@@ -117,28 +101,29 @@ public class GameEngine {
      * getInput: Get a list of the input components to track
      */
     private static void resetInputs() {
-        for(int playerID = 0; playerID < inputLocks.size(); playerID++) {
+        for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
             inputLocks.get(playerID).lock();
             for(int i = 0; i < Pressed.SIZE; i++) {
-                MazeGameServer.inputs[playerID][i] = false;
+                inputs.get(playerID).set(i, false);
             }
             inputLocks.get(playerID).unlock();
         }
-            /*
-            inputLocks.get(playerID).lock();
-            for(Integer key: clientInputs.get(playerID)) {
-                gameInputs.get(playerID).set(key, true);
-            }
-            inputLocks.get(playerID).unlock();
-            */
     }
     
-    public static void setInputs(List<Pressed> inputs, int playerID) {
+    public static void getInputs() {
+        for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
+            inputLocks.get(playerID).lock();
+            for(int i = 0; i < Pressed.SIZE; i++) {
+                MazeGameServer.inputs.get(playerID).set(i, inputs.get(playerID).get(i));
+            }
+            inputLocks.get(playerID).unlock();
+        }
+    }
+    
+    public static void setInputs(List<Pressed> pressed, int playerID) {
         inputLocks.get(playerID).lock();
-        //clientInputs.get(playerID).clear();
-        for(Pressed p: inputs) {
-            //clientInputs.get(playerID).add(p.getValue());
-            MazeGameServer.inputs[playerID][p.getValue()] = true;
+        for(Pressed p: pressed) {
+            inputs.get(playerID).set(p.getValue(), true);
         }
         inputLocks.get(playerID).unlock();
     }
@@ -159,7 +144,17 @@ public class GameEngine {
     
     public static void newPlayerConnected(int playerID) {
         MazeGameServer.joinNewPlayer(playerID);
-        //engine.clientInputs.add(new ArrayList<Integer>());
-        GameEngine.inputLocks.add(new ReentrantLock());
+        if(MazeGameServer.numPlayers < MazeGameServer.NUM_PLAYERS) {
+            initNewInputs();
+            inputLocks.add(new ReentrantLock());
+        }
+    }
+    
+    public static void initNewInputs() {
+        ArrayList<Boolean> newInputs = new ArrayList<Boolean>();
+        for(int j = 0; j < Pressed.SIZE; j++) {
+            newInputs.add(false);
+        }
+        inputs.add(newInputs);
     }
 }

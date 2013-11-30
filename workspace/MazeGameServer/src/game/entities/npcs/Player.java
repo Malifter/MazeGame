@@ -1,5 +1,7 @@
 package game.entities.npcs;
 
+import java.util.ArrayList;
+
 import engine.Vertex2f;
 import engine.physics.RigidBody;
 import game.GameEngine;
@@ -204,7 +206,7 @@ public class Player extends Hostile {
     }
     
     @Override
-    public void update(Boolean[] inputs, long time) {
+    public void update(ArrayList<Boolean> inputs, long time) {
         movements(inputs, time);
         if(!isVuln){
             if(GameEngine.getTime() - currentTime > 750)
@@ -241,7 +243,7 @@ public class Player extends Hostile {
             currentTime = GameEngine.getTime();
         }
     }
-    public void movements(Boolean[] inputs, long elapsedTime) {
+    public void movements(ArrayList<Boolean> inputs, long elapsedTime) {
         if(spawned) {
             if(!isDead){
                 if(isVuln || flash <= 4){
@@ -253,22 +255,22 @@ public class Player extends Hostile {
                         float moveX = 0.0f;
                         float moveY = 0.0f;
                         float speed = SPEED * speedRatio;
-                        if (inputs[Pressed.RIGHT.getValue()]) {
+                        if (inputs.get(Pressed.RIGHT.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.RIGHT;
                             movingRight = true;
                             moveX += speed;
                         } else if (firstMove.compareTo(Move.RIGHT) == 0) firstMove = Move.NONE;
-                        if (inputs[Pressed.LEFT.getValue()]) {
+                        if (inputs.get(Pressed.LEFT.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.LEFT;
                             movingLeft = true;
                             moveX -= speed;
                         } else if (firstMove.compareTo(Move.LEFT) == 0) firstMove = Move.NONE;
-                        if (inputs[Pressed.UP.getValue()]) {
+                        if (inputs.get(Pressed.UP.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.UP;
                             movingUp = true;
                             moveY -= speed;
                         } else if (firstMove.compareTo(Move.UP) == 0) firstMove = Move.NONE;
-                        if (inputs[Pressed.DOWN.getValue()]) {
+                        if (inputs.get(Pressed.DOWN.getValue())) {
                             if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.DOWN;
                             movingDown = true;
                             moveY += speed;
@@ -289,7 +291,7 @@ public class Player extends Hostile {
                         }
                         rBody.move(moveX, moveY, elapsedTime);
                         
-                        if (inputs[Pressed.FIRE.getValue()] && !isShooting) {
+                        if (inputs.get(Pressed.FIRE.getValue()) && !isShooting) {
                             if(numBullets <= 2 && GameEngine.getTime() - lastShotTime > 100){
                                 fire(facing); // need to change to fire in mouse direction instead of facing direction
                                 numBullets++;
@@ -298,7 +300,7 @@ public class Player extends Hostile {
                             isFire = true;
                             shotTimer = 0;
                         }
-                        else if(!inputs[Pressed.FIRE.getValue()] && isShooting) {
+                        else if(!inputs.get(Pressed.FIRE.getValue()) && isShooting) {
                             isShooting = false;
                         }
 

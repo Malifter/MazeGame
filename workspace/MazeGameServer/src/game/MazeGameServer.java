@@ -39,7 +39,8 @@ import game.levelloader.LevelLoader;
 public class MazeGameServer {
     private static boolean isDone;
     public static final int NUM_PLAYERS = 4;
-    public static Boolean[][] inputs = new Boolean[NUM_PLAYERS][Pressed.SIZE];
+    public static int numPlayers = 0;
+    public static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
     public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.SMALL);
     
     /**
@@ -51,23 +52,11 @@ public class MazeGameServer {
     
     public static void init() {
         isDone = false;
-        initInputs();
     }
     
     public static ArrayList<Entity> getEntities() {
         ArrayList<Entity> tmp = new ArrayList<Entity>();
         return tmp;
-    }
-
-    public static void /*Boolean[][]*/ initInputs() {
-        //level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.SMALL);
-        for(int i = 0; i < NUM_PLAYERS; i++) {
-            for(int j = 0; j < Pressed.SIZE; j++) {
-                inputs[i][j] = false;
-            }
-        }
-        //initSounds();
-        //return inputs;
     }
     
     private static void initSounds() {
@@ -103,7 +92,7 @@ public class MazeGameServer {
                         // LOSE
                     }
                 }
-                p.update(inputs[p.getPlayerID()], time);
+                p.update(inputs.get(p.getPlayerID()), time);
                 generatedUpdates.add(p.serialize());
                 for(Entity shot: p.getShots()) {
                     generatedUpdates.add(shot.serialize());
@@ -137,7 +126,7 @@ public class MazeGameServer {
                             // LOSE
                         }
                     }
-                    p.update(inputs[p.getPlayerID()], time);
+                    p.update(inputs.get(p.getPlayerID()), time);
                     generatedUpdates.add(p.serialize());
                     for(Entity shot: p.getShots()) {
                         generatedUpdates.add(shot.serialize());
@@ -285,7 +274,19 @@ public class MazeGameServer {
     
     public static void joinNewPlayer(int playerID) {
         Vertex2f spawnLocation = new Vertex2f(level.getExterior().getPlayerSpawns().get(playerID));
-        level.getExterior().addPlayer(EntityFactory.createPlayer(Face.DOWN, spawnLocation, playerID));
+        if(numPlayers < NUM_PLAYERS) {
+            level.getExterior().addPlayer(EntityFactory.createPlayer(Face.DOWN, spawnLocation, playerID));
+            initNewInputs();
+            numPlayers++;
+        }
+    }
+    
+    public static void initNewInputs() {
+        ArrayList<Boolean> newInputs = new ArrayList<Boolean>();
+        for(int j = 0; j < Pressed.SIZE; j++) {
+            newInputs.add(false);
+        }
+        inputs.add(newInputs);
     }
 }
 
