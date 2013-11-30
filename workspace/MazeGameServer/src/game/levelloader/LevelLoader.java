@@ -126,58 +126,6 @@ public class LevelLoader {
             }
         }
         
-        System.out.println("\n");
-        
-        // double check all links are made
-        for(int r = 0; r < size; r++) {
-            for(int c = 0; c < size; c++) {
-                if(rooms.get(c + (r*size)) != null) {
-                    boolean top = false;
-                    boolean bot = false;
-                    boolean right = false;
-                    boolean left = false;
-                    for(Entry entry: rooms.get(c + (r*size)).getEntries()) {
-                        Door door = null;
-                        if(entry instanceof Door) {
-                            door = (Door)entry;
-                        }
-                        if(door != null) {
-                            if(door.getSide().equals(Side.TOP)) {
-                                top = true;
-                            } else if(door.getSide().equals(Side.BOTTOM)) {
-                                bot = true;
-                            } else if(door.getSide().equals(Side.RIGHT)) {
-                                right = true;
-                            } else {
-                                left = true;
-                            }
-                        }
-                    }
-                    if(left) System.out.print("}");
-                    else System.out.print("|");
-                    if(top && bot) System.out.print(" ");
-                    else if(top) System.out.print("_");
-                    else if(bot) System.out.print("-");
-                    else System.out.print("=");
-                    if(right) System.out.print("{");
-                    else System.out.print("|");
-                    /*System.out.println("Room: " + (c + (r*size)));
-                    if(top) System.out.println("TOP: DOOR");
-                    else System.out.println("TOP: NONE");
-                    if(bot) System.out.println("BOTTOM: DOOR");
-                    else System.out.println("BOTTOM: NONE");
-                    if(left) System.out.println("LEFT: DOOR");
-                    else System.out.println("LEFT: NONE");
-                    if(right) System.out.println("RIGHT: DOOR");
-                    else System.out.println("RIGHT: NONE");*/
-                    //linkAdjacentDoors(room, size, rooms);
-                } else {
-                    System.out.print("   ");
-                }
-            }
-            System.out.println();
-        }
-        
         for(int i = 0; i < rooms.size(); i++) {
             if(rooms.get(i) != null) {
                 linkAdjacentDoors(i, size, rooms);
@@ -294,7 +242,7 @@ public class LevelLoader {
                 break;
             }
         }
-        // covert outer wall to door for BOTTOM
+        // convert outer wall to door for BOTTOM
         room = rooms.get(maxBot);
         for(Entity fgr: room.getForeground()) {
             if(fgr.getRigidBody().getMin().y.intValue() == room.getCenter().y+(Interior.HEIGHT/2)-TILESIZE
@@ -311,7 +259,7 @@ public class LevelLoader {
                 break;
             }
         }
-        // covert outer wall to door for LEFT
+        // convert outer wall to door for LEFT
         room = rooms.get(minLeft);
         for(Entity fgr: room.getForeground()) {
             if(fgr.getRigidBody().getMin().y.intValue() == room.getCenter().y-(TILESIZE/2)
@@ -328,7 +276,7 @@ public class LevelLoader {
                 break;
             }
         }
-        // covert outer wall to door for RIGHT
+        // convert outer wall to door for RIGHT
         room = rooms.get(maxRight);
         for(Entity fgr: room.getForeground()) {
             if(fgr.getRigidBody().getMin().y.intValue() == room.getCenter().y-(TILESIZE/2)
