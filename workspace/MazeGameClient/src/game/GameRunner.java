@@ -21,11 +21,9 @@ public class GameRunner {
      * @param args
      */
     public static void main(String[] args) {
-        GameEngine anEngine = null;
         try {
-            anEngine = new GameEngine();
-            Game aGame = new MazeGameClient(anEngine);
-            anEngine.run(aGame);
+            GameEngine.init();
+            GameEngine.run();
         } catch (Exception e) {
             System.out.println("Could not run game");
             e.printStackTrace();

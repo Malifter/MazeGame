@@ -1,7 +1,6 @@
 package game;
 
 import java.util.ArrayList;
-
 import engine.Vertex2;
 
 /*
@@ -15,18 +14,18 @@ import engine.Vertex2;
 */
 
 public class RenderableRoom {
-    private ArrayList<Entity> foreground = new ArrayList<Entity>();
-    private ArrayList<Entity> background = new ArrayList<Entity>();
+    private ArrayList<RenderableEntity> foreground = new ArrayList<RenderableEntity>();
+    private ArrayList<RenderableEntity> background = new ArrayList<RenderableEntity>();
     //private ArrayList<Entity> traps = new ArrayList<Entity>();
     
     public RenderableRoom() {
     }
     
-    public void addToForeground(Entity tile) {
+    public void addToForeground(RenderableEntity tile) {
         foreground.add(tile);
     }
     
-    public void addToBackground(Entity tile) {
+    public void addToBackground(RenderableEntity tile) {
         background.add(tile);
     }
     
@@ -37,11 +36,11 @@ public class RenderableRoom {
         return traps;
     }*/
     
-    public ArrayList<Entity> getBackground() {
+    public ArrayList<RenderableEntity> getBackground() {
         return background;
     }
     
-    public ArrayList<Entity> getForeground() {
+    public ArrayList<RenderableEntity> getForeground() {
         return foreground;
     }
 }

@@ -13,14 +13,14 @@ package tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import engine.Vertex2;
-import game.Door;
-import game.Door.Side;
-import game.Entity;
+import game.entities.Entity;
+import game.entities.environment.Door;
+import game.entities.environment.Door.Side;
+import game.entities.npcs.Player;
+import game.environment.Room;
 import game.Game;
 import game.GameEngine;
 import game.MazeGameServer;
-import game.Player;
-import game.Room;
 
 import org.junit.Test;
 

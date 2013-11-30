@@ -2,14 +2,14 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import items.NotConsumable;
-import game.Entity;
 import game.Game;
 import game.GameEngine;
 import game.Inventory;
 import game.MazeGameServer;
-import game.Obstacle;
-import game.Player;
+import game.entities.Entity;
+import game.entities.environment.Obstacle;
+import game.entities.items.NotConsumable;
+import game.entities.npcs.Player;
 
 import org.junit.Test;
 

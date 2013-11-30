@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import game.Game;
 import game.GameEngine;
 import game.MazeGameServer;
-import game.Obstacle;
+import game.entities.environment.Obstacle;
 
 import org.junit.Test;
 

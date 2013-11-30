@@ -16,9 +16,9 @@ package engine.inputhandler;
  * Axis: 
  */
 public class Axis extends Input {
-	
-	
-	private float value; // should be between -1 and +1, or whatever
+    private static final long serialVersionUID = -7624245331859910619L;
+    
+    private float value; // should be between -1 and +1, or whatever
 	
 	public Axis (PhysicalInput[] p) {
 		super(p);

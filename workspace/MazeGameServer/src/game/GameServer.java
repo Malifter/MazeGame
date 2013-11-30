@@ -1,4 +1,5 @@
 package game;
+
 /*
 * Classname:            GameServer.java
 *
@@ -10,24 +11,16 @@ package game;
 */
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
 * Skeleton Game Server
@@ -44,10 +37,8 @@ public class GameServer implements Runnable{
 
     protected static ServerSocket serverSocket;
     protected static Map<SocketAddress, Integer> playerMap;
-    protected static GameEngine engine;
     
-    public GameServer(GameEngine engine) throws IOException {
-        this.engine = engine;
+    public GameServer() throws IOException {
     }
     
     /**
@@ -84,16 +75,8 @@ public class GameServer implements Runnable{
                 playerID = playerMap.size();
                 playerMap.put(clientSocket.getRemoteSocketAddress(), playerID);
             }
-            MazeGameServer g = ((MazeGameServer) engine.theGame);
-            g.level.getExterior().addPlayer(new Player(engine.theGame, "spawn1.gif",
-                    g.level.getExterior().getPlayerSpawns().get(playerID).getX(),
-                    g.level.getExterior().getPlayerSpawns().get(playerID).getY(),
-                    g.level.getExterior().getPlayerSpawns().get(playerID).getX()+11,
-                    g.level.getExterior().getPlayerSpawns().get(playerID).getY()+19, 12, 11, 3, playerID));
-            //engine.clientInputs.add(new ArrayList<Integer>());
-            engine.inputLocks.add(new ReentrantLock());
-            System.out.println(playerID);
-            threadPoolExecutor.execute(new PlayerHandlerThread(clientSocket, playerID, engine));
+            GameEngine.newPlayerConnected(playerID);
+            threadPoolExecutor.execute(new PlayerHandlerThread(clientSocket, playerID));
         }
         catch(IOException ignore) {}
     }

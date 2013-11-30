@@ -28,7 +28,6 @@ public class Camera {
     float posX, posY;
     float upX, upY;
     float offsetX, offsetY;
-    MazeGameClient game;
     boolean mode = true;
     boolean switchMode = false;
     
@@ -39,8 +38,7 @@ public class Camera {
      * @param x
      * @param y
      */
-    public Camera(Game g) {
-        game = (MazeGameClient)g;
+    public Camera() {
         offsetX = (screenHeight/2)+34; //focus' half width - window half width
         offsetY = -(levelWidth/2); //focus' half height - window half height
     }
@@ -61,23 +59,23 @@ public class Camera {
     }
     
     public void update() {
-        if(game.cameraMode.isDown() && !switchMode) {
+        if(Game.cameraMode.isDown() && !switchMode) {
             mode = !mode;
             switchMode = true;
-        } else if (!game.cameraMode.isDown() && switchMode) {
+        } else if (!Game.cameraMode.isDown() && switchMode) {
             switchMode = false;
             
         }
         
         if(mode) {
             if(focus != null) {
-                posX = focus.getPosition().getX()-offsetX;
+                posX = focus.getPosition().x-offsetX;
                 /*if(posX <= 0) {
                     posX = 0;
                 } else if (posX >= levelWidth) {
                     posX = levelWidth;
                 }*/
-                posY = focus.getPosition().getY()+offsetY;//((float)(focus.getPosition().getY()/screenHeight)*screenHeight)+(TILESIZE/2.0f);//+offsetY;
+                posY = focus.getPosition().y+offsetY;//((float)(focus.getPosition().getY()/screenHeight)*screenHeight)+(TILESIZE/2.0f);//+offsetY;
             }
             GL11.glLoadIdentity();
             GL11.glScaled(4.2666666666666666666666666666667, 4.2666666666666666666666666666667, 0);

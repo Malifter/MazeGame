@@ -12,10 +12,10 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import game.Chest;
 import game.Game;
 import game.GameEngine;
 import game.MazeGameServer;
+import game.entities.environment.Chest;
 
 import org.junit.Test;
 

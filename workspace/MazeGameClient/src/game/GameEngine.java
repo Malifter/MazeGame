@@ -1,19 +1,13 @@
 package game;
 
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import net.java.games.input.*;
 
@@ -31,6 +25,7 @@ import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedRoom;
 import engine.soundmanager.SoundManager;
+import game.enums.Pressed;
 
 /*
 * Classname:            GameEngine.java
@@ -48,19 +43,16 @@ import engine.soundmanager.SoundManager;
  */
 public class GameEngine {
     /** the number of frames per second that we want to run the game at */
-    private final int FPS = 60;
+    private static final int FPS = 60;
     
     /** flag indicating that we're playing the game */
-    private boolean playingGame = true;
-    
-    /** the game to run */
-    private Game theGame;
+    private static boolean playingGame = true;
     
     /** a map of physical inputs to names */
     private static HashMap<PhysicalInput, String> inputMap;
     
     /** a list of inputs to listen for */
-    private ArrayList<Input> inputs;
+    private static ArrayList<Input> inputs;
     
     /** the number of timer ticks per second */
     private static long timerTicksPerSecond = Sys.getTimerResolution();
@@ -69,19 +61,19 @@ public class GameEngine {
      * The time at which the last rendering looped started from the point
      * of view of the game logic
      */
-    private long lastLoopTime = getTime();
+    private static long lastLoopTime = getTime();
     
     /** SoundManager to make sound with */
     private static SoundManager soundManager;
     
     /** the display object to use */
-    private IDisplay theDisplay = null;
+    private static IDisplay display = null;
 
     /** The time since the last record of fps */
-    private long                    lastFpsTime;
+    private static long lastFpsTime;
 
     /** The recorded fps */
-    private int                     fps;
+    private static int fps;
     
     protected final static int READ_TIMEOUT = 1000;
     protected final static int SERVER_PORT = 10500;
@@ -91,28 +83,17 @@ public class GameEngine {
     protected static ObjectInputStream ois;
     protected static ObjectOutputStream oos;
     
-    public enum Pressed {
-        RIGHT(0), LEFT(1), UP(2), DOWN(3), FIRE(4), ESCAPE(5), PAUSE(6), START_GAME(7), 
-        SELECT_FORWARD(8),SELECT_BACKWARD(9); 
-        private final int value;
-        private Pressed(int value) {
-            this.value = value;
-        }
-        
-        public int getValue() {
-            return value;
-        }
-    };
-    
     /**
-     * Constructor: Constructor for the game engine. Sets up the inputs.
+     * Constructor: Private to prevent instantiation.
      */
-    public GameEngine() {
+    private GameEngine(){}
+    
+    public static void init() {
         initInput();
         initSound();
     }
     
-    private void initInput() {
+    private static void initInput() {
      // initialize input map
         inputMap = new HashMap<PhysicalInput, String>();
         
@@ -226,7 +207,7 @@ public class GameEngine {
         inputMap.put(PhysicalInput.MOUSE_MIDDLE, "Mouse:Middle");
     }
     
-    private void initSound() {
+    private static void initSound() {
         soundManager = new SoundManager();
         soundManager.initialize(8);
     }
@@ -239,11 +220,11 @@ public class GameEngine {
      * @throws Exception
      *             if the display is null
      */
-    private void setDisplay(IDisplay aDisplay) throws Exception {
-        if (aDisplay == null) {
+    private static void setDisplay(IDisplay iDisplay) throws Exception {
+        if (iDisplay == null) {
             throw new Exception("Null display");
         }
-        theDisplay = aDisplay;
+        display = iDisplay;
     }
     
     /**
@@ -253,15 +234,14 @@ public class GameEngine {
      *            the game to run.
      * @throws Exception
      */
-    public void run(Game aGame) throws Exception {
-        theGame = aGame;
-        setDisplay(theGame.getDisplay());
-        theDisplay.init();
+    public static void run() throws Exception {
+        Game.init();
+        setDisplay(Game.getDisplay());
+        display.init();
         createSocket();
-        inputs = theGame.initInputs(checkForServerLevel());
-        
+        inputs = Game.initInputs(checkForServerLevel());
         gameLoop();
-        theGame.shutdown();
+        //Game.shutdown();
     }
     
     /**
@@ -269,25 +249,25 @@ public class GameEngine {
      * @throws IOException 
      * @throws ClassNotFoundException 
      */
-    private void gameLoop() throws IOException, ClassNotFoundException {        
+    private static void gameLoop() throws IOException, ClassNotFoundException {        
         // Game loop runs while the player is playing
         lastLoopTime = getTime();
         while (playingGame) {
             // clear screen
-            theDisplay.reset();
+            display.reset();
             
             // Get the input
             getInputs();
             List<Pressed> inputs = new ArrayList<Pressed>();
-            if(((MazeGameClient) theGame).right.isDown()) inputs.add(Pressed.RIGHT);
-            if(((MazeGameClient) theGame).left.isDown()) inputs.add(Pressed.LEFT);
-            if(((MazeGameClient) theGame).up.isDown()) inputs.add(Pressed.UP);
-            if(((MazeGameClient) theGame).down.isDown()) inputs.add(Pressed.DOWN);
-            if(((MazeGameClient) theGame).fire.isDown()) inputs.add(Pressed.FIRE);
-            if(((MazeGameClient) theGame).escape.isDown()) inputs.add(Pressed.ESCAPE);
-            if(((MazeGameClient) theGame).pause.isDown()) inputs.add(Pressed.PAUSE);
-            //if(((MazeGameClient) theGame).cameraMode.isDown()) inputs.add("cameraMode");
-            if(((MazeGameClient) theGame).startGame.isDown()) inputs.add(Pressed.START_GAME);
+            if(Game.right.isDown()) inputs.add(Pressed.RIGHT);
+            if(Game.left.isDown()) inputs.add(Pressed.LEFT);
+            if(Game.up.isDown()) inputs.add(Pressed.UP);
+            if(Game.down.isDown()) inputs.add(Pressed.DOWN);
+            if(Game.fire.isDown()) inputs.add(Pressed.FIRE);
+            if(Game.escape.isDown()) inputs.add(Pressed.ESCAPE);
+            if(Game.pause.isDown()) inputs.add(Pressed.PAUSE);
+            //if(Game.cameraMode.isDown()) inputs.add("cameraMode");
+            if(Game.startGame.isDown()) inputs.add(Pressed.START_GAME);
             
             
             long delta = getTime() - lastLoopTime;
@@ -305,7 +285,7 @@ public class GameEngine {
             
             // Update the world
             List<SerializedObject> updatedObjects = checkForServerUpdates();
-            theGame.update(delta, updatedObjects);
+            Game.update(delta, updatedObjects);
             
             // Paint the graphics
             render();
@@ -314,15 +294,15 @@ public class GameEngine {
                     if(so instanceof SerializedEntity) {
                         SerializedEntity se = (SerializedEntity)so;
                         //System.out.println(so.getID() + "\t" + so.getImage() + "\t" + so.getPosition() + "\t" + so.needsDelete());
-                        Sprite sprite = theGame.getDisplay().getSprite(se.getImage());
-                        sprite.draw((int)se.getPosition().getX(), (int)se.getPosition().getY());
+                        Sprite sprite = Game.getDisplay().getSprite(se.getImage());
+                        sprite.draw(se.getPosition().x.intValue(), se.getPosition().y.intValue());
                     }
                 }
             }
             
             // update window contents
-            theDisplay.update();
-            if (theGame.isDone()) {
+            display.update();
+            if (Game.isDone()) {
                 playingGame = false;
             }
         }
@@ -331,7 +311,7 @@ public class GameEngine {
         soundManager.destroy();
         
         // Close Game window
-        theDisplay.quit();
+        display.quit();
     }
     
     /**
@@ -350,8 +330,8 @@ public class GameEngine {
     /**
      * send inputs to server
      */
-    protected static void sendInputsToServer(List<Pressed> inputs2) throws IOException {
-        if(inputs2 != null) oos.writeObject(inputs2);
+    protected static void sendInputsToServer(List<Pressed> pressedInputs) throws IOException {
+        if(pressedInputs != null) oos.writeObject(pressedInputs);
     }
  
     /**
@@ -376,7 +356,7 @@ public class GameEngine {
     /**
      * getInput: Get a list of the input components to track
      */
-    private void getInputs() {
+    private static void getInputs() {
         for (Input i : inputs) {
             boolean hasDown = false;
             float pollValue = 0.0f;
@@ -435,16 +415,16 @@ public class GameEngine {
     /**
      * render: Syncs the display to FPS
      */
-    public void render() {
-        theDisplay.sync(FPS);
+    public static void render() {
+        display.sync(FPS);
         drawEntities();
     }
     
     /**
      * drawEntities: calls draw on all the entities in the Game
      */
-    public void drawEntities() {
-        for (Entity ent : theGame.getEntities()) {
+    public static void drawEntities() {
+        for (RenderableEntity ent : Game.getEntities()) {
             if(ent != null) {
                 ent.draw();
             }

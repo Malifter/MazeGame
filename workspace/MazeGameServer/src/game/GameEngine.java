@@ -1,19 +1,11 @@
 package game;
-import java.awt.Rectangle;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
-
-import net.java.games.input.*;
-
 import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-
 import engine.serializable.SerializedObject;
+import game.enums.Pressed;
 
 /*
 * Classname:            GameEngine.java
@@ -31,24 +23,16 @@ import engine.serializable.SerializedObject;
  */
 public class GameEngine {
     
-    public ArrayList<ReentrantLock> inputLocks = new ArrayList<ReentrantLock>();
-    private ReentrantLock updateLock;
+    public static ArrayList<ReentrantLock> inputLocks = new ArrayList<ReentrantLock>();
+    private static ReentrantLock updateLock;
     
-    /** the number of frames per second that we want to run the game at */
-    private final int FPS = 60;
     
     /** flag indicating that we're playing the game */
-    public boolean playingGame = true;
-    
-    /** the game to run */
-    public Game theGame;
-    
-    /** a list of inputs to listen for */
-    private ArrayList<ArrayList<Boolean>> gameInputs;
+    public static boolean playingGame = true;
     
     //public ArrayList<ArrayList<Integer>> clientInputs;
     
-    private List<SerializedObject> objectsToUpdate;
+    private static List<SerializedObject> objectsToUpdate;
     
     /** the number of timer ticks per second */
     private static long timerTicksPerSecond = Sys.getTimerResolution();
@@ -57,34 +41,17 @@ public class GameEngine {
      * The time at which the last rendering looped started from the point
      * of view of the game logic
      */
-    private long lastLoopTime = getTime();
-
-    /** The time since the last record of fps */
-    private long                    lastFpsTime;
-
-    /** The recorded fps */
-    private int                     fps;
-    
-    public static enum Pressed {
-        RIGHT(0), LEFT(1), UP(2), DOWN(3), FIRE(4), ESCAPE(5), PAUSE(6), START_GAME(7), 
-        SELECT_FORWARD(8), SELECT_BACKWARD(9);
-        private final int value;
-        private Pressed(int value) {
-            this.value = value;
-        }
-        
-        public int getValue() {
-            return value;
-        }
-    };
+    private static long lastLoopTime = getTime();
     
     /**
-     * Constructor: Constructor for the game engine. Sets up the inputs.
+     * Constructor: Private constructor to prevent instantiation.
      */
-    public GameEngine() {
+    private GameEngine(){}
+    
+    public static void init() {
         // init inputs / sounds ? (need ID's for sound)
         //clientInputs = new ArrayList<ArrayList<Integer>>();
-        gameInputs = new ArrayList<ArrayList<Boolean>>();
+        //gameInputs = new ArrayList<ArrayList<Boolean>>();
         //clientInputs.add(new ArrayList<Integer>());
         inputLocks.add(new ReentrantLock());
         updateLock = new ReentrantLock();
@@ -97,24 +64,22 @@ public class GameEngine {
      *            the game to run.
      * @throws Exception
      */
-    public void run(Game aGame) throws Exception {
-        theGame = aGame;
-        gameInputs = theGame.initInputs();
-        (new Thread((new GameServer(this)))).start(); // temp implementation of server, needs to have a pre-game lobby first
+    public static void run() throws Exception {
+        MazeGameServer.init();
+        (new Thread((new GameServer()))).start(); // temp implementation of server, needs to have a pre-game lobby first
         gameLoop();
-        theGame.shutdown();
     }
     
     /**
      * gameLoop: a timer-based game loop to run the game
      */
-    private void gameLoop() {        
+    private static void gameLoop() {        
         // Game loop runs while the player is playing
         lastLoopTime = getTime();
         while (playingGame) {
             
-            // get inputs
-            getInputs();
+            // resets inputs
+            resetInputs();
             
             long delta = getTime() - lastLoopTime;
             if(delta < 16) {
@@ -124,21 +89,12 @@ public class GameEngine {
                 }
                 delta = 16;
             }
-            
             lastLoopTime = getTime();
-            lastFpsTime += delta;
-            fps++;
-            
-            if (lastFpsTime > 1000) {
-                Display.setTitle("(FPS: " + fps + ")");
-                lastFpsTime = 0;
-                fps = 0;
-            }
             
             // Update the world
-            setUpdates(theGame.update(delta)); // generate serialized objects
+            setUpdates(MazeGameServer.update(delta)); // generate serialized objects
 
-            if (theGame.isDone()) {
+            if (MazeGameServer.isDone()) {
                 playingGame = false;
             }
         }
@@ -160,11 +116,13 @@ public class GameEngine {
     /**
      * getInput: Get a list of the input components to track
      */
-    private void getInputs() {
-        for(int playerID = 0; playerID < gameInputs.size(); playerID++) {
-            for(int i = 0; i < gameInputs.get(playerID).size(); i++) {
-                gameInputs.get(playerID).set(i, false);
+    private static void resetInputs() {
+        for(int playerID = 0; playerID < inputLocks.size(); playerID++) {
+            inputLocks.get(playerID).lock();
+            for(int i = 0; i < Pressed.SIZE; i++) {
+                MazeGameServer.inputs[playerID][i] = false;
             }
+            inputLocks.get(playerID).unlock();
         }
             /*
             inputLocks.get(playerID).lock();
@@ -175,27 +133,33 @@ public class GameEngine {
             */
     }
     
-    public void setInputs(List<Pressed> inputs, int playerID) {
+    public static void setInputs(List<Pressed> inputs, int playerID) {
         inputLocks.get(playerID).lock();
         //clientInputs.get(playerID).clear();
         for(Pressed p: inputs) {
             //clientInputs.get(playerID).add(p.getValue());
-            gameInputs.get(playerID).set(p.getValue(), true);
+            MazeGameServer.inputs[playerID][p.getValue()] = true;
         }
         inputLocks.get(playerID).unlock();
     }
     
-    private void setUpdates(List<SerializedObject> objectsToUpdate) {
+    private static void setUpdates(List<SerializedObject> updates) {
         updateLock.lock();
-        this.objectsToUpdate = objectsToUpdate;
+        objectsToUpdate = updates;
         updateLock.unlock();
     }
     
-    public List<SerializedObject> getUpdates() {
-        List<SerializedObject> objectsToUpdate = new ArrayList<SerializedObject>();
+    public static List<SerializedObject> getUpdates() {
+        List<SerializedObject> updates = new ArrayList<SerializedObject>();
         updateLock.lock();
-        objectsToUpdate.addAll(this.objectsToUpdate);
+        updates.addAll(objectsToUpdate);
         updateLock.unlock();
-        return objectsToUpdate;
+        return updates;
+    }
+    
+    public static void newPlayerConnected(int playerID) {
+        MazeGameServer.joinNewPlayer(playerID);
+        //engine.clientInputs.add(new ArrayList<Integer>());
+        GameEngine.inputLocks.add(new ReentrantLock());
     }
 }

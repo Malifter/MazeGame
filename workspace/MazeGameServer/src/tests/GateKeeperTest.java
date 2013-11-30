@@ -5,14 +5,14 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
-import game.Entity;
 import game.Game;
 import game.GameEngine;
-import game.GateKeeper;
-import game.Interior;
 import game.MazeGameServer;
-import game.Obstacle;
-import game.Portal;
+import game.entities.Entity;
+import game.entities.environment.Obstacle;
+import game.entities.environment.Portal;
+import game.entities.npcs.GateKeeper;
+import game.environment.Interior;
 
 import org.junit.Test;
 

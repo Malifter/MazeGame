@@ -11,6 +11,7 @@ import java.io.Serializable;
  * Input: A base class to map input devices to buttons or axes
  */
 public abstract class Input implements Serializable {
+    private static final long serialVersionUID = -1608411199391422512L;
     
     private PhysicalInput[] p;
     

@@ -2,7 +2,8 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-import items.NotConsumable;
+import game.entities.items.NotConsumable;
+import game.entities.npcs.Player;
 
 public class Inventory {
     private ArrayList<NotConsumable> itemList = new ArrayList<NotConsumable>();

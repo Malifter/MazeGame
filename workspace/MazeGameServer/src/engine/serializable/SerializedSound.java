@@ -1,6 +1,6 @@
 package engine.serializable;
 
-import game.MazeGameServer.Sound;
+import game.enums.Sounds;
 
 /*
 * Classname:            SerializedSound.java
@@ -29,7 +29,7 @@ public class SerializedSound extends SerializedObject {
         this.soundID = soundID;
     }
     
-    public static SerializedSound serialize(Sound sound) {
+    public static SerializedSound serialize(Sounds sound) {
         return new SerializedSound(sound.getValue());
     }
 }

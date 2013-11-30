@@ -17,17 +17,17 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 
 import engine.Vertex2;
-import game.Door;
-import game.Door.Side;
-import game.Entity;
-import game.EnvironmentTile;
+import game.entities.Entity;
+import game.entities.environment.Door;
+import game.entities.environment.Tile;
+import game.entities.environment.Spikes;
+import game.entities.environment.Door.Side;
+import game.entities.npcs.Player;
+import game.entities.npcs.Woodman;
+import game.environment.Interior;
 import game.Game;
 import game.GameEngine;
 import game.MazeGameServer;
-import game.Player;
-import game.Interior;
-import game.SpikeEntity;
-import game.WoodManEntity;
 
 import org.junit.Test;
 
@@ -175,10 +175,10 @@ public class InteriorTest {
             doors.add(new Door(game, "door3", xPos + 232, yPos + 72, new Vertex2(xPos + 232 - Door.TILESIZE, yPos + 72), null, null, Side.RIGHT));
             doors.add(new Door(game, "door4", xPos + 8, yPos + 72, new Vertex2(xPos + 8 + Door.TILESIZE, yPos + 72), null, null, Side.LEFT));
             for(int i = 0; i < 4; i++) {
-                background.add(new EnvironmentTile(game, "bg"+i, xPos + (i*EnvironmentTile.TILESIZE), yPos));
-                foreground.add(new EnvironmentTile(game, "fg"+i, xPos, yPos + (i*EnvironmentTile.TILESIZE)));
-                traps.add(new SpikeEntity(game, "spike"+1, i, i, i, i, i, i));
-                enemies.add(new WoodManEntity(game, "woodman"+1, i, i, i, i, i, i, null));
+                background.add(new Tile(game, "bg"+i, xPos + (i*Tile.TILESIZE), yPos));
+                foreground.add(new Tile(game, "fg"+i, xPos, yPos + (i*Tile.TILESIZE)));
+                traps.add(new Spikes(game, "spike"+1, i, i, i, i, i, i));
+                enemies.add(new Woodman(game, "woodman"+1, i, i, i, i, i, i, null));
                 players.add(new Player(game, "player", xPos + 104 + (i*10), yPos + 72, xPos + 104 + (i*10), yPos + 72, 10, 10, 1, 0));
             }
         } catch(Exception e) {

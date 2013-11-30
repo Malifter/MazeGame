@@ -19,7 +19,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class RenderableLevel {
-    public static MazeGameClient game; //temporary
     private final static String GIF = ".gif";
     private final static String layoutPath = "assets/layouts/";
     private final static String exteriorLayout = layoutPath+"exterior/OutsideLayout.oel";
@@ -30,8 +29,7 @@ public class RenderableLevel {
     private ArrayList<RenderableRoom> rooms = new ArrayList<RenderableRoom>();
     private int currentRoom = 0;
     
-    public RenderableLevel(MazeGameClient game) {
-        this.game = game;
+    public RenderableLevel() {
     }
     
     public void addRoom(RenderableRoom room) {
@@ -69,34 +67,34 @@ public class RenderableLevel {
 
                 //check foreground and tileset
                 if(line.contains("foreground")) {
-                    int x = position.getX(), y = position.getY();
+                    int x = position.x, y = position.y;
                     String tileset = line.split("\"")[1];
                     while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("foreground")) {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToForeground(new EnvironmentTile(game, tilesetPath+tileset+"/"+parts[p]+GIF, x, y/*new Vertex2(x, y)*/));
+                                renderableRoom.addToForeground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
                             }
-                            x += EnvironmentTile.TILESIZE;
+                            x += RenderableEntity.TILESIZE;
                         }
-                        x = position.getX();
-                        y += EnvironmentTile.TILESIZE;
+                        x = position.x;
+                        y += RenderableEntity.TILESIZE;
                     }
                 }
                 
                 if(line.contains("background")) {
-                    int x = position.getX(), y = position.getY();
+                    int x = position.x, y = position.y;
                     String tileset = line.split("\"")[1];
                     while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("background")) {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToBackground(new EnvironmentTile(game, tilesetPath+tileset+"/"+parts[p]+GIF, x, y));
+                                renderableRoom.addToBackground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
                             }
-                            x += EnvironmentTile.TILESIZE;
+                            x += RenderableEntity.TILESIZE;
                         }
-                        x = position.getX();
-                        y += EnvironmentTile.TILESIZE;
+                        x = position.x;
+                        y += RenderableEntity.TILESIZE;
                     }
                 }
                 
@@ -104,8 +102,8 @@ public class RenderableLevel {
                 if(line.contains("objects")) {
                     while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("objects")) {
                         String[] parts = line.toLowerCase().split("\\s+");
-                        int x = Integer.parseInt(parts[3].split("\"")[1]) + position.getX();
-                        int y = Integer.parseInt(parts[4].split("\"")[1]) + position.getY();
+                        int x = Integer.parseInt(parts[3].split("\"")[1]) + position.x;
+                        int y = Integer.parseInt(parts[4].split("\"")[1]) + position.y;
                         // NOTE WHEN SPAWNING NEW ENEMIES CHANGE CONSTRUCTOR TO TAKE IN ENUM FACE.RIGHT/LEFT/UP/DOWN
                         /*if(parts[1].contains("Spike")) {
                             renderableRoom.addTrap(new EnvironmentTile(this, "animations/spikes/spikeFloor.gif", x, y));
@@ -140,12 +138,12 @@ public class RenderableLevel {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToForeground(new EnvironmentTile(game, tilesetPath+tileset+"/"+parts[p]+GIF, x, y/*new Vertex2(x, y)*/));
+                                renderableRoom.addToForeground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
                             }
-                            x += EnvironmentTile.TILESIZE;
+                            x += RenderableEntity.TILESIZE;
                         }
                         x = 0;
-                        y += EnvironmentTile.TILESIZE;
+                        y += RenderableEntity.TILESIZE;
                     }
                 }
                 
@@ -156,12 +154,12 @@ public class RenderableLevel {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToBackground(new EnvironmentTile(game, tilesetPath+tileset+"/"+parts[p]+GIF, x, y));
+                                renderableRoom.addToBackground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
                             }
-                            x += EnvironmentTile.TILESIZE;
+                            x += RenderableEntity.TILESIZE;
                         }
                         x = 0;
-                        y += EnvironmentTile.TILESIZE;
+                        y += RenderableEntity.TILESIZE;
                     }
                 }
                 

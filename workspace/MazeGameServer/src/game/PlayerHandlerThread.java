@@ -1,20 +1,15 @@
 package game;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.Vector;
 
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedRoom;
+import game.enums.Pressed;
 import game.levelloader.LevelLoader;
 
 /*
@@ -40,7 +35,6 @@ public class PlayerHandlerThread implements Runnable {
     /** Socket used to represent client socket within thread. */
     private final Socket socket;
     private final int playerID;
-    private final GameEngine engine;
     
     private String clientPort;
     private String clientAddress;
@@ -54,10 +48,9 @@ public class PlayerHandlerThread implements Runnable {
      * @param socket            The socket connected to the client.
      * @throws IOException      If an input or output exception occurs.
      */
-    public PlayerHandlerThread(Socket socket, int playerID, GameEngine engine) throws IOException {
+    public PlayerHandlerThread(Socket socket, int playerID) throws IOException {
         this.socket = socket;
         this.playerID = playerID;
-        this.engine = engine;
     }
  
     /**
@@ -72,13 +65,13 @@ public class PlayerHandlerThread implements Runnable {
             // Setup initial socket properties.
             setUp();
             sendLevelToClient(LevelLoader.getLevelLayout());
-            while(engine.playingGame) {                
-                List<GameEngine.Pressed> inputs = checkForClientInputs();
+            while(GameEngine.playingGame) {                
+                List<Pressed> inputs = checkForClientInputs();
                 if(inputs != null) {
-                    engine.setInputs(inputs, playerID); // lock and apply inputs
+                    GameEngine.setInputs(inputs, playerID); // lock and apply inputs
                 }
                 
-                List<SerializedObject> updates = engine.getUpdates(); // lock and get updates
+                List<SerializedObject> updates = GameEngine.getUpdates(); // lock and get updates
                 if(updates.size() > 0) {
                     sendUpdatesToClient(updates);
                 }
@@ -120,9 +113,9 @@ public class PlayerHandlerThread implements Runnable {
      * @throws ClassNotFoundException 
      */
     @SuppressWarnings("unchecked")
-    protected List<GameEngine.Pressed> checkForClientInputs() throws IOException, ClassNotFoundException {
+    protected List<Pressed> checkForClientInputs() throws IOException, ClassNotFoundException {
         try {
-            return (ArrayList<GameEngine.Pressed>) ois.readObject();
+            return (ArrayList<Pressed>) ois.readObject();
         } catch(SocketTimeoutException ignore) {}
         catch(ClassNotFoundException ignore) {}
         catch(ClassCastException ignore) {}

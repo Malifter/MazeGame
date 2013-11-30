@@ -118,21 +118,26 @@ public class Sprite implements Serializable {
         // translate to the right location and prepare to draw
         glTranslatef(x, y, 0);
         
-        // PASS IN FACE DIRECTION AND FLIP IF NECESSARY
+        // TODO: PASS IN FACE DIRECTION AND FLIP IF NECESSARY
+        
         // draw a quad textured to match the sprite
+        // changing the drawing code so that we can pass in a center location
+        // rather than the min x and min y
+        float w = width/2.0f;
+        float h = height/2.0f;
         glBegin(GL_QUADS);
         {
             glTexCoord2f(0, 0);
-            glVertex2f(0, 0);
+            glVertex2f(-w, -h);
             
             glTexCoord2f(0, texture.getHeight());
-            glVertex2f(0, height);
+            glVertex2f(-w, h);
             
             glTexCoord2f(texture.getWidth(), texture.getHeight());
-            glVertex2f(width, height);
+            glVertex2f(w, h);
             
             glTexCoord2f(texture.getWidth(), 0);
-            glVertex2f(width, 0);
+            glVertex2f(w, -h);
         }
         glEnd();
         

@@ -105,5 +105,4 @@ public enum PhysicalInput {
 	MOUSE_LEFT,
 	MOUSE_RIGHT,
 	MOUSE_MIDDLE;
-	
 }

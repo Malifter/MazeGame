@@ -13,17 +13,17 @@ package engine.physics;
 /**
  * PenetrationData<k, x, y>
  */
-public class PenetrationData<K, X, Y> {
+public class PenetrationData<K> {
 
     private K info;
-    private X penx;
-    private Y peny;
+    private Float penx;
+    private Float peny;
 
-    public static <K, X, Y> PenetrationData<K, X, Y> createPair(K info, X penx, Y peny) {
-        return new PenetrationData<K, X, Y>(info, penx, peny);
+    public static <K, X, Y> PenetrationData<K> createPair(K info, float penx, float peny) {
+        return new PenetrationData<K>(info, penx, peny);
     }
 
-    public PenetrationData(K info, X penx, Y peny) {
+    public PenetrationData(K info, float penx, float peny) {
         this.info = info;
         this.penx = penx;
         this.peny = peny;
@@ -33,15 +33,15 @@ public class PenetrationData<K, X, Y> {
         return info;
     }
 
-    public X getPenX() {
+    public float getPenX() {
         return penx;
     }
     
-    public Y getPenY() {
+    public float getPenY() {
         return peny;
     }
     
-    public void put(K info, X penx, Y peny) {
+    public void put(K info, float penx, float peny) {
         this.info = info;
         this.penx = penx;
         this.peny = peny;
@@ -51,11 +51,11 @@ public class PenetrationData<K, X, Y> {
         this.info = info;
     }
     
-    public void setPenX(X penx) {
+    public void setPenX(float penx) {
         this.penx = penx;
     }
     
-    public void setPenY(Y peny) {
+    public void setPenY(float peny) {
         this.peny = peny;
     }
 }

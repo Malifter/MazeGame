@@ -10,9 +10,9 @@ package game.levelloader;
 * Copyright notice:     Copyright (c) 2013 Garrett Benoit
 */
 
-import game.Exterior;
-import game.Interior;
-import game.Room;
+import game.environment.Exterior;
+import game.environment.Interior;
+import game.environment.Room;
 
 import java.util.ArrayList;
 
