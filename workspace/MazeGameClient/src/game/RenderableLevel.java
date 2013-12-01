@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class RenderableLevel {
     private final static String GIF = ".gif";
     private final static String layoutPath = "assets/layouts/";
-    private final static String exteriorLayout = layoutPath+"exterior/OutsideLayout.oel";
+    private final static String exteriorLayout = layoutPath+"exterior/ExteriorLayout.oel";
     private final static String roomLayouts[] = {layoutPath+"rooms/RoomLayout0.oel",
         layoutPath+"rooms/RoomLayout1.oel",
         layoutPath+"rooms/RoomLayout2.oel",

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class LevelLoader {
     private final static String GIF = ".gif";
     private final static String layoutPath = "assets/layouts/";
-    private final static String exteriorLayout = layoutPath+"exterior/OutsideLayout.oel";
+    private final static String exteriorLayout = layoutPath+"exterior/ExteriorLayout.oel";
     private final static String roomLayouts[] = {layoutPath+"rooms/RoomLayout0.oel",
         layoutPath+"rooms/RoomLayout1.oel",
         layoutPath+"rooms/RoomLayout2.oel",
@@ -247,7 +247,7 @@ public class LevelLoader {
                 Door door = forceAddDoorToRoom(room, fgr.getRigidBody().getMin().x.intValue(), fgr.getRigidBody().getMin().y.intValue(), Side.TOP);
                 room.getForeground().remove(fgr);
                 for(Entity fgo: outer.getForeground()) {
-                    if(fgo.getRigidBody().getMin().y.intValue() == 112 && fgo.getRigidBody().getMin().x.intValue() == 352) {
+                    if(fgo.getRigidBody().getMin().y.intValue() == 240 && fgo.getRigidBody().getMin().x.intValue() == 640) {
                         forceAddDoorToOuter(outer, fgo.getRigidBody().getMin().x.intValue(), fgo.getRigidBody().getMin().y.intValue(), door, Side.BOTTOM);
                         outer.getForeground().remove(fgo);
                         break;
@@ -264,7 +264,7 @@ public class LevelLoader {
                 Door door = forceAddDoorToRoom(room, fgr.getRigidBody().getMin().x.intValue(), fgr.getRigidBody().getMin().y.intValue(), Side.BOTTOM);
                 room.getForeground().remove(fgr);
                 for(Entity fgo: outer.getForeground()) {
-                    if(fgo.getRigidBody().getMin().y.intValue() == 400 && fgo.getRigidBody().getMin().x.intValue() == 352) {
+                    if(fgo.getRigidBody().getMin().y.intValue() == 688 && fgo.getRigidBody().getMin().x.intValue() == 640) {
                         forceAddDoorToOuter(outer, fgo.getRigidBody().getMin().x.intValue(), fgo.getRigidBody().getMin().y.intValue(), door, Side.TOP);
                         outer.getForeground().remove(fgo);
                         break;
@@ -281,7 +281,7 @@ public class LevelLoader {
                 Door door = forceAddDoorToRoom(room, fgr.getRigidBody().getMin().x.intValue(), fgr.getRigidBody().getMin().y.intValue(), Side.LEFT);
                 room.getForeground().remove(fgr);
                 for(Entity fgo: outer.getForeground()) {
-                    if(fgo.getRigidBody().getMin().y.intValue() == 256 && fgo.getRigidBody().getMin().x.intValue() == 112) {
+                    if(fgo.getRigidBody().getMin().y.intValue() == 464 && fgo.getRigidBody().getMin().x.intValue() == 320) {
                         forceAddDoorToOuter(outer, fgo.getRigidBody().getMin().x.intValue(), fgo.getRigidBody().getMin().y.intValue(), door, Side.RIGHT);
                         outer.getForeground().remove(fgo);
                         break;
@@ -298,7 +298,7 @@ public class LevelLoader {
                 Door door = forceAddDoorToRoom(room, fgr.getRigidBody().getMin().x.intValue(), fgr.getRigidBody().getMin().y.intValue(), Side.RIGHT);
                 room.getForeground().remove(fgr);
                 for(Entity fgo: outer.getForeground()) {
-                    if(fgo.getRigidBody().getMin().y.intValue() == 256 && fgo.getRigidBody().getMin().x.intValue() == 592) {
+                    if(fgo.getRigidBody().getMin().y.intValue() == 464 && fgo.getRigidBody().getMin().x.intValue() == 960) {
                         forceAddDoorToOuter(outer, fgo.getRigidBody().getMin().x.intValue(), fgo.getRigidBody().getMin().y.intValue(), door, Side.LEFT);
                         outer.getForeground().remove(fgo);
                         break;
@@ -607,7 +607,6 @@ public class LevelLoader {
                         } else if(parts[1].contains("door")) {
                             Side side = Side.findByValue(parts[5].split("\"")[1]);
                             if(generateEntry[side.getIndex()].equals(EntryType.DOOR)) {
-                                
                                 if(door != null && door.getSide().opposite().equals(side)) {
                                     room.addEntry(EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, door));
                                 } else {

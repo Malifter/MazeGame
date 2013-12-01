@@ -17,8 +17,8 @@ import engine.serializable.SerializedPlayer;
  * Camera 
  */
 public class Camera {
-    private static final int screenHeight = 240;
-    private static final int levelWidth = 144;
+    private static final int Width = 240;
+    private static final int Height = 144;
     SerializedPlayer focus;
     float posX, posY;
     float upX, upY;
@@ -34,8 +34,8 @@ public class Camera {
      * @param y
      */
     public Camera() {
-        offsetX = (screenHeight/2)+34; //focus' half width - window half width
-        offsetY = -(levelWidth/2); //focus' half height - window half height
+        offsetX = -(Width/2); //focus' half width - window half width
+        offsetY = -(Height/2+36); //focus' half height - window half height
     }
     
     public void setFocusObject(SerializedPlayer sp) {
@@ -64,7 +64,7 @@ public class Camera {
         
         if(mode) {
             if(focus != null) {
-                posX = focus.getPosition().x-offsetX;
+                posX = focus.getPosition().x+offsetX;
                 /*if(posX <= 0) {
                     posX = 0;
                 } else if (posX >= levelWidth) {

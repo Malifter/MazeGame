@@ -201,7 +201,9 @@ public class Collisions {
     }
     
     private static void applySinglePenetrationCorrection(RigidBody rb, PenetrationData<Position> penetrationAdjust) {
-        rb.move(penetrationAdjust.getPenX(), penetrationAdjust.getPenY());
+        if(penetrationAdjust != null) {
+            rb.move(penetrationAdjust.getPenX(), penetrationAdjust.getPenY());
+        }
     }
     
     private static void applyMultiplePenetrationCorrections(RigidBody rb, ArrayList<PenetrationData<Position>> penetrationAdjust) {

@@ -171,33 +171,32 @@ public class EntityFactory {
     public static Entry createEntry(Vector2i location, Room room, Side side, EntryType type, Door linkedDoor) {
         Entry entry = null;
         RigidBody rb = null;
-        String entryPath = "tilesets/";
         // Have to shift the location from the top-left to center of door
         location.addEq(new Vector2i(TILESIZE/2, TILESIZE/2));
         switch(type) {
             case DOOR:
                 boolean locked = false;
                 Vector2i exit;
+                String entryPath = type.getPath();
                 if(side.equals(Side.TOP)) {
-                    entryPath += "tiles_mm1_elec/29.gif";
+                    entryPath += "unlocked/down/door.gif";
                     exit = new Vector2i(location.x.intValue(), TILESIZE + location.y.intValue());
                 } else if(side.equals(Side.LEFT)) {
-                    entryPath += "tiles_mm1_elec/38.gif";
+                    entryPath += "unlocked/right/door.gif";
                     exit = new Vector2i(TILESIZE + location.x.intValue(), location.y.intValue());
                 } else if(side.equals(Side.RIGHT)) {
-                    entryPath += "tiles_mm1_elec/38.gif";
+                    entryPath += "unlocked/left/door.gif";
                     exit = new Vector2i(location.x.intValue() - TILESIZE, location.y.intValue());
                 } else {
-                    entryPath += "tiles_mm1_elec/29.gif";
+                    entryPath += "unlocked/up/door.gif";
                     exit = new Vector2i(location.x.intValue(), location.y.intValue() - TILESIZE);
                 }
                 rb = new RigidBody(location, 24, 24);
                 entry = new Door(entryPath, rb, exit, room, linkedDoor, side, locked);
                 break;
             case PORTAL:
-                entryPath += "tiles_mm1_elec/6.gif";
                 rb = new RigidBody(location, 24, 24);
-                entry = new Portal(entryPath, rb, room, side);
+                entry = new Portal("tilesets/tiles_mm1_elec/6.gif", rb, room, side);
                 break;
         }
         return entry;
