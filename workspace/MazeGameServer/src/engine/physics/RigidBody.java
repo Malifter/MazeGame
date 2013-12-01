@@ -1,41 +1,37 @@
 package engine.physics;
 
-import engine.Vertex2;
-import engine.Vertex2f;
+import engine.Vector2i;
+import engine.Vector2f;
 
 public class RigidBody {
     private static final float MOVE_FACTOR = 10.0f;
-    private Vertex2f max = new Vertex2f();
-    private Vertex2f mid = new Vertex2f();
-    private Vertex2f min = new Vertex2f();
-    private Vertex2f location;
-    private Vertex2f delta = new Vertex2f();
-    private Vertex2f velocity = new Vertex2f();
-    private Vertex2f offset = new Vertex2f(); // Offset the bounding box from center
+    private Vector2f max = new Vector2f();
+    private Vector2f mid = new Vector2f();
+    private Vector2f min = new Vector2f();
+    private Vector2f location;
+    private Vector2f delta = new Vector2f();
+    private Vector2f velocity = new Vector2f();
+    private Vector2f offset = new Vector2f(); // Offset the bounding box from center
     private float radius = 0;
     private float width; // has nothing to do with image width
     private float height; // has nothing to do with image height
     private boolean enabled = false;
     
-    public RigidBody(Vertex2f location, float width, float height) {
+    public RigidBody(Vector2f location, float width, float height) {
         this.location = location;
         this.width = width;
         this.height = height;
         calculateBounds();
-        float xd = this.mid.x - max.x;
-        float yd = this.mid.y - max.y;
-        radius = (float) Math.sqrt(xd*xd + yd*yd);
+        radius = Collisions.findDistance(mid, max);
         enable();
     }
     
-    public RigidBody(Vertex2 location, float width, float height) {
-        this.location = new Vertex2f(location);
+    public RigidBody(Vector2i location, float width, float height) {
+        this.location = new Vector2f(location);
         this.width = width;
         this.height = height;
         calculateBounds();
-        float xd = this.mid.x - max.x;
-        float yd = this.mid.y - max.y;
-        radius = (float) Math.sqrt(xd*xd + yd*yd);
+        radius = Collisions.findDistance(mid, max);
         enable();
     }
     
@@ -48,13 +44,16 @@ public class RigidBody {
         max.y = min.y + height;
     }
     
-    public void move(float dx, float dy, long elapsedTime) {
-        float step = elapsedTime / MOVE_FACTOR;
-        delta.x = dx * step;
-        delta.y = dy * step;
-        location.x += delta.x;
-        location.y += delta.y;
-        calculateBounds();
+    /**
+     * move: Set's velocity, then moves based on velocity.
+     * @param velX
+     * @param velY
+     * @param elapsedTime
+     */
+    public void move(float velX, float velY, long elapsedTime) {
+        velocity.x = velX;
+        velocity.y = velY;
+        move(elapsedTime);
     }
     
     /**
@@ -75,19 +74,21 @@ public class RigidBody {
      * setLocation: <add description>
      * @param location
      */
-    public void move(float dx, float dy) {
-        location.x += dx;
-        location.y += dy;
+    public void move(float newX, float newY) {
+        location.x += newX;
+        location.y += newY;
         calculateBounds();
     }
     
-    public void setLocation(Vertex2f location) {
-        this.location.x = location.x;
-        this.location.y = location.y;
+    public void setLocation(Vector2f location) {
+        mid.x = location.x;
+        mid.y = location.y;
+        this.location.x = mid.x - offset.x;
+        this.location.y = mid.y - offset.y;
         calculateBounds();
     }
     
-    public void setLocation(Vertex2 location) {
+    public void setLocation(Vector2i location) {
         mid.x = (float) location.x;
         mid.y = (float) location.y;
         this.location.x = mid.x - offset.x;
@@ -102,27 +103,27 @@ public class RigidBody {
         calculateBounds();
     }
     
-    public Vertex2f getLocation() {
+    public Vector2f getLocation() {
         return location;
     }
     
-    public Vertex2f getMax() {
+    public Vector2f getMax() {
         return max;
     }
     
-    public Vertex2f getMid() {
+    public Vector2f getMid() {
         return mid;
     }
     
-    public Vertex2f getMin() {
+    public Vector2f getMin() {
         return min;
     }
     
-    public Vertex2f getDelta() {
+    public Vector2f getDelta() {
         return delta;
     }
     
-    public void setVelocity(Vertex2f velocity) {
+    public void setVelocity(Vector2f velocity) {
         this.velocity = velocity;
     }
     
@@ -130,11 +131,11 @@ public class RigidBody {
         velocity.put(x, y);
     }
     
-    public Vertex2f getVelocity() {
+    public Vector2f getVelocity() {
         return velocity;
     }
     
-    public void changeVelocity(Vertex2f dV) {
+    public void changeVelocity(Vector2f dV) {
         velocity.x += dV.x;
         velocity.y += dV.y;
     }
@@ -144,7 +145,7 @@ public class RigidBody {
         velocity.y += y;
     }
     
-    public void setOffset(Vertex2f offset) {
+    public void setOffset(Vector2f offset) {
         this.offset = offset;
         calculateBounds();
     }
@@ -154,7 +155,7 @@ public class RigidBody {
         calculateBounds();
     }
     
-    public Vertex2f getOffset() {
+    public Vector2f getOffset() {
         return offset;
     }
     
@@ -192,8 +193,6 @@ public class RigidBody {
         rb.height = rb.height * percent;
         rb.offset.y += (rb.max.y - (rb.height/2.0f)) - rb.mid.y;
         rb.calculateBounds();
-        float xd = rb.mid.x - rb.max.x;
-        float yd = rb.mid.y - rb.max.y;
-        rb.radius = (float) Math.sqrt(xd*xd + yd*yd);
+        rb.radius = Collisions.findDistance(rb.mid, rb.max);
     }
 }

@@ -1,6 +1,6 @@
 package game.entities.projectiles;
 
-import engine.Vertex2f;
+import engine.Vector2f;
 import engine.physics.Collisions;
 import engine.physics.RigidBody;
 import game.entities.Entity;
@@ -21,20 +21,21 @@ import game.enums.Face;
  * A projectile
  */
 public class Projectile extends Entity {
-    private static final long serialVersionUID = -8262594565133507674L;
-    private static final int MIN_RANGE = 168;
-    private final int MAX_RANGE;
-    private int damage;
+    protected static final long serialVersionUID = -8262594565133507674L;
+    protected static final int MIN_RANGE = 168;
+    protected final int MAX_RANGE;
+    protected int damage;
+    protected Hostile source;
 
     /** The vertical speed at which the players shot moves */
-    private float moveSpeedX = 2.0f;
+    protected float moveSpeedX = 2.0f;
     
     //hardcoded for cannon
-    private float moveSpeedY = 2.0f;
+    protected float moveSpeedY = 2.0f;
     
-    private final static String projectilePath = "animations/projectiles/";
+    protected final static String projectilePath = "animations/projectiles/";
     
-    Vertex2f origin;
+    Vector2f origin;
     
     /**
      * Create a new shot from the player
@@ -48,16 +49,13 @@ public class Projectile extends Entity {
      * @param y
      *            The initial y location of the shot
      */
-    public Projectile(String img, RigidBody rb, Face direction, int damage, int range) {
+    public Projectile(String img, RigidBody rb, Face direction, Hostile hostile) {
         super(projectilePath+img, rb);
-        origin = new Vertex2f(rBody.getLocation());
-        this.damage = damage;
-        if(range < MIN_RANGE) {
-            MAX_RANGE = MIN_RANGE*MIN_RANGE;
-        }
-        else {
-            MAX_RANGE = range*range;
-        }
+        source = hostile;
+        source.addProjectile();
+        origin = new Vector2f(source.getRigidBody().getLocation());
+        damage = source.getDamage();
+        MAX_RANGE = source.getRange() < MIN_RANGE ? MIN_RANGE : source.getRange();
         switch(direction) {
             case RIGHT:
                 rBody.setVelocity(moveSpeedX, 0);
@@ -85,6 +83,12 @@ public class Projectile extends Entity {
         }
     }
     
+    @Override
+    public void disable() {
+        super.disable();
+        source.removeProjectile();
+    }
+    
     /**
      * Notification that this shot has collided with another
      * entity
@@ -92,13 +96,17 @@ public class Projectile extends Entity {
      * @param other
      *            The other entity with which we've collided
      */
-    public void bulletHit(Hostile enemy) {
+    public void collide(Hostile enemy) {
         if (!isEnabled()) {
             return;
+        } else if(enemy == null) {
+            disable();
+          //GameEngine.playSound(game.sound_hit_environ);
+        } else {
+            disable();
+            enemy.takeDamage(damage);
+            //GameEngine.playSound(game.sound_hit_player);
         }
-        disable();
-        enemy.takeDamage(damage);
-        //GameEngine.playSound(game.sound_hit);
     }
     
     public void enableY() {
@@ -107,5 +115,10 @@ public class Projectile extends Entity {
     
     public void disableY() {
         rBody.setVelocity(rBody.getVelocity().x, 0);
+    }
+    
+    public boolean dangerousTo(Hostile hostile) {
+        if(source.equals(hostile)) return false;
+        else return true;
     }
 }

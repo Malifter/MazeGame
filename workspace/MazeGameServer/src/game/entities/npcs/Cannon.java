@@ -13,11 +13,10 @@ package game.entities.npcs;
 import engine.physics.Collisions;
 import engine.physics.RigidBody;
 import game.GameEngine;
-import game.MazeGameServer;
 import game.entities.EntityFactory;
+import game.entities.projectiles.Projectile;
 import game.enums.ProjectileType;
 import game.environment.Room;
-
 
 /**
  * ShieldGuyEntity: Shield Guy entity is used for Shield Guy game.
@@ -25,13 +24,11 @@ import game.environment.Room;
  * entity.
  */
 public class Cannon extends Hostile {
-    MazeGameServer game;
     private String imageArray[] = {"\\animations\\cannon\\cannon1floor.gif","\\animations\\cannon\\cannon3floor.gif"};
     private String imageArrayRight[] = {"\\animations\\cannon\\cannon1floorRight.gif","\\animations\\cannon\\cannon3floorRight.gif"};
     private String dieArray[] = {"\\animations\\cannon\\cannon1floorDie.gif","\\animations\\cannon\\cannon2floorDie.gif","\\animations\\cannon\\damage3.gif"};
     private String dieArrayRight[] = {"\\animations\\cannon\\cannon1floorRightDie.gif","\\animations\\cannon\\cannon2floorRightDie.gif","\\animations\\cannon\\damage3.gif"};
     private int imageIndex = 0;
-    private int numBullets;
     private boolean facingRight = true;
     private int shotTimer = 0;
     private float lastShotTime;
@@ -39,23 +36,20 @@ public class Cannon extends Hostile {
     //private static final int BLASTER_DAMAGE = 2;
     private static final int COLLISION_DAMAGE = 5;
     private static final int AGGRO_RANGE = 168;
-    private static final int AGGRO_RANGE_SQUARED = AGGRO_RANGE * AGGRO_RANGE;
-    private Room room;
+    private static final int MAX_PROJECTILES = 1;
     private int isDying = 0;
     private long currentTime = 0;
     private boolean angleShot = false;
     private Player target = null;
     
     public Cannon(String file, RigidBody rb, Room room) {
-        super(file, rb);
+        super(file, rb, room);
         imageIndex = imageIndex + 10; 
         image = imageArray[0];
         lastShotTime = 0;
         setHealthPoints(MAX_HEALTH);
         isDead = false;
         damage = COLLISION_DAMAGE;
-        this.room = room;
-        numBullets = 0;
         range = AGGRO_RANGE;
     }
     
@@ -64,16 +58,17 @@ public class Cannon extends Hostile {
      */
     public void fire(boolean isRight) {
         //GameEngine.playSound(game.sound_shot);
-        shots.add(EntityFactory.createProjectile(rBody.getLocation(), target.getRigidBody().getLocation(), this, ProjectileType.STRAIGHT));
+        Projectile projectile = EntityFactory.createProjectile(rBody.getLocation(), target.getRigidBody().getLocation(), this, ProjectileType.STRAIGHT);
         if(angleShot) {
             if (isRight) image = imageArrayRight[1]; 
             else image = imageArray[1];
-            shots.get(shots.size()-1).enableY();
+            projectile.enableY();
         } else {
             if (isRight) image = imageArrayRight[0]; 
             else image = imageArray[0];
-            shots.get(shots.size()-1).disableY();
+            projectile.disableY();
         }
+        room.addProjectile(projectile);
         angleShot = !angleShot;
         lastShotTime = GameEngine.getTime();
     }
@@ -92,18 +87,6 @@ public class Cannon extends Hostile {
     @Override
     public void update(long time) {
         movements(time);
-        
-        int i = 0;
-        while(i < shots.size()) {
-            if(shots.get(i).isEnabled()) {
-                shots.get(i).update(time);
-                i++;
-            }
-            else {
-                shots.remove(i);
-                numBullets--;
-            }
-        }
     }
     
     public void deathAnimate() {
@@ -123,16 +106,15 @@ public class Cannon extends Hostile {
                 }
             }
             if(target == null) return;
-            if(Collisions.findDistance(rBody, target.getRigidBody()) <= AGGRO_RANGE_SQUARED) {
+            if(Collisions.findDistance(rBody, target.getRigidBody()) <= AGGRO_RANGE) {
                 if(target.getRigidBody().getLocation().x - rBody.getLocation().x > 0) {
                     facingRight = true;
                 }
                 else {
                     facingRight = false;
                 }
-                if(numBullets <= 0 && GameEngine.getTime() - lastShotTime > 500){
+                if(numProjectiles < MAX_PROJECTILES && GameEngine.getTime() - lastShotTime > 500){
                     fire(facingRight);
-                    numBullets++;
                 }
             }
             shotTimer++;

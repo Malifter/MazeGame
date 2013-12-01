@@ -10,6 +10,7 @@ public class HealthBooster extends Consumable {
     }
 
     public void consumed(Player player) {
+        super.consumed(player);
         //player.addHealth();
     }
 }

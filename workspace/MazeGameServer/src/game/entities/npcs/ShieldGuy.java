@@ -4,7 +4,6 @@ import java.util.Random;
 import engine.physics.Collisions;
 import engine.physics.RigidBody;
 import game.GameEngine;
-import game.MazeGameServer;
 import game.entities.EntityFactory;
 import game.enums.ProjectileType;
 import game.environment.Room;
@@ -25,13 +24,10 @@ import game.environment.Room;
  * entity.
  */
 public class ShieldGuy extends Hostile {
-    private static final long serialVersionUID = -4659615994515609579L;
-    MazeGameServer game;
     private final static String animationPath = "animations/shieldguy/";
     private String dieArray[] = {"shieldguyDie1.gif","shieldguyDie2.gif","damage3.gif"};
     private String dieArrayRight[] = {"shieldguyDieRight1.gif","shieldguyDieRight2.gif","damage3.gif"};
     private int imageIndex = 0;
-    private int numBullets;
     private boolean facingRight = true;
     private boolean isFire = false;
     private int shotTimer = 0;
@@ -40,8 +36,7 @@ public class ShieldGuy extends Hostile {
     //private static final int BLASTER_DAMAGE = 3;
     private static final int COLLISION_DAMAGE = 5;
     private static final int AGGRO_RANGE = 128;
-    private static final int AGGRO_RANGE_SQUARED = AGGRO_RANGE * AGGRO_RANGE;
-    private Room room;
+    private static final int MAX_PROJECTILES = 2;
     private boolean isBlocking = false;
     private float blockTimer = 0;
     private int isDying = 0;
@@ -49,15 +44,13 @@ public class ShieldGuy extends Hostile {
     private Player target = null;
     
     public ShieldGuy(String file, RigidBody rb, Room room) {
-        super(file, rb);
+        super(file, rb, room);
         imageIndex = imageIndex + 10; 
         image = animationPath+"shieldguy1.gif";
         lastShotTime = 0;
         setHealthPoints(MAX_HEALTH);
         isDead = false;
         damage = COLLISION_DAMAGE;
-        this.room = room;
-        numBullets = 0;
         range = AGGRO_RANGE;
     }
     
@@ -66,7 +59,7 @@ public class ShieldGuy extends Hostile {
      */
     public void fire(boolean isRight) {
         //GameEngine.playSound(game.sound_shot);
-        shots.add(EntityFactory.createProjectile(rBody.getLocation(), target.getRigidBody().getLocation(), this, ProjectileType.STRAIGHT));
+        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), target.getRigidBody().getLocation(), this, ProjectileType.STRAIGHT));
         lastShotTime = GameEngine.getTime();
     }
     
@@ -90,18 +83,6 @@ public class ShieldGuy extends Hostile {
     @Override
     public void update(long time) {
         movements(time);
-        
-        int i = 0;
-        while(i < shots.size()) {
-            if(shots.get(i).isEnabled()) {
-                shots.get(i).update(time);
-                i++;
-            }
-            else {
-                shots.remove(i);
-                numBullets--;
-            }
-        }
     }
     
     public void deathAnimate() {
@@ -121,7 +102,7 @@ public class ShieldGuy extends Hostile {
                 }
             }
             if(target == null) return;
-            if(Collisions.findDistance(rBody, target.getRigidBody()) <= AGGRO_RANGE_SQUARED) {
+            if(Collisions.findDistance(rBody, target.getRigidBody()) <= AGGRO_RANGE) {
                 if(target.getRigidBody().getLocation().x - rBody.getLocation().x > 0) {
                     facingRight = true;
                 }
@@ -130,10 +111,9 @@ public class ShieldGuy extends Hostile {
                 }
                 Random generator = new Random( GameEngine.getTime() );
                 int rand = generator.nextInt() % 100;
-                if ((rand >= 80 && numBullets <= 1) || GameEngine.getTime() - lastShotTime > 2000) {
+                if ((rand >= 80 && numProjectiles < MAX_PROJECTILES) || GameEngine.getTime() - lastShotTime > 2000) {
                     if(GameEngine.getTime() - lastShotTime > 200){
                         fire(facingRight);
-                        numBullets++;
                         blockTimer = GameEngine.getTime();
                         isBlocking = false;
                     }

@@ -71,7 +71,7 @@ public class PlayerHandlerThread implements Runnable {
                     GameEngine.setInputs(inputs, playerID); // lock and apply inputs
                 }
                 
-                List<SerializedObject> updates = GameEngine.getUpdates(); // lock and get updates
+                List<SerializedObject> updates = GameEngine.getUpdates(playerID); // lock and get updates
                 if(updates.size() > 0) {
                     sendUpdatesToClient(updates);
                 }

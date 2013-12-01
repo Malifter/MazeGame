@@ -1,9 +1,7 @@
 package game.entities;
 
-import java.util.ArrayList;
 import java.util.UUID;
-
-import engine.Vertex2f;
+import engine.Vector2f;
 import engine.physics.RigidBody;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
@@ -34,6 +32,14 @@ public abstract class Entity {
         enable();
     }
     
+    public String getImage() {
+        return image;
+    }
+    
+    public String getUUID() {
+        return uuid;
+    }
+    
     public RigidBody getRigidBody() {
         return rBody;
     }
@@ -42,16 +48,12 @@ public abstract class Entity {
         rBody = rb;
     }
     
-    public void update(long time) {
-        
-    }
-    
-    public void update(ArrayList<Boolean> inputs, long time) {
+    public void update(long elapsedTime) {
         
     }
     
     public SerializedObject serialize() {
-        return new SerializedEntity(uuid, image, new Vertex2f(rBody.getLocation()), !isEnabled());
+        return new SerializedEntity(uuid, image, new Vector2f(rBody.getLocation()), !isEnabled());
     }
     
     public boolean isEnabled() {

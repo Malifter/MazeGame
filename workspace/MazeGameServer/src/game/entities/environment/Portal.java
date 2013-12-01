@@ -60,7 +60,6 @@ public class Portal extends Entry {
         if(isActivated() && contains(player)) {
             Interior destRoom = selectRandomRoom();
             player.getRigidBody().setLocation(destRoom.getPortalExit());
-            room.removePlayer(player); // This may cause problems.
             destRoom.addPlayer(player);
             deactivate();
             return true;

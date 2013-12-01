@@ -3,7 +3,7 @@ package game.entities.environment;
 import game.entities.npcs.Player;
 import game.enums.Side;
 import game.environment.Room;
-import engine.Vertex2;
+import engine.Vector2i;
 import engine.physics.RigidBody;
 
 /*
@@ -21,7 +21,7 @@ import engine.physics.RigidBody;
  */
 public class Door extends Entry {
     private Door linkedDoor;
-    private Vertex2 exitLocation;
+    private Vector2i exitLocation;
     private boolean locked = false; // Implement later
     
 
@@ -32,7 +32,7 @@ public class Door extends Entry {
      * @param x
      * @param y
      */
-    public Door(String img, RigidBody rb, Vertex2 exitLoc, Room room, Door linkedDoor, Side side, boolean locked) {
+    public Door(String img, RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side, boolean locked) {
         super(img, rb);
         this.room = room;
         this.linkedDoor = linkedDoor;
@@ -49,14 +49,13 @@ public class Door extends Entry {
     public boolean transport(Player player) {
         if(!isLocked() && contains(player)) {
             player.getRigidBody().setLocation(linkedDoor.getExit().x, linkedDoor.getExit().y);
-            room.removePlayer(player); // This may cause problems.
             linkedDoor.getRoom().addPlayer(player);
             return true;
         }
         else return false;
     }
     
-    public Vertex2 getExit() {
+    public Vector2i getExit() {
         return exitLocation;
     }
     

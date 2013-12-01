@@ -1,7 +1,7 @@
 package game.entities;
 
-import engine.Vertex2;
-import engine.Vertex2f;
+import engine.Vector2i;
+import engine.Vector2f;
 import engine.physics.RigidBody;
 import game.entities.environment.*;
 import game.entities.items.Bomb;
@@ -28,14 +28,14 @@ import game.levelloader.LevelLoader;
 public class EntityFactory {
     private static final int TILESIZE = LevelLoader.TILESIZE;
     
-    public static Player createPlayer(Face direction, Vertex2f location, int playerID) {
+    public static Player createPlayer(Face direction, Vector2f location, int playerID, Room room) {
         RigidBody rb = new RigidBody(location, 12, 30);
         RigidBody.useLowerBoundingBox(rb, 1.0f/3.0f);
-        Player player = new Player("spawn1.gif", rb, playerID);
+        Player player = new Player("spawn1.gif", rb, playerID, room);
         return player;
     }
     
-    public static Hostile createEnemy(Face direction, Vertex2f location, Room room, EnemyType type) {
+    public static Hostile createEnemy(Face direction, Vector2f location, Room room, EnemyType type) {
         Hostile enemy = null;
         RigidBody rb = null;
         switch(type) {
@@ -58,7 +58,7 @@ public class EntityFactory {
         return enemy;
     }
     
-    public static Neutral createNeutral(Face direction, Vertex2 location, NeutralType type, Portal portal) {
+    public static Neutral createNeutral(Face direction, Vector2i location, NeutralType type, Portal portal) {
         Neutral neutral = null;
         RigidBody rb = null;
         switch(type) {
@@ -72,7 +72,7 @@ public class EntityFactory {
         return neutral;
     }
     
-    public static Obstacle createObstacle(Vertex2f location, ObstacleType type) {
+    public static Obstacle createObstacle(Vector2f location, ObstacleType type) {
         Obstacle obstacle = null;
         RigidBody rb = null;
         switch(type) {
@@ -90,12 +90,12 @@ public class EntityFactory {
         return obstacle;
     }
     
-    public static Projectile createProjectile(Vertex2f location, Vertex2f target, Hostile enemy, ProjectileType type) {
+    public static Projectile createProjectile(Vector2f location, Vector2f target, Hostile hostile, ProjectileType type) {
         Projectile projectile = null;
         RigidBody rb = null;
         switch(type) {
             case STRAIGHT:
-                Vertex2f dir = target.sub(location);
+                Vector2f dir = target.sub(location);
                 Face direction;
                 if(Math.abs(dir.y) > Math.abs(dir.x)) {
                     // Up or Down
@@ -112,8 +112,8 @@ public class EntityFactory {
                         direction = Face.LEFT;
                     }
                 }
-                rb = new RigidBody(new Vertex2f(location), 6, 6);
-                projectile = new Projectile("shot.gif", rb, direction, enemy.getDamage(), enemy.getRange());
+                rb = new RigidBody(new Vector2f(location), 6, 6);
+                projectile = new Projectile("shot.gif", rb, direction, hostile);
                 break;
             case DIAGONAL:
                 break;
@@ -125,7 +125,7 @@ public class EntityFactory {
         return projectile;
     }
     
-    public static Item createItem(Vertex2f location, ItemType type) {
+    public static Item createItem(Vector2f location, ItemType type) {
         Item item = null;
         RigidBody rb = new RigidBody(location, TILESIZE, TILESIZE);
         switch(type) {
@@ -157,28 +157,28 @@ public class EntityFactory {
         return item;
     }
     
-    public static Entry createEntry(Vertex2 location, Room room, Side side, EntryType type, Door linkedDoor) {
+    public static Entry createEntry(Vector2i location, Room room, Side side, EntryType type, Door linkedDoor) {
         Entry entry = null;
         RigidBody rb = null;
         String entryPath = "tilesets/";
         // Have to shift the location from the top-left to center of door
-        location.addEq(new Vertex2(TILESIZE/2, TILESIZE/2));
+        location.addEq(new Vector2i(TILESIZE/2, TILESIZE/2));
         switch(type) {
             case DOOR:
                 boolean locked = false;
-                Vertex2 exit;
+                Vector2i exit;
                 if(side.equals(Side.TOP)) {
                     entryPath += "tiles_mm1_elec/29.gif";
-                    exit = new Vertex2(location.x.intValue(), TILESIZE + location.y.intValue());
+                    exit = new Vector2i(location.x.intValue(), TILESIZE + location.y.intValue());
                 } else if(side.equals(Side.LEFT)) {
                     entryPath += "tiles_mm1_elec/38.gif";
-                    exit = new Vertex2(TILESIZE + location.x.intValue(), location.y.intValue());
+                    exit = new Vector2i(TILESIZE + location.x.intValue(), location.y.intValue());
                 } else if(side.equals(Side.RIGHT)) {
                     entryPath += "tiles_mm1_elec/38.gif";
-                    exit = new Vertex2(location.x.intValue() - TILESIZE, location.y.intValue());
+                    exit = new Vector2i(location.x.intValue() - TILESIZE, location.y.intValue());
                 } else {
                     entryPath += "tiles_mm1_elec/29.gif";
-                    exit = new Vertex2(location.x.intValue(), location.y.intValue() - TILESIZE);
+                    exit = new Vector2i(location.x.intValue(), location.y.intValue() - TILESIZE);
                 }
                 rb = new RigidBody(location, 24, 24);
                 entry = new Door(entryPath, rb, exit, room, linkedDoor, side, locked);
@@ -194,8 +194,8 @@ public class EntityFactory {
         return entry;
     }
     
-    public static Tile createTile(Vertex2 location, String tileset) {
-        location.addEq(new Vertex2(TILESIZE/2, TILESIZE/2));
+    public static Tile createTile(Vector2i location, String tileset) {
+        location.addEq(new Vector2i(TILESIZE/2, TILESIZE/2));
         RigidBody rb = new RigidBody(location, TILESIZE, TILESIZE);
         return new Tile(tileset, rb);
     }

@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
-import engine.Vertex2;
+import engine.Vector2i;
 import game.entities.Entity;
 import game.entities.environment.Door;
 import game.entities.environment.Tile;
@@ -55,15 +55,15 @@ public class InteriorTest {
     public void testInteriorConstructor() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         assertNotNull(this.Interior);
     }
     
     @Test
     public void testInteriorLocationAndCenter() {
         Interior = null;
-        Vertex2 location = new Vertex2(xPos, yPos);
-        Vertex2 center = new Vertex2(xPos + (Interior.WIDTH/2), yPos + (Interior.HEIGHT/2));
+        Vector2i location = new Vector2i(xPos, yPos);
+        Vector2i center = new Vector2i(xPos + (Interior.WIDTH/2), yPos + (Interior.HEIGHT/2));
         Interior = new Interior(location, xPos);
         assertEquals(Interior.getLocation(), location);
         assertEquals(Interior.getCenter(), center);
@@ -73,7 +73,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetForeground() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(int i = 0; i < foreground.size(); i++) {
             Interior.addToForeground(foreground.get(i));
         }
@@ -84,7 +84,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetTraps() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(int i = 0; i < traps.size(); i++) {
             Interior.addTrap(traps.get(i));
         }
@@ -95,7 +95,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetEnemies() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(int i = 0; i < enemies.size(); i++) {
             Interior.addEnemy(enemies.get(i));
         }
@@ -106,7 +106,7 @@ public class InteriorTest {
     public void testInteriorRemoveEnemy() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(Entity e: enemies) {
             Interior.addEnemy(e);
         }
@@ -121,7 +121,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetPlayers() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(int i = 0; i < players.size(); i++) {
             Interior.addPlayer(players.get(i));
         }
@@ -132,7 +132,7 @@ public class InteriorTest {
     public void testInteriorGetNumberOfPlayers() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(int i = 0; i < players.size(); i++) {
             Interior.addPlayer(players.get(i));
         }
@@ -143,7 +143,7 @@ public class InteriorTest {
     public void testInteriorRemovePlayer() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(Entity p: players) {
             Interior.addPlayer(p);
         }
@@ -158,7 +158,7 @@ public class InteriorTest {
     public void testInteriorAddAndGetDoors() {
         initiateTestVariables();
         Interior = null;
-        Interior = new Interior(new Vertex2(xPos, yPos), xPos);
+        Interior = new Interior(new Vector2i(xPos, yPos), xPos);
         for(int i = 0; i < doors.size(); i++) {
             Interior.addDoor(doors.get(i));
         }
@@ -170,10 +170,10 @@ public class InteriorTest {
             game = new MazeGameServer(new GameEngine());
             xPos = 240;
             yPos = 144;
-            doors.add(new Door(game, "door1", xPos + 120, yPos + 8, new Vertex2(xPos + 120, yPos + 8 + Door.TILESIZE), null, null, Side.TOP));
-            doors.add(new Door(game, "door2", xPos + 120, yPos + 136, new Vertex2(xPos + 120, yPos + 136 - Door.TILESIZE), null, null, Side.BOTTOM));
-            doors.add(new Door(game, "door3", xPos + 232, yPos + 72, new Vertex2(xPos + 232 - Door.TILESIZE, yPos + 72), null, null, Side.RIGHT));
-            doors.add(new Door(game, "door4", xPos + 8, yPos + 72, new Vertex2(xPos + 8 + Door.TILESIZE, yPos + 72), null, null, Side.LEFT));
+            doors.add(new Door(game, "door1", xPos + 120, yPos + 8, new Vector2i(xPos + 120, yPos + 8 + Door.TILESIZE), null, null, Side.TOP));
+            doors.add(new Door(game, "door2", xPos + 120, yPos + 136, new Vector2i(xPos + 120, yPos + 136 - Door.TILESIZE), null, null, Side.BOTTOM));
+            doors.add(new Door(game, "door3", xPos + 232, yPos + 72, new Vector2i(xPos + 232 - Door.TILESIZE, yPos + 72), null, null, Side.RIGHT));
+            doors.add(new Door(game, "door4", xPos + 8, yPos + 72, new Vector2i(xPos + 8 + Door.TILESIZE, yPos + 72), null, null, Side.LEFT));
             for(int i = 0; i < 4; i++) {
                 background.add(new Tile(game, "bg"+i, xPos + (i*Tile.TILESIZE), yPos));
                 foreground.add(new Tile(game, "fg"+i, xPos, yPos + (i*Tile.TILESIZE)));

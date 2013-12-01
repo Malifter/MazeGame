@@ -1,7 +1,7 @@
 package game;
 
 import java.util.ArrayList;
-import engine.Vertex2;
+import engine.Vector2i;
 
 /*
 * Classname:            Room.java

@@ -10,7 +10,7 @@ package game;
 * Copyright notice:     Copyright (c) 2013 Garrett Benoit
 */
 
-import engine.Vertex2;
+import engine.Vector2i;
 import game.RenderableRoom;
 
 import java.io.BufferedReader;
@@ -57,7 +57,7 @@ public class RenderableLevel {
      * 
      * @param filename
      */
-    public static RenderableRoom createRoom(int layout, Vertex2 position) {
+    public static RenderableRoom createRoom(int layout, Vector2i position) {
         try {
             RenderableRoom renderableRoom = new RenderableRoom();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(roomLayouts[layout])));
@@ -73,7 +73,7 @@ public class RenderableLevel {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToForeground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
+                                renderableRoom.addToForeground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vector2i(x+8, y+8)));
                             }
                             x += RenderableEntity.TILESIZE;
                         }
@@ -89,7 +89,7 @@ public class RenderableLevel {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToBackground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
+                                renderableRoom.addToBackground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vector2i(x+8, y+8)));
                             }
                             x += RenderableEntity.TILESIZE;
                         }
@@ -138,7 +138,7 @@ public class RenderableLevel {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToForeground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
+                                renderableRoom.addToForeground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vector2i(x+8, y+8)));
                             }
                             x += RenderableEntity.TILESIZE;
                         }
@@ -154,7 +154,7 @@ public class RenderableLevel {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                renderableRoom.addToBackground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x+8, y+8)));
+                                renderableRoom.addToBackground(new RenderableEntity(tilesetPath+tileset+"/"+parts[p]+GIF, new Vector2i(x+8, y+8)));
                             }
                             x += RenderableEntity.TILESIZE;
                         }

@@ -20,6 +20,7 @@ public class Obstacle extends Entity {
     public static final int COLLISION_DAMAGE = 10;
     protected boolean destructable = false;
     protected boolean dangerous = false;
+    protected boolean blocking = false;
     
     public Obstacle(String img, RigidBody rb) {
         super(img, rb);
@@ -31,5 +32,9 @@ public class Obstacle extends Entity {
     
     public boolean isDangerous() {
         return dangerous;
+    }
+    
+    public boolean isBlocking() {
+        return blocking;
     }
 }

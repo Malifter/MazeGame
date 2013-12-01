@@ -23,6 +23,7 @@ import engine.render.IDisplay;
 import engine.render.Sprite;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
+import engine.serializable.SerializedPlayer;
 import engine.serializable.SerializedRoom;
 import engine.soundmanager.SoundManager;
 import game.enums.Pressed;
@@ -293,9 +294,12 @@ public class GameEngine {
                 for(SerializedObject so: updatedObjects) {
                     if(so instanceof SerializedEntity) {
                         SerializedEntity se = (SerializedEntity)so;
-                        //System.out.println(so.getID() + "\t" + so.getImage() + "\t" + so.getPosition() + "\t" + so.needsDelete());
                         Sprite sprite = Game.getDisplay().getSprite(se.getImage());
                         sprite.draw(se.getPosition().x.intValue(), se.getPosition().y.intValue());
+                    } else if(so instanceof SerializedPlayer) {
+                        SerializedPlayer sp = (SerializedPlayer)so;
+                        Sprite sprite = Game.getDisplay().getSprite(sp.getImage());
+                        sprite.draw(sp.getPosition().x.intValue(), sp.getPosition().y.intValue());
                     }
                 }
             }

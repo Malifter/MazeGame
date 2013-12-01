@@ -12,69 +12,75 @@ package engine;
 
 import java.io.Serializable;
 
-public class Vertex2f implements Serializable {
+public class Vector2f implements Serializable {
 	private static final long serialVersionUID = 4768609106467658952L;
 	public Float x;
 	public Float y;
 
-	public Vertex2f() {
+	public Vector2f() {
 	    super();
 	    this.x = 0.0f;
 	    this.y = 0.0f;
 	}
 	
-    public Vertex2f(float x, float y) {
+    public Vector2f(float x, float y) {
     	super();
     	this.x = x;
     	this.y = y;
     }
     
-    public Vertex2f(Vertex2f point) {
+    public Vector2f(Vector2f point) {
         super();
         this.x = point.x;
         this.y = point.y;
     }
     
-    public Vertex2f(Vertex2 point) {
+    public Vector2f(Vector2i point) {
         super();
         this.x = point.x.floatValue();
         this.y = point.y.floatValue();
     }
     
-    public Vertex2f add(Vertex2f op) {
-        return new Vertex2f(x + op.x, y + op.y);
+    public Vector2f add(Vector2f op) {
+        return new Vector2f(x + op.x, y + op.y);
     }
     
-    public void addEq(Vertex2f op) {
+    public void addEq(Vector2f op) {
         x += op.x;
         y += op.y;
     }
     
-    public Vertex2f sub(Vertex2f op) {
-        return new Vertex2f(x - op.x, y - op.y);
+    public Vector2f sub(Vector2f op) {
+        return new Vector2f(x - op.x, y - op.y);
     }
     
-    public void subEq(Vertex2f op) {
+    public void subEq(Vector2f op) {
         x -= op.x;
         y -= op.y;
     }
     
-    public Vertex2f mult(Vertex2f op) {
-        return new Vertex2f(x * op.x, y * op.y);
+    public Vector2f mult(float op) {
+        return new Vector2f(x *= op, y *= op);
     }
     
-    public void multEq(Vertex2f op) {
-        x *= op.x;
-        y *= op.y;
+    public void multEq(float op) {
+        x *= op;
+        y *= op;
     }
     
-    public Vertex2f div(Vertex2f op) {
-        return new Vertex2f(x / op.x, y / op.y);
+    public Vector2f div(float op) {
+        return new Vector2f(x /= op, y /= op);
     }
     
-    public void divEq(Vertex2f op) {
-        x /= op.x;
-        y /= op.y;
+    public void divEq(float op) {
+        x /= op;
+        y /= op;
+    }
+    
+    public float dot(Vector2f op) {
+        Vector2f U = this.norm();
+        Vector2f V = op.norm();
+        return U.x*V.x + U.y*V.y;
     }
 
     public int hashCode() {
@@ -85,8 +91,8 @@ public class Vertex2f implements Serializable {
     }
 
     public boolean equals(Object other) {
-    	if (other instanceof Vertex2f) {
-    		Vertex2f otherPosition = (Vertex2f) other;
+    	if (other instanceof Vector2f) {
+    		Vector2f otherPosition = (Vector2f) other;
     		return 
     		((  this.x == otherPosition.x ||
     			( this.x != null && otherPosition.x != null &&
@@ -107,5 +113,18 @@ public class Vertex2f implements Serializable {
     public void put(float x, float y) {
     	this.x = x;
     	this.y = y;
+    }
+    
+    public Vector2f reverse() {
+        return new Vector2f(-x, -y);
+    }
+    
+    public Vector2f norm() {
+        float length = length();
+        return new Vector2f(x/length, y/length);
+    }
+    
+    public float length() {
+        return (float) Math.sqrt((x*x) + (y*y));
     }
 }

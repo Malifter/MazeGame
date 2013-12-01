@@ -8,6 +8,9 @@ import game.entities.npcs.Player;
 public class Inventory {
     private ArrayList<NotConsumable> itemList = new ArrayList<NotConsumable>();
     private Player player;
+    private int goldAmount = 0;
+    private int numKeys = 0;
+    
     public Inventory(Player p){
         this.player = p;
     }

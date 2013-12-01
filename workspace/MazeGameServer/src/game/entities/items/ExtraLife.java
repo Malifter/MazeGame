@@ -8,8 +8,8 @@ public class ExtraLife extends Consumable {
         super("items/elife/elife.gif/", rb);
     }
 
-    @Override
     public void consumed(Player player) {
-
+        super.consumed(player);
+        player.addLife();
     }
 }

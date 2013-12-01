@@ -2,24 +2,12 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
-import engine.Vertex2f;
-import engine.physics.*;
+import engine.Vector2f;
 import engine.serializable.SerializedObject;
-import engine.serializable.SerializedRoom;
 import game.entities.Entity;
 import game.entities.EntityFactory;
-import game.entities.environment.Entry;
-import game.entities.environment.Obstacle;
-import game.entities.npcs.GateKeeper;
-import game.entities.npcs.Hostile;
-import game.entities.npcs.Player;
-import game.entities.projectiles.Projectile;
 import game.enums.Face;
-import game.enums.ItemType;
 import game.enums.Pressed;
-import game.environment.Exterior;
-import game.environment.Interior;
-import game.environment.Room;
 import game.levelloader.Level;
 import game.levelloader.LevelLoader;
 
@@ -41,6 +29,7 @@ public class MazeGameServer {
     public static final int NUM_PLAYERS = 4;
     public static int numPlayers = 0;
     public static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
+    public static ArrayList<List<SerializedObject>> updates = new ArrayList<List<SerializedObject>>();
     public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.SMALL);
     
     /**
@@ -72,187 +61,16 @@ public class MazeGameServer {
      * (non-Javadoc)
      * @see IGame#update(long)
      */
-    public static List<SerializedObject> update(long time) {
-        List<SerializedObject> generatedUpdates = new ArrayList<SerializedObject>();
-        spawnPlayer(time);
+    public static void update(long elapsedTime) {
+        clearUpdates();
+        // Update and serialize the world
+        level.update(elapsedTime);
+        level.applyCollisions();
+        level.serialize();
         
         /*if((GameEngine.getTime()-timeBGM) > 38000) {
             timeBGM = GameEngine.getTime();
         }*/
-        
-        Exterior ext = level.getExterior();
-        if(ext.numPlayers() > 0) {
-            for(Player p: ext.getPlayers()) {
-                if(!p.isEnabled()) {
-                    if(p.getLives() > 0) {
-                        p.reset();
-                        p.removeLife();
-                    }
-                    else {
-                        // LOSE
-                    }
-                }
-                p.update(inputs.get(p.getPlayerID()), time);
-                generatedUpdates.add(p.serialize());
-                for(Entity shot: p.getShots()) {
-                    generatedUpdates.add(shot.serialize());
-                }
-            }
-            
-            for(Entry e: ext.getEntries()) {
-                int i = 0;
-                while(i < ext.getPlayers().size()) {
-                    if(e.transport(ext.getPlayers().get(i))) {
-                        //ext.removePlayer(ext.getPlayers().get(i));
-                    } else i++;
-                }
-                generatedUpdates.add(e.serialize());
-            }
-            generatedUpdates.add(new SerializedRoom(null, 0));
-            checkTileCollision(ext);
-        }
-        
-        for(int room = 0; room < level.getRooms().size(); room++) {
-            Interior r = level.getRooms().get(room);
-            if(r.numPlayers() > 0) {
-                generatedUpdates.add(new SerializedRoom(r.getLocation(), room+1));
-                for(Player p: r.getPlayers()) {
-                    if(!p.isEnabled()) {
-                        if(p.getLives() > 0) {
-                            p.reset();
-                            p.removeLife();
-                        }
-                        else {
-                            // LOSE
-                        }
-                    }
-                    p.update(inputs.get(p.getPlayerID()), time);
-                    generatedUpdates.add(p.serialize());
-                    for(Entity shot: p.getShots()) {
-                        generatedUpdates.add(shot.serialize());
-                    }
-                }
-                
-                for(Entry e: r.getEntries()) {
-                    int i = 0;
-                    while(i < r.getPlayers().size()) {
-                        if(e.transport(r.getPlayers().get(i))) {
-                            //r.removePlayer(r.getPlayers().get(i));
-                        } else i++;
-                    }
-                    generatedUpdates.add(e.serialize());
-                }
-                
-                int i = 0;
-                while(i < r.getEnemies().size()) {
-                    if(r.getEnemies().get(i).isEnabled()) {
-                        r.getEnemies().get(i).update(time);
-                        generatedUpdates.add(r.getEnemies().get(i).serialize());
-                        for(Entity shot: r.getEnemies().get(i).getShots()) {
-                            generatedUpdates.add(shot.serialize());
-                        }
-                        i++;
-                    } else {
-                        r.addItem(EntityFactory.createItem(new Vertex2f(r.getEnemies().get(i).getRigidBody().getLocation()), ItemType.randomItem()));
-                        r.getEnemies().remove(i);
-					}
-				}
-
-                int j = 0;
-                while(j < r.getItems().size()) {
-                    if(r.getItems().get(j).isEnabled()) {
-                        //System.out.print("item:"+r.getEnemies().size());
-                        r.getItems().get(j).update(time);
-                        generatedUpdates.add(r.getItems().get(j).serialize());
-                        j++;
-                    } else {
-                        r.getItems().remove(j);
-                    }
-                }
-        
-                checkCollisions(generatedUpdates, r);
-                checkTileCollision(r);
-            }
-        }
-        return generatedUpdates;
-    }
-
-    // THIS FUNCTION WILL BE DELETED, SHOULDNT EXIST
-    private static void spawnPlayer(long time) {
-        Room r = level.getExterior();
-        //for(Interior r: level.getRooms()) {
-            if(r.numPlayers() > 0) {
-                for(Entity p: r.getPlayers()) {
-                    ((Player) p).nextAnimation("spawnArray",6);
-                }
-            }
-        //}
-    }
-  
-
-    private static void checkCollisions(List<SerializedObject> generatedUpdates, Interior room) {
-        for (Player player: room.getPlayers()) {
-            for(Hostile enemy: room.getEnemies()) {
-                if(Collisions.detectCollision(enemy, player)) {
-                    player.takeDamage(enemy.getDamage());
-                }
-                for(Entity shot: player.getShots()) {
-                    if(Collisions.detectCollision(enemy, shot)) {
-                        ((Projectile) shot).bulletHit(enemy);
-                    }
-                }
-                for(Entity shot: enemy.getShots()) {
-                    if(Collisions.detectCollision(shot, player)) {
-                        ((Projectile) shot).bulletHit(player);
-                    }
-                }
-            }
-            for(GateKeeper gateKeeper: room.getGateKeepers()){
-                if(Collisions.detectCollision(player, gateKeeper)){
-                    gateKeeper.negotiate(player);
-                    Collisions.applySingleCorrection(player, gateKeeper);
-                }
-                generatedUpdates.add(gateKeeper.serialize());
-            }
-            for(Entry entry: room.getEntries()){
-                if(entry.getRigidBody().isEnabled()){
-                    Collisions.detectAndApplySingleCorrection(player, entry);
-                }
-            }
-            
-            int i = 0;
-            while(i < room.getItems().size()) {
-                if(Collisions.detectCollision(player, room.getItems().get(i))){
-                    Player p = (Player) player;
-                    p.pickItem(room.getItems().get(i));
-                    room.removeItem(room.getItems().get(i));
-                } else i++;
-            }
-        }
-        
-        for(Obstacle trap: room.getTraps()) {
-            for(Player player: room.getPlayers()) {
-                if(trap.isDangerous()) {
-                    if(Collisions.detectCollision(trap, player)) {
-                        player.takeDamage(Obstacle.COLLISION_DAMAGE);
-                    }
-                }
-            }
-        }
-    }
-
-    // checks gravity and collision of all entities vs the world environment
-    private static void checkTileCollision(Room room) {
-        for(Entity player: room.getPlayers()) {
-            Collisions.applyEnvironmentCorrections(player, (ArrayList<Entity>)(ArrayList<?>)room.getForeground());
-        }
-        
-        if(room instanceof Interior) {
-            for(Entity enemy: ((Interior) room).getEnemies()) {
-                Collisions.applyEnvironmentCorrections(enemy, (ArrayList<Entity>)(ArrayList<?>)room.getForeground());
-            }
-            
-        }
     }
     
     /**
@@ -272,16 +90,28 @@ public class MazeGameServer {
         isDone = true;
     }
     
+    public static void clearUpdates() {
+        updates.clear();
+        for(int playerID = 0; playerID < numPlayers; playerID++) {
+            updates.add(new ArrayList<SerializedObject>());
+        }
+    }
+    
     public static void joinNewPlayer(int playerID) {
-        Vertex2f spawnLocation = new Vertex2f(level.getExterior().getPlayerSpawns().get(playerID));
+        Vector2f spawnLocation = new Vector2f(level.getExterior().getPlayerSpawns().get(playerID));
         if(numPlayers < NUM_PLAYERS) {
-            level.getExterior().addPlayer(EntityFactory.createPlayer(Face.DOWN, spawnLocation, playerID));
+            level.getExterior().addPlayer(EntityFactory.createPlayer(Face.DOWN, spawnLocation, playerID, level.getExterior()));
             initNewInputs();
+            initNewUpdates();
             numPlayers++;
         }
     }
     
-    public static void initNewInputs() {
+    private static void initNewUpdates() {
+        updates.add(new ArrayList<SerializedObject>());
+    }
+    
+    private static void initNewInputs() {
         ArrayList<Boolean> newInputs = new ArrayList<Boolean>();
         for(int j = 0; j < Pressed.SIZE; j++) {
             newInputs.add(false);

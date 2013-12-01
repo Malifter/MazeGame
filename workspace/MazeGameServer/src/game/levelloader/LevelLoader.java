@@ -1,7 +1,7 @@
 package game.levelloader;
 
-import engine.Vertex2;
-import engine.Vertex2f;
+import engine.Vector2i;
+import engine.Vector2f;
 import engine.serializable.SerializedRoom;
 import game.entities.Entity;
 import game.entities.EntityFactory;
@@ -57,13 +57,13 @@ public class LevelLoader {
             rooms.add(null);
         }
         EntryType[] generateEntry = new EntryType[Interior.MAX_ENTRIES];
-        Vertex2 position = null;
+        Vector2i position = null;
         
         // Create initial room at center of maze with 4 doors
         for(int i = 0; i < generateEntry.length; i++) {
             generateEntry[i] = EntryType.DOOR;
         }
-        position = new Vertex2((size/2)*Interior.WIDTH, (size/2)*Interior.HEIGHT);
+        position = new Vector2i((size/2)*Interior.WIDTH, (size/2)*Interior.HEIGHT);
         rooms.set((size/2)+((size/2)*size), createRoom(0, position, null, generateEntry)); // for now center will be Hostage room
         // Generate Rooms branching outwards from center (only add a room if have a door with no link)
         boolean newLinks = true;
@@ -80,7 +80,7 @@ public class LevelLoader {
                             boolean test = false;
                             int newRoom = -1;
                             if(door.getSide().equals(Side.TOP) && (newRoom = room-size) >= 0 && rooms.get(newRoom) == null) {
-                                position = new Vertex2((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
+                                position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
                                 randomEntry(generateEntry, newRoom, size, rooms);
                                 generateEntry[door.getSide().opposite().getIndex()] = EntryType.DOOR;
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
@@ -88,7 +88,7 @@ public class LevelLoader {
                                 newLinks = true;
                                 test = true;
                             } else if(door.getSide().equals(Side.BOTTOM) && (newRoom = room+size) < size*size && rooms.get(newRoom) == null) {
-                                position = new Vertex2((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
+                                position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
                                 randomEntry(generateEntry, newRoom, size, rooms);
                                 generateEntry[door.getSide().opposite().getIndex()] = EntryType.DOOR;
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
@@ -96,7 +96,7 @@ public class LevelLoader {
                                 newLinks = true;
                                 test = true;
                             } else if(door.getSide().equals(Side.LEFT) && (newRoom = room-1) >= 0 && rooms.get(newRoom) == null) {
-                                position = new Vertex2((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
+                                position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
                                 randomEntry(generateEntry, newRoom, size, rooms);
                                 generateEntry[door.getSide().opposite().getIndex()] = EntryType.DOOR;
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
@@ -104,7 +104,7 @@ public class LevelLoader {
                                 newLinks = true;
                                 test = true;
                             } else if(door.getSide().equals(Side.RIGHT) && (newRoom = room+1) < size*size && rooms.get(newRoom) == null) {
-                                position = new Vertex2((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
+                                position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
                                 randomEntry(generateEntry, newRoom, size, rooms);
                                 generateEntry[door.getSide().opposite().getIndex()] = EntryType.DOOR;
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
@@ -191,7 +191,7 @@ public class LevelLoader {
         
         // Add attributes to level
         level.setExterior(outer);
-        levelLayout.add(new SerializedRoom(null, 0));
+        levelLayout.add(new SerializedRoom(null, level.getExterior().layout));
         for(int i = 0; i < rooms.size(); i++) {
             if(rooms.get(i) != null) {
                 levelLayout.add(new SerializedRoom(rooms.get(i).getLocation(), rooms.get(i).layout));
@@ -296,11 +296,11 @@ public class LevelLoader {
     }
     
     private static void forceAddDoorToOuter(Exterior outer, int x, int y, Door linkedDoor, Side side) {
-        outer.addEntry(EntityFactory.createEntry(new Vertex2(x, y), outer, side, EntryType.DOOR, linkedDoor));
+        outer.addEntry(EntityFactory.createEntry(new Vector2i(x, y), outer, side, EntryType.DOOR, linkedDoor));
     }
     
     private static Door forceAddDoorToRoom(Interior room, int x, int y, Side side) {
-        Door door = (Door) EntityFactory.createEntry(new Vertex2(x, y), room, side, EntryType.DOOR, null);
+        Door door = (Door) EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, null);
         room.addEntry(door);
         return door;
     }
@@ -328,9 +328,9 @@ public class LevelLoader {
                             }
                         }
                         if(!doorLinked) {
-                            Vertex2 position = new Vertex2((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
+                            Vector2i position = new Vector2i((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
                             // ADJUST TO BOTTOM DOOR
-                            position.addEq(new Vertex2((Interior.WIDTH/2) - (TILESIZE/2), Interior.HEIGHT - TILESIZE));
+                            position.addEq(new Vector2i((Interior.WIDTH/2) - (TILESIZE/2), Interior.HEIGHT - TILESIZE));
                             Door adjDoor = forceAddDoorToRoom(rooms.get(adjRoom), position.x, position.y, door.getSide().opposite());
                             door.setLink(adjDoor);
                             doorLinked = true;
@@ -357,9 +357,9 @@ public class LevelLoader {
                             }
                         }
                         if(!doorLinked) {
-                            Vertex2 position = new Vertex2((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
+                            Vector2i position = new Vector2i((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
                             // ADJUST TO TOP DOOR
-                            position.addEq(new Vertex2((Interior.WIDTH/2) - (TILESIZE/2), 0));
+                            position.addEq(new Vector2i((Interior.WIDTH/2) - (TILESIZE/2), 0));
                             Door adjDoor = forceAddDoorToRoom(rooms.get(adjRoom), position.x, position.y, door.getSide().opposite());
                             door.setLink(adjDoor);
                             doorLinked = true;
@@ -386,9 +386,9 @@ public class LevelLoader {
                             }
                         }
                         if(!doorLinked) {
-                            Vertex2 position = new Vertex2((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
+                            Vector2i position = new Vector2i((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
                             // ADJUST TO RIGHT DOOR
-                            position.addEq(new Vertex2(Interior.WIDTH - TILESIZE, (Interior.HEIGHT/2) - (TILESIZE/2)));
+                            position.addEq(new Vector2i(Interior.WIDTH - TILESIZE, (Interior.HEIGHT/2) - (TILESIZE/2)));
                             Door adjDoor = forceAddDoorToRoom(rooms.get(adjRoom), position.x, position.y, door.getSide().opposite());
                             door.setLink(adjDoor);
                             doorLinked = true;
@@ -415,9 +415,9 @@ public class LevelLoader {
                             }
                         }
                         if(!doorLinked) {
-                            Vertex2 position = new Vertex2((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
+                            Vector2i position = new Vector2i((adjRoom%size)*Interior.WIDTH, (adjRoom/size)*Interior.HEIGHT);
                             // ADJUST TO LEFT DOOR
-                            position.addEq(new Vertex2(0, (Interior.HEIGHT/2) - (TILESIZE/2)));
+                            position.addEq(new Vector2i(0, (Interior.HEIGHT/2) - (TILESIZE/2)));
                             Door adjDoor = forceAddDoorToRoom(rooms.get(adjRoom), position.x, position.y, door.getSide().opposite());
                             door.setLink(adjDoor);
                             doorLinked = true;
@@ -514,7 +514,7 @@ public class LevelLoader {
      * 
      * @param filename
      */
-    private static Interior createRoom(int layout, Vertex2 position, Door door, EntryType[] generateEntry) {
+    private static Interior createRoom(int layout, Vector2i position, Door door, EntryType[] generateEntry) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(roomLayouts[layout])));
             Interior room = new Interior(position, layout);
@@ -531,7 +531,7 @@ public class LevelLoader {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                room.addToForeground(EntityFactory.createTile(new Vertex2(x, y), tilesetPath+tileset+"/"+parts[p]+GIF));
+                                room.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+tileset+"/"+parts[p]+GIF));
                             }
                             x += TILESIZE;
                         }
@@ -565,15 +565,15 @@ public class LevelLoader {
                         int y = Integer.parseInt(parts[4].split("\"")[1]) + position.y;
                         if(parts[1].contains("playerspawn")) {
                             //room.addPlayer(new Player(game, "spawn1.gif", x, y, x+11, y+19, 12, 11, 3, 0));
-                            room.setPortalExit(new Vertex2(x, y));
+                            room.setPortalExit(new Vector2i(x, y));
                         }
                         else if(parts[1].contains("enemyspawn")) {
                          // ONLY TEMPORARY
                          double rand = Math.random();
                          if(rand >= 0.5) {
-                             room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vertex2f(x, y), room, enemyType));
+                             room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, enemyType));
                          } else {
-                             room.addItem(EntityFactory.createItem(new Vertex2f(x, y), ItemType.randomItem()));
+                             room.addItem(EntityFactory.createItem(new Vector2f(x, y), ItemType.randomItem()));
                          }
                         }
                         else if(parts[1].contains("spike")) {
@@ -584,35 +584,33 @@ public class LevelLoader {
                             if(generateEntry[side.getIndex()].equals(EntryType.DOOR)) {
                                 
                                 if(door != null && door.getSide().opposite().equals(side)) {
-                                    room.addEntry(EntityFactory.createEntry(new Vertex2(x, y), room, side, EntryType.DOOR, door));
+                                    room.addEntry(EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, door));
                                 } else {
-                                    room.addEntry(EntityFactory.createEntry(new Vertex2(x, y), room, side, EntryType.DOOR, null));
+                                    room.addEntry(EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, null));
                                 }
                             } else if (generateEntry[side.getIndex()].equals(EntryType.PORTAL)) {
-                                Vertex2 gkLoc;
+                                Vector2i gkLoc;
                                 Face direction;
                                 if(side.equals(Side.TOP)) {
-                                    gkLoc = new Vertex2(TILESIZE + x, TILESIZE + y);
+                                    gkLoc = new Vector2i(TILESIZE + x, TILESIZE + y);
                                     direction = Face.DOWN;
                                 } else if(side.equals(Side.LEFT)) {
-                                    gkLoc = new Vertex2(TILESIZE + x, TILESIZE + y);
+                                    gkLoc = new Vector2i(TILESIZE + x, TILESIZE + y);
                                     direction = Face.RIGHT;
                                 } else if(side.equals(Side.RIGHT)) {
-                                    gkLoc = new Vertex2(x - TILESIZE, y - TILESIZE);
+                                    gkLoc = new Vector2i(x - TILESIZE, y - TILESIZE);
                                     direction = Face.LEFT;
                                 } else {
-                                    gkLoc = new Vertex2(x - TILESIZE, y - TILESIZE);
+                                    gkLoc = new Vector2i(x - TILESIZE, y - TILESIZE);
                                     direction = Face.UP;
                                 }
-                                gkLoc.addEq(new Vertex2(8, 8));
+                                gkLoc.addEq(new Vector2i(8, 8));
                                 
-                                Portal portal = (Portal) EntityFactory.createEntry(new Vertex2(x, y), room, side, EntryType.PORTAL, null);
+                                Portal portal = (Portal) EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.PORTAL, null);
                                 room.addEntry(portal);
-                                // REPLACE THIS
-                                GateKeeper gk = (GateKeeper)EntityFactory.createNeutral(direction, gkLoc, NeutralType.GATEKEEPER, portal);
-                                room.addGateKeeper(gk);
+                                room.addNeutral(EntityFactory.createNeutral(direction, gkLoc, NeutralType.GATEKEEPER, portal));
                             } else {
-                                room.addToForeground(EntityFactory.createTile(new Vertex2(x, y), tilesetPath+"invisible.gif"));
+                                room.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+"invisible.gif"));
                             }
                         }
                         // ADD OTHER OBJECTS HERE
@@ -642,7 +640,7 @@ public class LevelLoader {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                outer.addToForeground(EntityFactory.createTile(new Vertex2(x, y), tilesetPath+tileset+"/"+parts[p]+GIF));
+                                outer.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+tileset+"/"+parts[p]+GIF));
                             }
                             x += TILESIZE;
                         }
@@ -676,7 +674,7 @@ public class LevelLoader {
                         int y = Integer.parseInt(parts[4].split("\"")[1]);
                         
                         if(parts[1].contains("playerspawn")) {
-                            outer.addPlayerSpawn(new Vertex2(x, y));
+                            outer.addPlayerSpawn(new Vector2i(x, y));
                         }
                         else if(parts[1].contains("door")) {
                             Side side = Side.findByValue(parts[5].split("\"")[1]);
@@ -691,14 +689,14 @@ public class LevelLoader {
                                         door = (Door)entry;
                                     }
                                     if(door != null && door.getSide().opposite().equals(side)) {
-                                        outer.addEntry(EntityFactory.createEntry(new Vertex2(x, y), outer, side, EntryType.DOOR, door));
+                                        outer.addEntry(EntityFactory.createEntry(new Vector2i(x, y), outer, side, EntryType.DOOR, door));
                                         doorLinked = true;
                                         break;
                                     }
                                 }
                             }
                             if(!doorLinked) {
-                                outer.addToForeground(EntityFactory.createTile(new Vertex2(x, y), tilesetPath+"invisible.gif"));
+                                outer.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+"invisible.gif"));
                             }
                         }
                         // ADD OTHER OBJECTS HERE

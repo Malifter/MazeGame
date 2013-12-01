@@ -12,9 +12,10 @@ package engine.physics;
 
 import java.util.ArrayList;
 
-import engine.Vertex2f;
+import engine.Vector2f;
 
 import game.entities.Entity;
+import game.entities.environment.Tile;
 
 public class Collisions {
     private static enum Position { NONE, RIGHT, LEFT, ABOVE, BELOW, AboveRIGHT, AboveLEFT, BelowRIGHT, BelowLEFT};
@@ -26,10 +27,10 @@ public class Collisions {
      * @param staticObj
      * @return
      */
-    public static void applyEnvironmentCorrections(Entity obj, ArrayList<Entity> environment) {
+    public static void applyEnvironmentCorrections(Entity obj, ArrayList<Tile> environment) {
         ArrayList<PenetrationData<Position>> penetrationAdjust = new ArrayList<PenetrationData<Position>>();
         for(Entity env: environment) {
-            if(detectCollision(obj, env)) {
+            if(env.getRigidBody().isEnabled() && detectCollision(obj, env)) {
                 PenetrationData<Position> penetrationData = calculatePenetration(obj.getRigidBody(), env.getRigidBody());
                 if(penetrationData != null) penetrationAdjust.add(penetrationData);
             }
@@ -39,6 +40,12 @@ public class Collisions {
     
     public static void applySingleCorrection(Entity to, Entity from) {
         applySinglePenetrationCorrection(to.getRigidBody(), calculatePenetration(to.getRigidBody(), from.getRigidBody()));
+    }
+    
+    public static void detectAndApplySingleCorrection(Entity to, Entity from) {
+        if(detectCollision(to, from)){
+            applySinglePenetrationCorrection(to.getRigidBody(), calculatePenetration(to.getRigidBody(), from.getRigidBody()));
+        }
     }
     
     public static void applyEqualCorrection(Entity obj1, Entity obj2) {
@@ -51,9 +58,51 @@ public class Collisions {
         applySinglePenetrationCorrection(obj2.getRigidBody(), penAdjust);
     }
     
-    public static void detectAndApplySingleCorrection(Entity to, Entity from) {
-        if(detectCollision(to, from)){
-            applySinglePenetrationCorrection(to.getRigidBody(), calculatePenetration(to.getRigidBody(), from.getRigidBody()));
+    public static void detectAndApplyEqualCorrection(Entity obj1, Entity obj2) {
+        if(detectCollision(obj1, obj2)) {
+            PenetrationData<Position> penAdjust = calculatePenetration(obj1.getRigidBody(), obj2.getRigidBody());
+            penAdjust.setPenX(penAdjust.getPenX()/2.0f);
+            penAdjust.setPenY(penAdjust.getPenY()/2.0f);
+            applySinglePenetrationCorrection(obj1.getRigidBody(), penAdjust);
+            penAdjust.setPenX(-penAdjust.getPenX());
+            penAdjust.setPenY(-penAdjust.getPenY());
+            applySinglePenetrationCorrection(obj2.getRigidBody(), penAdjust);
+        }
+    }
+    
+    public static void applySingleRadialCorrection(Entity to, Entity from) {
+        Vector2f direction = to.getRigidBody().getMid().sub(from.getRigidBody().getMid());
+        direction.x = direction.x > 0.0f ? 1.0f : direction.x < 0.0f ? -1.0f : 0.0f;
+        direction.y = direction.y > 0.0f ? 1.0f : direction.y < 0.0f ? -1.0f : 0.0f;
+        to.getRigidBody().move(direction.x, direction.y);
+    }
+    
+    public static void detectAndApplySingleRadialCorrection(Entity to, Entity from) {
+        if(detectCollisionSphere(to.getRigidBody(), from.getRigidBody())) {
+            Vector2f direction = to.getRigidBody().getMid().sub(from.getRigidBody().getMid());
+            direction.x = direction.x > 0.0f ? 1.0f : direction.x < 0.0f ? -1.0f : 0.0f;
+            direction.y = direction.y > 0.0f ? 1.0f : direction.y < 0.0f ? -1.0f : 0.0f;
+            to.getRigidBody().move(direction.x, direction.y);
+        }
+    }
+    
+    public static void applyEqualRadialCorrection(Entity obj1, Entity obj2) {
+        Vector2f direction = obj1.getRigidBody().getMid().sub(obj2.getRigidBody().getMid());
+        direction.x = direction.x > 0.0f ? 1.0f : direction.x < 0.0f ? -1.0f : 0.0f;
+        direction.y = direction.y > 0.0f ? 1.0f : direction.y < 0.0f ? -1.0f : 0.0f;
+        direction = direction.div(2.0f);
+        obj1.getRigidBody().move(direction.x, direction.y);
+        obj2.getRigidBody().move(-direction.x, -direction.y);
+    }
+    
+    public static void detectAndApplyEqualRadialCorrection(Entity obj1, Entity obj2) {
+        if(detectCollisionSphere(obj1.getRigidBody(), obj2.getRigidBody())) {
+            Vector2f direction = obj1.getRigidBody().getMid().sub(obj2.getRigidBody().getMid());
+            direction.x = direction.x > 0.0f ? 1.0f : direction.x < 0.0f ? -1.0f : 0.0f;
+            direction.y = direction.y > 0.0f ? 1.0f : direction.y < 0.0f ? -1.0f : 0.0f;
+            direction = direction.div(2.0f);
+            obj1.getRigidBody().move(direction.x, direction.y);
+            obj2.getRigidBody().move(-direction.x, -direction.y);
         }
     }
     
@@ -68,13 +117,13 @@ public class Collisions {
                detectCollisionBox(obj1.getRigidBody(), obj2.getRigidBody()) : false;
     }
     
-    private static boolean detectCollisionSphere(RigidBody rb1, RigidBody rb2) {
+    public static boolean detectCollisionSphere(RigidBody rb1, RigidBody rb2) {
         float dist = findDistance(rb1, rb2);
         float minDist = rb1.getRadius() + rb2.getRadius();
-        return dist <= minDist*minDist;
+        return dist <= minDist;
     }
     
-    private static boolean detectCollisionBox(RigidBody rb1, RigidBody rb2) {  
+    public static boolean detectCollisionBox(RigidBody rb1, RigidBody rb2) {  
         if(rb1.getMax().x < rb2.getMin().x)
             return false;
         if(rb1.getMin().x >  rb2.getMax().x)
@@ -98,10 +147,10 @@ public class Collisions {
         float penx = 0;
         float peny = 0;
         Position pos = Position.NONE;
-        Vertex2f toMax = to.getMax();
-        Vertex2f toMin = to.getMin();
-        Vertex2f fromMax = from.getMax();
-        Vertex2f fromMin = from.getMin();
+        Vector2f toMax = to.getMax();
+        Vector2f toMin = to.getMin();
+        Vector2f fromMax = from.getMax();
+        Vector2f fromMin = from.getMin();
         
         // tile below - neg
         if(toMax.y < fromMax.y && toMin.y < fromMin.y) {
@@ -315,20 +364,20 @@ public class Collisions {
         float relX = rb1.getMid().x - rb2.getMid().x;
         float relY = rb1.getMid().y - rb2.getMid().y;
         float dist = relX*relX + relY*relY;
-        return dist;
+        return (float) Math.sqrt(dist);
     }
     
-    public static float findDistance(RigidBody rb, Vertex2f point) {
+    public static float findDistance(RigidBody rb, Vector2f point) {
         float relX = rb.getMid().x - point.x;
         float relY = rb.getMid().y - point.y;
         float dist = relX*relX + relY*relY;
-        return dist;
+        return (float) Math.sqrt(dist);
     }
     
-    public static float findDistance(Vertex2f point1, Vertex2f point2) {
+    public static float findDistance(Vector2f point1, Vector2f point2) {
         float relX = point1.x - point2.x;
         float relY = point1.y - point2.y;
         float dist = relX*relX + relY*relY;
-        return dist;
+        return (float) Math.sqrt(dist);
     }
 }

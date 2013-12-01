@@ -7,4 +7,8 @@ public class Neutral extends NPC {
     public Neutral(String img, RigidBody rb) {
         super(img, rb);
     }
+    
+    public void interact(Player player) {
+        
+    }
 }

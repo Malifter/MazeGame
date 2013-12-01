@@ -1,7 +1,5 @@
 package engine.serializable;
 
-import game.enums.Sounds;
-
 /*
 * Classname:            SerializedSound.java
 *
@@ -27,9 +25,5 @@ public class SerializedSound extends SerializedObject {
     
     public void setSound(int soundID) {
         this.soundID = soundID;
-    }
-    
-    public static SerializedSound serialize(Sounds sound) {
-        return new SerializedSound(sound.getValue());
     }
 }

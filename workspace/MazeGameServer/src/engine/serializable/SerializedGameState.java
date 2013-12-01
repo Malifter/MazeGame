@@ -26,8 +26,4 @@ public class SerializedGameState extends SerializedObject {
     public void setGameState(/*GameState state*/) {
         //this.state = state;
     }
-    
-    public static SerializedGameState serialize(/*GameState state*/) {
-        return new SerializedGameState(/*state*/);
-    }
 }

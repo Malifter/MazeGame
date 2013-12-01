@@ -1,4 +1,5 @@
 package game;
+
 /*
 * Classname:            Camera.java
 *
@@ -9,22 +10,16 @@ package game;
 * Copyright notice:     Copyright (c) 2013 Garrett Benoit
 */
 
-import static org.lwjgl.util.glu.GLU.gluLookAt;
-
 import org.lwjgl.opengl.GL11;
-
-import engine.serializable.SerializedEntity;
-import engine.serializable.SerializedObject;
+import engine.serializable.SerializedPlayer;
 
 /**
  * Camera 
  */
 public class Camera {
-    
-    private static final int TILESIZE = 16;
     private static final int screenHeight = 240;
     private static final int levelWidth = 144;
-    SerializedEntity focus;
+    SerializedPlayer focus;
     float posX, posY;
     float upX, upY;
     float offsetX, offsetY;
@@ -43,8 +38,8 @@ public class Camera {
         offsetY = -(levelWidth/2); //focus' half height - window half height
     }
     
-    public void setFocusObject(SerializedEntity so) {
-        focus = so;
+    public void setFocusObject(SerializedPlayer sp) {
+        focus = sp;
     }
     
     public void setOrientation(float posX, float posY, float upX, float upY) {

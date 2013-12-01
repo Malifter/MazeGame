@@ -4,7 +4,6 @@ import java.util.Random;
 import engine.physics.Collisions;
 import engine.physics.RigidBody;
 import game.GameEngine;
-import game.MazeGameServer;
 import game.entities.EntityFactory;
 import game.enums.ProjectileType;
 import game.environment.Room;
@@ -25,14 +24,11 @@ import game.environment.Room;
  * entity.
  */
 public class Woodman extends Hostile {
-    private static final long serialVersionUID = 7919266184578662148L;
-    MazeGameServer game;
     private String imageArray[] = {"\\animations\\woodman\\woodman1.gif","\\animations\\woodman\\woodman2.gif"};
     private String imageArrayRight[] = {"\\animations\\woodman\\woodman1Right.gif","\\animations\\woodman\\woodman2Right.gif"};
     private String dieArray[] = {"\\animations\\woodman\\woodmanDeath1.gif","\\animations\\woodman\\woodmanDeath2.gif","\\animations\\woodman\\woodmanDeath3.gif","\\animations\\woodman\\damage3.gif","\\animations\\woodman\\damage4.gif"};
     private String dieArrayRight[] = {"\\animations\\woodman\\woodmanDeathRight1.gif","\\animations\\woodman\\woodmanDeathRight2.gif","\\animations\\woodman\\woodmanDeathRight3.gif","\\animations\\woodman\\damage3.gif","\\animations\\woodman\\damage4.gif"};
     private int imageIndex = 0;
-    private int numBullets;
     private boolean isJump = false;
     private boolean facingRight = true;
     private boolean isFire = false;
@@ -41,22 +37,19 @@ public class Woodman extends Hostile {
     private static final int MAX_HEALTH = 20;
     private static final int COLLISION_DAMAGE = 5;
     private static final int AGGRO_RANGE = 192;
-    private static final int AGGRO_RANGE_SQUARED = AGGRO_RANGE * AGGRO_RANGE;
-    private Room room;
+    private static final int MAX_PROJECTILES = 1;
     private int isDying = 0;
     private long currentTime = 0;
     private Player target = null;
     
     public Woodman(String file, RigidBody rb, Room room) {
-        super(file, rb);
+        super(file, rb, room);
         imageIndex = imageIndex + 10; 
         image = imageArray[0];
         lastShotTime = 0;
         setHealthPoints(MAX_HEALTH);
         isDead = false;
         damage = COLLISION_DAMAGE;
-        this.room = room;
-        numBullets = 0;
         range = AGGRO_RANGE;
     }
     
@@ -92,7 +85,7 @@ public class Woodman extends Hostile {
      */
     public void fire(boolean isRight) {
         //GameEngine.playSound(game.sound_shot);
-        shots.add(EntityFactory.createProjectile(rBody.getLocation(), target.getRigidBody().getLocation(), this, ProjectileType.STRAIGHT));
+        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), target.getRigidBody().getLocation(), this, ProjectileType.STRAIGHT));
         lastShotTime = GameEngine.getTime();
     }
     
@@ -110,18 +103,6 @@ public class Woodman extends Hostile {
     @Override
     public void update(long time) {
         movements(time);
-        
-        int i = 0;
-        while(i < shots.size()) {
-            if(shots.get(i).isEnabled()) {
-                shots.get(i).update(time);
-                i++;
-            }
-            else {
-                shots.remove(i);
-                numBullets--;
-            }
-        }
     }
     
     public void deathAnimate() {
@@ -142,7 +123,7 @@ public class Woodman extends Hostile {
                 }
             }
             if(target == null) return;
-            if(Collisions.findDistance(rBody, target.getRigidBody()) <= AGGRO_RANGE_SQUARED) {
+            if(Collisions.findDistance(rBody, target.getRigidBody()) <= AGGRO_RANGE) {
                 if(target.getRigidBody().getLocation().x - rBody.getLocation().x > 0) {
                     facingRight = true;
                 }
@@ -160,10 +141,9 @@ public class Woodman extends Hostile {
 
                 Random generator = new Random( GameEngine.getTime() );
                 int rand = generator.nextInt() % 100;
-                if ((rand >= 80 && numBullets <= 0) || GameEngine.getTime() - lastShotTime > 2000) {
+                if ((rand >= 80 && numProjectiles < MAX_PROJECTILES) || GameEngine.getTime() - lastShotTime > 2000) {
                     if(GameEngine.getTime() - lastShotTime > 200){
                         fire(facingRight);
-                        numBullets++;
                     }
                     isFire = true;
                     shotTimer = 0;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import engine.Vertex2;
-import engine.Vertex2f;
+import engine.Vector2i;
+import engine.Vector2f;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
 import engine.inputhandler.PhysicalInput;
@@ -13,6 +13,7 @@ import engine.render.IDisplay;
 import engine.render.JLWGLDisplay;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
+import engine.serializable.SerializedPlayer;
 import engine.serializable.SerializedRoom;
 
 /*
@@ -37,11 +38,8 @@ public class Game {
     private static RenderableEntity winScreen = null;
     private static RenderableEntity loseScreen = null;
     private static RenderableEntity startScreen = null;
-    /*private static ArrayList<Entity> background = null;
-    private static ArrayList<Entity> foreground = null;
-    private static ArrayList<Entity> traps = null;*/
     public static RenderableLevel level;
-    public static Map<String, Vertex2f> destinations;
+    public static Map<String, Vector2f> destinations;
     private static Camera cam = null;
     private static boolean win = false;
     private static boolean isStart = false;
@@ -84,7 +82,7 @@ public class Game {
     
     public static void init() {
         initDisplay();
-        destinations = new HashMap<String, Vertex2f>();
+        destinations = new HashMap<String, Vector2f>();
         cam = new Camera();
     }
     
@@ -121,9 +119,9 @@ public class Game {
         GameEngine.playSound(sound_spawn);
         
         //GameEngine.setMouseHidden(true);
-        startScreen = new RenderableEntity("UI/startScreen.gif", new Vertex2());
-        winScreen = new RenderableEntity("UI/winScreen.gif", new Vertex2());
-        loseScreen = new RenderableEntity("UI/game_over.gif", new Vertex2());
+        startScreen = new RenderableEntity("UI/startScreen.gif", new Vector2i());
+        winScreen = new RenderableEntity("UI/winScreen.gif", new Vector2i());
+        loseScreen = new RenderableEntity("UI/game_over.gif", new Vector2i());
         
         return inputs;
     }
@@ -183,38 +181,37 @@ public class Game {
      * @see IGame#update(long)
      */
     public static void update(long time, List<SerializedObject> updateObjects) {
-        if((GameEngine.getTime()-timeBGM) > 38000) {
+        //if((GameEngine.getTime()-timeBGM) > 38000) {
             //timeBGM = GameEngine.getTime();
             //GameEngine.playMusic(BGM_quickman);
-        }
+        ///=}
         if(updateObjects != null) {
-            boolean first = true;
             for(SerializedObject so: updateObjects) {
                 if(so instanceof SerializedRoom) {
                     SerializedRoom sr = (SerializedRoom) so;
-                    //System.out.println(sr.getIndex());
                     level.setCurrentRoom(sr.getIndex());
                     if(sr.getIndex() != 0) {
                         cam.setFocusObject(null);
                         cam.setOrientation(sr.getPosition().x, sr.getPosition().y-36, 0, 1);
                     }
                 }
-                else if(so instanceof SerializedEntity) {
-                    SerializedEntity se = (SerializedEntity) so;
-                    if(se.needsDelete()) {
-                        //entities.remove(so.getID());
-                        //destinations.remove(so.getID());
-                    } else {
-                        if(first) {
-                            if(level.getCurrentIndex() == 0) {
-                                cam.setFocusObject(se);
-                            }
-                            first = false;
-                        }
-                        //destinations.put(se.getID(), se.getPosition());
-                        //entities.put(so.getID(), so);
+                else if(so instanceof SerializedPlayer) {
+                    SerializedPlayer sp = (SerializedPlayer) so;
+                    if(level.getCurrentIndex() == 0) {
+                        cam.setFocusObject(sp);
                     }
                 }  
+                /*
+                else if(so instanceof SerializedEntity) {
+                    if(sp.needsDelete()) {
+                        entities.remove(so.getID());
+                        destinations.remove(so.getID());
+                    } else {
+                        destinations.put(se.getID(), se.getPosition());
+                        entities.put(so.getID(), so);
+                    }
+                }
+                 */
             }
         }
         /*

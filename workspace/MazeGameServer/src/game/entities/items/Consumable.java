@@ -8,5 +8,7 @@ public abstract class Consumable extends Item {
         super(image, rb);
     }
     
-    public abstract void consumed(Player player);
+    public void consumed(Player player) {
+        disable();
+    }
 }

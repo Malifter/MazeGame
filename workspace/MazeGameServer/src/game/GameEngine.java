@@ -27,9 +27,9 @@ public class GameEngine {
     private static long lastLoopTime = getTime();
     
     public static ArrayList<ReentrantLock> inputLocks = new ArrayList<ReentrantLock>();
-    private static ReentrantLock updateLock = new ReentrantLock();
+    private static ArrayList<ReentrantLock> updateLocks = new ArrayList<ReentrantLock>();
     private static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
-    private static List<SerializedObject> objectsToUpdate;
+    private static ArrayList<List<SerializedObject>> updates = new ArrayList<List<SerializedObject>>();
     
     /**
      * Constructor: Private constructor to prevent instantiation.
@@ -74,9 +74,12 @@ public class GameEngine {
             }
             lastLoopTime = getTime();
             
-            // Update the world
+            // Copy over inputs from clients
             getInputs();
-            setUpdates(MazeGameServer.update(delta)); // generate serialized objects
+            // Update the world
+            MazeGameServer.update(delta);
+            // Send updates to server
+            setUpdates();
 
             if (MazeGameServer.isDone()) {
                 playingGame = false;
@@ -98,7 +101,7 @@ public class GameEngine {
     }
     
     /**
-     * getInput: Get a list of the input components to track
+     * resetInputs: resets local engine inputs
      */
     private static void resetInputs() {
         for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
@@ -110,6 +113,9 @@ public class GameEngine {
         }
     }
     
+    /**
+     * getInputs: sets local game inputs with local engine inputs
+     */
     public static void getInputs() {
         for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
             inputLocks.get(playerID).lock();
@@ -120,6 +126,9 @@ public class GameEngine {
         }
     }
     
+    /**
+     * setInputs: client inputs are stored in local engine inputs
+     */
     public static void setInputs(List<Pressed> pressed, int playerID) {
         inputLocks.get(playerID).lock();
         for(Pressed p: pressed) {
@@ -128,33 +137,48 @@ public class GameEngine {
         inputLocks.get(playerID).unlock();
     }
     
-    private static void setUpdates(List<SerializedObject> updates) {
-        updateLock.lock();
-        objectsToUpdate = updates;
-        updateLock.unlock();
+    /**
+     * setUpdates: engine updates are set from local game updates
+     */
+    private static void setUpdates() {
+        for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
+            updateLocks.get(playerID).lock();
+            updates.get(playerID).clear();
+            updates.get(playerID).addAll(MazeGameServer.updates.get(playerID));
+            updateLocks.get(playerID).unlock();
+        }
     }
     
-    public static List<SerializedObject> getUpdates() {
-        List<SerializedObject> updates = new ArrayList<SerializedObject>();
-        updateLock.lock();
-        updates.addAll(objectsToUpdate);
-        updateLock.unlock();
-        return updates;
+    /**
+     * getUpdates: playerHandler grabs updates from engine to send to client
+     */
+    public static List<SerializedObject> getUpdates(int playerID) {
+        List<SerializedObject> copy = new ArrayList<SerializedObject>();
+        updateLocks.get(playerID).lock();
+        copy.addAll(updates.get(playerID));
+        updateLocks.get(playerID).unlock();
+        return copy;
     }
     
     public static void newPlayerConnected(int playerID) {
         MazeGameServer.joinNewPlayer(playerID);
         if(MazeGameServer.numPlayers < MazeGameServer.NUM_PLAYERS) {
             initNewInputs();
-            inputLocks.add(new ReentrantLock());
+            initNewUpdates();
         }
     }
     
-    public static void initNewInputs() {
+    private static void initNewUpdates() {
+        updateLocks.add(new ReentrantLock());
+        updates.add(new ArrayList<SerializedObject>());
+    }
+    
+    private static void initNewInputs() {
         ArrayList<Boolean> newInputs = new ArrayList<Boolean>();
         for(int j = 0; j < Pressed.SIZE; j++) {
             newInputs.add(false);
         }
+        inputLocks.add(new ReentrantLock());
         inputs.add(newInputs);
     }
 }

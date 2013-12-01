@@ -10,11 +10,10 @@ package engine.serializable;
 * Copyright notice:     Copyright (c) 2013 Garrett Benoit
 */
 
-
 import java.io.Serializable;
 
 
-public class SerializedObject implements Serializable{
+public abstract class SerializedObject implements Serializable{
 	private static final long serialVersionUID = -4988010332278134153L;
     protected String uniqueID;
 

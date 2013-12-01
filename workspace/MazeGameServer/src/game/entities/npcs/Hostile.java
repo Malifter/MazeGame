@@ -1,20 +1,19 @@
 package game.entities.npcs;
 
-import java.util.ArrayList;
-
 import engine.physics.RigidBody;
-import game.entities.Entity;
-import game.entities.projectiles.Projectile;
+import game.environment.Room;
 
 public class Hostile extends NPC {
     protected boolean isDead = false;
     protected int health;
-    protected ArrayList<Projectile> shots = new ArrayList<Projectile>();
     protected int damage;
     protected int range;
+    protected int numProjectiles = 0;
+    protected Room room;
     
-    public Hostile(String img, RigidBody rb) {
+    public Hostile(String img, RigidBody rb, Room room) {
         super(img, rb);
+        this.room = room;
     }
     
     public void setHealthPoints(int hp) {
@@ -52,11 +51,23 @@ public class Hostile extends NPC {
         setHealthPoints(health-d);
     }
     
-    public void setShots(ArrayList<Projectile> shots) {
-        this.shots = shots;
+    public void setRoom(Room room) {
+        this.room = room;
     }
-
-    public ArrayList<Projectile> getShots() {
-        return shots;
+    
+    public Room getRoom() {
+        return room;
+    }
+    
+    public void addProjectile() {
+        numProjectiles++;
+    }
+    
+    public void removeProjectile() {
+        numProjectiles--;
+    }
+    
+    public void attack(Hostile other) {
+        other.takeDamage(damage);
     }
 }

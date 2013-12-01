@@ -22,5 +22,6 @@ public class Spikes extends Obstacle {
         super(image, rb);
         dangerous = true;
         destructable = false;
+        blocking = false;
     }
 }

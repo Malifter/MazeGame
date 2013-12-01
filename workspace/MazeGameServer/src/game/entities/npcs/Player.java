@@ -2,11 +2,13 @@ package game.entities.npcs;
 
 import java.util.ArrayList;
 
-import engine.Vertex2f;
+import engine.Vector2f;
 import engine.physics.RigidBody;
 import game.GameEngine;
 import game.Inventory;
+import game.MazeGameServer;
 import game.enums.*;
+import game.environment.Room;
 import game.entities.EntityFactory;
 import game.entities.items.Bomb;
 import game.entities.items.Consumable;
@@ -42,7 +44,6 @@ public class Player extends Hostile {
     private String deathArray [] = {"blackMM.gif","standingRight.gif","spawn3.gif","spawn2.gif","spawn1.gif"};
     private int isDying = 0;
     private int imageIndex = 0;
-    private int numBullets = 0;
     private boolean spawned = false;
     private Move firstMove = Move.NONE;
     private boolean movingRight = false;
@@ -60,6 +61,7 @@ public class Player extends Hostile {
     private static final int BLASTER_DAMAGE = 1;
     private static final int ATTACK_RANGE = 168;
     private static final float SPEED = 1.3f;
+    private static final int MAX_PROJECTILES = 3;
     private float speedRatio = 0.0f; // between 0 and 1
     private int isDamage = 0;
     private long currentTime = 0;
@@ -69,8 +71,8 @@ public class Player extends Hostile {
     private Inventory inventory = new Inventory(this);
     private int lives;
     
-    public Player(String img, RigidBody rb, int playerID) {
-        super(img, rb);
+    public Player(String img, RigidBody rb, int playerID, Room room) {
+        super(img, rb, room);
         imageIndex = imageIndex + 5; 
         this.image = animationPath+spawnArray[0];
         imgArraySize = spawnArray.length;
@@ -115,8 +117,8 @@ public class Player extends Hostile {
         isDead = false;
     }
     
-    public void nextAnimation(String arrayName, int frames) {  
-        if(arrayName.equals("spawnArray") && spawned == false){
+    public void spawn(int frames) {  
+        if(spawned == false){
             imageIndex = imageIndex + 20; 
             if(imageIndex >= frames*100) {
                 imageIndex = 0;
@@ -183,45 +185,35 @@ public class Player extends Hostile {
         //GameEngine.playSound(game.sound_shot);
         
         // the purpose of this switch statement only modifies offset if needed, so in the end duplicate code.
-        Vertex2f target;
+        Vector2f target;
         switch (direction) {
             case RIGHT:
-                target = rBody.getLocation().add(new Vertex2f(1, 0));
+                target = rBody.getLocation().add(new Vector2f(1, 0));
                 break;
             case LEFT:
-                target = rBody.getLocation().add(new Vertex2f(-1, 0));
+                target = rBody.getLocation().add(new Vector2f(-1, 0));
                 break;
             case UP:
-                target = rBody.getLocation().add(new Vertex2f(0, -1));
+                target = rBody.getLocation().add(new Vector2f(0, -1));
                 break;
             case DOWN:
-                target = rBody.getLocation().add(new Vertex2f(0, 1));
+                target = rBody.getLocation().add(new Vector2f(0, 1));
                 break;
             default:
-                target = new Vertex2f();
+                target = new Vector2f();
                 break;
         }
-        shots.add(EntityFactory.createProjectile(rBody.getLocation(), target, this, ProjectileType.STRAIGHT));
+        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), target, this, ProjectileType.STRAIGHT));
         lastShotTime = GameEngine.getTime();
     }
     
     @Override
-    public void update(ArrayList<Boolean> inputs, long time) {
-        movements(inputs, time);
+    public void update(long elapsedTime) {
+        spawn(6);
+        handleInputs(MazeGameServer.inputs.get(playerID), elapsedTime);
         if(!isVuln){
             if(GameEngine.getTime() - currentTime > 750)
                 isVuln = true;
-        }
-        int i = 0;
-        while(i < shots.size()) {
-            if(shots.get(i).isEnabled()) {
-                shots.get(i).update(time);
-                i++;
-            }
-            else {
-                shots.remove(i);
-                numBullets--;
-            }
         }
         //reloadSprite();
     }
@@ -243,7 +235,7 @@ public class Player extends Hostile {
             currentTime = GameEngine.getTime();
         }
     }
-    public void movements(ArrayList<Boolean> inputs, long elapsedTime) {
+    public void handleInputs(ArrayList<Boolean> inputs, long elapsedTime) {
         if(spawned) {
             if(!isDead){
                 if(isVuln || flash <= 4){
@@ -292,9 +284,8 @@ public class Player extends Hostile {
                         rBody.move(moveX, moveY, elapsedTime);
                         
                         if (inputs.get(Pressed.FIRE.getValue()) && !isShooting) {
-                            if(numBullets <= 2 && GameEngine.getTime() - lastShotTime > 100){
+                            if(numProjectiles < MAX_PROJECTILES && GameEngine.getTime() - lastShotTime > 100){
                                 fire(facing); // need to change to fire in mouse direction instead of facing direction
-                                numBullets++;
                             }
                             isShooting = true;
                             isFire = true;
@@ -469,6 +460,7 @@ public class Player extends Hostile {
     }
     
     public void addToInventory(NotConsumable ncItem){
+        ncItem.getRigidBody().disable();
         this.getInventory().addItem(ncItem);
     }
     

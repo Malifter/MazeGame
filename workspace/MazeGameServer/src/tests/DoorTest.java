@@ -12,7 +12,7 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import engine.Vertex2;
+import engine.Vector2i;
 import game.entities.Entity;
 import game.entities.environment.Door;
 import game.entities.environment.Door.Side;
@@ -36,7 +36,7 @@ public class DoorTest {
     public String image;
     public int xPos;
     public int yPos;
-    public Vertex2 exitLocation;
+    public Vector2i exitLocation;
     public Room room;
     public Entity player;
     public Side side;
@@ -79,7 +79,7 @@ public class DoorTest {
     @Test
     public void testDoorLink() {
         initiateTestVariables();
-        Door linkedDoor = new Door(game, image, xPos + Door.TILESIZE, yPos, new Vertex2(xPos + (Door.TILESIZE*2), yPos), room, null, Side.LEFT);
+        Door linkedDoor = new Door(game, image, xPos + Door.TILESIZE, yPos, new Vector2i(xPos + (Door.TILESIZE*2), yPos), room, null, Side.LEFT);
         door = null;
         door = new Door(game, image, xPos, yPos, exitLocation, room, linkedDoor, side);
         assertNotNull(door);
@@ -117,7 +117,7 @@ public class DoorTest {
     @Test
     public void testDoorTransportsPlayer() {
         initiateTestVariables();
-        Door linkedDoor = new Door(game, image, xPos + Door.TILESIZE, yPos, new Vertex2(xPos + (Door.TILESIZE*2), yPos), room, null, Side.LEFT);
+        Door linkedDoor = new Door(game, image, xPos + Door.TILESIZE, yPos, new Vector2i(xPos + (Door.TILESIZE*2), yPos), room, null, Side.LEFT);
         door = null;
         door = new Door(game, image, xPos, yPos, exitLocation, room, linkedDoor, side);
         player.setMinX(0); // move player to origin
@@ -140,7 +140,7 @@ public class DoorTest {
             image = "DoorImage";
             xPos = 232;
             yPos = 72;
-            exitLocation = new Vertex2(xPos - Door.TILESIZE, yPos);
+            exitLocation = new Vector2i(xPos - Door.TILESIZE, yPos);
             side = Side.RIGHT;
             //room = new Room();
             player = new Player(game, "player", 120, 72, 120, 72, 10, 10, 1, 0);

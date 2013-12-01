@@ -8,6 +8,7 @@ public class Gold extends Consumable {
         super("items/gold/gold.gif/", rb);
     }
     public void consumed(Player player) {
+        super.consumed(player);
         //player.addGold();
     }
 }

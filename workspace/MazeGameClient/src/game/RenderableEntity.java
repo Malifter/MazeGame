@@ -1,6 +1,6 @@
 package game;
 
-import engine.Vertex2;
+import engine.Vector2i;
 import engine.render.Sprite;
 
 /*
@@ -19,9 +19,9 @@ import engine.render.Sprite;
 public class RenderableEntity {
     public static final int TILESIZE = 16;
     private Sprite sprite;
-    private Vertex2 location;
+    private Vector2i location;
     
-    public RenderableEntity(String img, Vertex2 loc) {
+    public RenderableEntity(String img, Vector2i loc) {
         sprite = Game.getDisplay().getSprite(img);
         location = loc;
     }

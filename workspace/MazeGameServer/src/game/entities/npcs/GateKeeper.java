@@ -1,7 +1,8 @@
 package game.entities.npcs;
 
+import engine.Vector2f;
+import engine.physics.Collisions;
 import engine.physics.RigidBody;
-import game.entities.Entity;
 import game.entities.environment.Portal;
 
 /*
@@ -20,6 +21,10 @@ import game.entities.environment.Portal;
 public class GateKeeper extends Neutral {
     private static final long serialVersionUID = 5788568491539815734L;
     private Portal myPortal;
+    private Vector2f origin;
+    private static final int MAX_STRAY_DISTANCE = 8;
+    private static final int MAX_STRAY_TIME = 1000;
+    private long strayTime = 0;
     //private ArrayList<Items> // This will either be set manually or randomly selected on construction.
     
     /**
@@ -37,11 +42,25 @@ public class GateKeeper extends Neutral {
      */
     public GateKeeper(String image, RigidBody rb, Portal myPortal) {
         super(image, rb);
+        origin = new Vector2f(rb.getLocation());
         this.myPortal = myPortal;
     }
     
     @Override
-    public void update(long time) {
+    public void update(long elapsedTime) {
+        if(Collisions.findDistance(rBody, origin) > MAX_STRAY_DISTANCE) {
+            strayTime += elapsedTime;
+        } else {
+            strayTime = 0;
+        }
+        if(strayTime > MAX_STRAY_TIME) {
+            // travel back to origin
+            Vector2f direction = origin.sub(rBody.getLocation());
+            rBody.setVelocity(direction.norm());
+            rBody.move(elapsedTime);
+        } else {
+            rBody.setVelocity(0, 0);
+        }
         // Here we'd animate the idle animation
         
         // Don't worry about this for now,
@@ -59,11 +78,15 @@ public class GateKeeper extends Neutral {
         // original position and face direction
         // this is not needed for now
     }
-    
+
+    @Override
+    public void interact(Player player) {
+        negotiate(player);
+    }
 
     // This might be moved later if I apply a strategy pattern to the collisions.
     // This happens when a collision is detected between the player and the gatekeeper.
-    public void negotiate(Entity player) {
+    public void negotiate(Player player) {
         if(!myPortal.isActivated()){
             
             // NOTE: Player doesn't yet have an inventory or items, so use psuedo
