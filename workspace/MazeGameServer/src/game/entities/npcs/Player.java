@@ -70,6 +70,7 @@ public class Player extends Hostile {
     private int playerID = 0;
     private Inventory inventory = new Inventory(this);
     private int lives;
+    private Hostage follower = null;
     
     public Player(String img, RigidBody rb, int playerID, Room room) {
         super(img, rb, room);
@@ -474,5 +475,20 @@ public class Player extends Hostile {
     
     public void removeLife() {
         lives--;
+    }
+    
+    public void setFollower(Hostage hostage) {
+        follower = hostage;
+    }
+    
+    public Hostage getFollower() {
+        return follower;
+    }
+    
+    public boolean hasFollower() {
+        if(follower != null) {
+            return true;
+        }
+        return false;
     }
 }

@@ -16,6 +16,7 @@ import game.entities.environment.Entry;
 import game.entities.environment.Obstacle;
 import game.entities.environment.Tile;
 import game.entities.items.*;
+import game.entities.npcs.Hostage;
 import game.entities.npcs.Hostile;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
@@ -76,7 +77,11 @@ public class Interior extends Room {
                 
                 for(Entry entry: entries) {
                     if(entry.transport(player)) {
-                        // if has hostage, transport them too
+                        if(player.hasFollower()) {
+                            this.removeNeutral(player.getFollower());
+                            player.getRoom().addNeutral(player.getFollower());
+                            player.getFollower().getRigidBody().setLocation(player.getRigidBody().getLocation());
+                        }
                         playerItr.remove();
                         continue;
                     }
@@ -280,10 +285,10 @@ public class Interior extends Room {
                             Collisions.detectAndApplySingleRadialCorrection(item, neutral);
                         }
                     }
-                }
-                // entries
-                for(Entry entry: entries) {
-                    Collisions.detectAndApplySingleCorrection(neutral, entry);
+                    // entries
+                    for(Entry entry: entries) {
+                        Collisions.detectAndApplySingleCorrection(neutral, entry);
+                    }
                 }
             }
             // items
