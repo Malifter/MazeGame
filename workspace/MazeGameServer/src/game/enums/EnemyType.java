@@ -21,7 +21,11 @@ public enum EnemyType {
         return path;
     }
     
-    public static EnemyType randomEnemy() {
-        return VALUES[RANDOM.nextInt(SIZE)];
+    public static EnemyType randomWeakEnemy() {
+        EnemyType weakEnemy;
+        do {
+            weakEnemy = VALUES[RANDOM.nextInt(SIZE)];
+        } while(weakEnemy.equals(WOODMAN));
+        return weakEnemy;
     }
 }

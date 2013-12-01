@@ -5,7 +5,8 @@ import java.util.Random;
 public enum ObstacleType {
     SPIKES("animations/spikes/"),
     PIT("animations/pit/"),
-    ROCK("animations/rock/");
+    ROCK("animations/rock/"),
+    CELLDOOR("animations/cell/");
     
     private final String path;
     
@@ -22,6 +23,10 @@ public enum ObstacleType {
     }
     
     public static ObstacleType randomObstacle() {
-        return VALUES[RANDOM.nextInt(SIZE)];
+        ObstacleType obstacle;
+        do {
+            obstacle = VALUES[RANDOM.nextInt(SIZE)];
+        } while(obstacle.equals(CELLDOOR));
+        return obstacle;
     }
 }

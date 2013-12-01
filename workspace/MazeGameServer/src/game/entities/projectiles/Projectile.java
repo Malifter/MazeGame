@@ -4,7 +4,10 @@ import engine.Vector2f;
 import engine.physics.Collisions;
 import engine.physics.RigidBody;
 import game.entities.Entity;
+import game.entities.environment.Obstacle;
+import game.entities.environment.Pit;
 import game.entities.npcs.Hostile;
+import game.entities.npcs.Player;
 import game.enums.Face;
 
 /*
@@ -25,7 +28,7 @@ public class Projectile extends Entity {
     protected static final int MIN_RANGE = 168;
     protected final int MAX_RANGE;
     protected int damage;
-    protected Hostile source;
+    protected Hostile owner;
 
     /** The vertical speed at which the players shot moves */
     protected float moveSpeedX = 2.0f;
@@ -51,11 +54,11 @@ public class Projectile extends Entity {
      */
     public Projectile(String img, RigidBody rb, Face direction, Hostile hostile) {
         super(projectilePath+img, rb);
-        source = hostile;
-        source.addProjectile();
-        origin = new Vector2f(source.getRigidBody().getLocation());
-        damage = source.getDamage();
-        MAX_RANGE = source.getRange() < MIN_RANGE ? MIN_RANGE : source.getRange();
+        owner = hostile;
+        owner.addProjectile();
+        origin = new Vector2f(owner.getRigidBody().getLocation());
+        damage = owner.getDamage();
+        MAX_RANGE = owner.getRange() < MIN_RANGE ? MIN_RANGE : owner.getRange();
         switch(direction) {
             case RIGHT:
                 rBody.setVelocity(moveSpeedX, 0);
@@ -86,7 +89,7 @@ public class Projectile extends Entity {
     @Override
     public void disable() {
         super.disable();
-        source.removeProjectile();
+        owner.removeProjectile();
     }
     
     /**
@@ -99,9 +102,6 @@ public class Projectile extends Entity {
     public void collide(Hostile enemy) {
         if (!isEnabled()) {
             return;
-        } else if(enemy == null) {
-            disable();
-          //GameEngine.playSound(game.sound_hit_environ);
         } else {
             disable();
             enemy.takeDamage(damage);
@@ -109,16 +109,27 @@ public class Projectile extends Entity {
         }
     }
     
-    public void enableY() {
-        rBody.setVelocity(rBody.getVelocity().x, -moveSpeedY);
+    public void collide(Obstacle obstacle) {
+        if(!(obstacle instanceof Pit)) {
+            disable();
+            //GameEngine.playSound(game.sound_hit_environ);
+        }
     }
     
-    public void disableY() {
-        rBody.setVelocity(rBody.getVelocity().x, 0);
+    public void collide() {
+        disable();
+        //GameEngine.playSound(game.sound_hit_environ);
     }
     
     public boolean dangerousTo(Hostile hostile) {
-        if(source.equals(hostile)) return false;
+        if(owner.equals(hostile)) return false;
         else return true;
+    }
+    
+    public boolean ownedByPlayer() {
+        if(owner instanceof Player) {
+            return true;
+        }
+        return false;
     }
 }

@@ -15,6 +15,7 @@ import game.entities.items.Item;
 import game.entities.items.Shield;
 import game.entities.npcs.Cannon;
 import game.entities.npcs.GateKeeper;
+import game.entities.npcs.Hostage;
 import game.entities.npcs.Hostile;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
@@ -58,14 +59,17 @@ public class EntityFactory {
         return enemy;
     }
     
-    public static Neutral createNeutral(Face direction, Vector2i location, NeutralType type, Portal portal) {
+    public static Neutral createNeutral(Face direction, Vector2f location, NeutralType type, Portal portal) {
         Neutral neutral = null;
         RigidBody rb = null;
         switch(type) {
             case HOSTAGE:
+                location.addEq(new Vector2f(TILESIZE/2, TILESIZE/2));
+                rb = new RigidBody(location, 14, 14);
+                neutral = new Hostage(type.getPath()+"hostage0.gif", rb);
                 break;
             case GATEKEEPER:
-                rb = new RigidBody(location, 16, 16);
+                rb = new RigidBody(location, 14, 14);
                 neutral = new GateKeeper(type.getPath()+"alien4.gif", rb, portal);
                 break;
         }
@@ -75,16 +79,23 @@ public class EntityFactory {
     public static Obstacle createObstacle(Vector2f location, ObstacleType type) {
         Obstacle obstacle = null;
         RigidBody rb = null;
+        location.addEq(new Vector2f(TILESIZE/2, TILESIZE/2));
         switch(type) {
             case SPIKES:
                 rb = new RigidBody(location, 12, 12);
-                obstacle = new Spikes(type.getPath()+"spikeFloor.gif", rb);
+                obstacle = new Spikes(type.getPath()+"spikes.gif", rb);
                 break;
             case PIT:
-                //rb = new RigidBody(location, TILESIZE, TILESIZE);
+                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                obstacle = new Pit(type.getPath()+"pit.gif", rb);
                 break;
             case ROCK:
-                //rb = new RigidBody(location, TILESIZE, TILESIZE);
+                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                obstacle = new Rock(type.getPath()+"rock.gif", rb);
+                break;
+            case CELLDOOR:
+                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                obstacle = new CellDoor(type.getPath()+"door.gif", rb);
                 break;
         }
         return obstacle;
@@ -182,8 +193,6 @@ public class EntityFactory {
                 }
                 rb = new RigidBody(location, 24, 24);
                 entry = new Door(entryPath, rb, exit, room, linkedDoor, side, locked);
-                break;
-            case CELLDOOR:
                 break;
             case PORTAL:
                 entryPath += "tiles_mm1_elec/6.gif";

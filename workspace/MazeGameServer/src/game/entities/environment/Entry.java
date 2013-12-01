@@ -1,6 +1,9 @@
 package game.entities.environment;
 
+import engine.Vector2f;
 import engine.physics.RigidBody;
+import engine.serializable.SerializedObject;
+import engine.serializable.SerializedObstacle;
 import game.entities.Entity;
 import game.entities.npcs.Player;
 import game.enums.Side;
@@ -36,5 +39,10 @@ public class Entry extends Entity {
         if(player.getRigidBody().getMin().y <= rBody.getMin().y)
             return false;
         return true;
+    }
+    
+    @Override
+    public SerializedObject serialize() {
+        return new SerializedObstacle(uuid, image, new Vector2f(rBody.getLocation()), !isEnabled());
     }
 }

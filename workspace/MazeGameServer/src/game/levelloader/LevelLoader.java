@@ -8,7 +8,6 @@ import game.entities.EntityFactory;
 import game.entities.environment.Door;
 import game.entities.environment.Entry;
 import game.entities.environment.Portal;
-import game.entities.npcs.GateKeeper;
 import game.enums.*;
 import game.environment.Exterior;
 import game.environment.Interior;
@@ -21,11 +20,26 @@ public class LevelLoader {
     private final static String GIF = ".gif";
     private final static String layoutPath = "assets/layouts/";
     private final static String exteriorLayout = layoutPath+"exterior/OutsideLayout.oel";
-    private final static String roomLayouts[] = {layoutPath+"rooms/RoomLayout0.oel", layoutPath+"rooms/RoomLayout1.oel"};
-    private final static String hostageLayout = layoutPath+"rooms/RoomLayout0.oel";//layoutPath+"hostage/HostageRoomLayout.oel";
+    private final static String roomLayouts[] = {layoutPath+"rooms/RoomLayout0.oel",
+        layoutPath+"rooms/RoomLayout1.oel",
+        layoutPath+"rooms/RoomLayout2.oel",
+        layoutPath+"rooms/RoomLayout3.oel",
+        layoutPath+"rooms/RoomLayout4.oel",
+        layoutPath+"rooms/RoomLayout5.oel",
+        layoutPath+"rooms/RoomLayout6.oel",
+        layoutPath+"rooms/RoomLayout7.oel",
+        layoutPath+"rooms/RoomLayout8.oel",
+        layoutPath+"rooms/RoomLayout9.oel",
+        layoutPath+"rooms/RoomLayout10.oel",
+        layoutPath+"rooms/RoomLayout11.oel",
+        layoutPath+"rooms/RoomLayout12.oel",
+        layoutPath+"rooms/RoomLayout13.oel",
+        layoutPath+"rooms/RoomLayout14.oel",
+        layoutPath+"rooms/RoomLayout15.oel",
+        layoutPath+"rooms/RoomLayout16.oel",
+        layoutPath+"rooms/RoomLayout17.oel"};
+    private final static String hostageLayout = layoutPath+"hostage/HostageRoom0.oel";
     private final static String tilesetPath = "tilesets/";
-    private final static String animationPath = "animations/";
-    private final static String itemPath = "items/";
     public final static int TILESIZE = 16;
     
     private static Level level;
@@ -59,12 +73,12 @@ public class LevelLoader {
         EntryType[] generateEntry = new EntryType[Interior.MAX_ENTRIES];
         Vector2i position = null;
         
-        // Create initial room at center of maze with 4 doors
+        // Create an initial hostage room at center of maze with 4 doors
         for(int i = 0; i < generateEntry.length; i++) {
             generateEntry[i] = EntryType.DOOR;
         }
         position = new Vector2i((size/2)*Interior.WIDTH, (size/2)*Interior.HEIGHT);
-        rooms.set((size/2)+((size/2)*size), createRoom(0, position, null, generateEntry)); // for now center will be Hostage room
+        rooms.set((size/2)+((size/2)*size), createRoom(-1, position, null, generateEntry)); // for now center will be Hostage room
         // Generate Rooms branching outwards from center (only add a room if have a door with no link)
         boolean newLinks = true;
         while(newLinks) {
@@ -516,9 +530,17 @@ public class LevelLoader {
      */
     private static Interior createRoom(int layout, Vector2i position, Door door, EntryType[] generateEntry) {
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(roomLayouts[layout])));
+            BufferedReader bufferedReader;
+            if(layout == -1) {
+                bufferedReader = new BufferedReader(new FileReader(new File(hostageLayout)));
+            } else {
+                bufferedReader = new BufferedReader(new FileReader(new File(roomLayouts[layout])));
+            }
             Interior room = new Interior(position, layout);
-            EnemyType enemyType = EnemyType.randomEnemy();
+            EnemyType enemyType1 = EnemyType.randomWeakEnemy();
+            EnemyType enemyType2 = EnemyType.randomWeakEnemy();
+            ObstacleType obstacleType1 = ObstacleType.randomObstacle();
+            ObstacleType obstacleType2 = ObstacleType.randomObstacle();
             String line = null;
             while((line = bufferedReader.readLine()) != null) {
                 line = line.toLowerCase();
@@ -563,23 +585,26 @@ public class LevelLoader {
                         String[] parts = line.toLowerCase().split("\\s+");
                         int x = Integer.parseInt(parts[3].split("\"")[1]) + position.x;
                         int y = Integer.parseInt(parts[4].split("\"")[1]) + position.y;
-                        if(parts[1].contains("playerspawn")) {
-                            //room.addPlayer(new Player(game, "spawn1.gif", x, y, x+11, y+19, 12, 11, 3, 0));
-                            room.setPortalExit(new Vector2i(x, y));
-                        }
-                        else if(parts[1].contains("enemyspawn")) {
-                         // ONLY TEMPORARY
-                         double rand = Math.random();
-                         if(rand >= 0.5) {
-                             room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, enemyType));
-                         } else {
-                             room.addItem(EntityFactory.createItem(new Vector2f(x, y), ItemType.randomItem()));
-                         }
-                        }
-                        else if(parts[1].contains("spike")) {
-                            
-                        }
-                        else if(parts[1].contains("door")) {
+                        if(parts[1].contains("enemyspawn")) {
+                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, enemyType1));
+                        } else if(parts[1].contains("enemyspawn2")) {
+                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, enemyType2));
+                        } else if(parts[1].contains("itemspawn")) {
+                            double rand = Math.random();
+                            if(rand <= 0.1) {
+                                room.addItem(EntityFactory.createItem(new Vector2f(x, y), ItemType.randomItem()));
+                            }
+                        } else if(parts[1].contains("bossspawn")) {
+                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, EnemyType.WOODMAN));
+                        } else if(parts[1].contains("obstacle1")) {
+                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType1));
+                        } else if(parts[1].contains("obstacle2")) {
+                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType2));
+                        } else if(parts[1].contains("hostagespawn")) {
+                            room.addNeutral(EntityFactory.createNeutral(Face.randomFace(), new Vector2f(x, y), NeutralType.HOSTAGE, null));
+                        } else if(parts[1].contains("celldoor")) {
+                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), ObstacleType.CELLDOOR));
+                        } else if(parts[1].contains("door")) {
                             Side side = Side.findByValue(parts[5].split("\"")[1]);
                             if(generateEntry[side.getIndex()].equals(EntryType.DOOR)) {
                                 
@@ -589,22 +614,22 @@ public class LevelLoader {
                                     room.addEntry(EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, null));
                                 }
                             } else if (generateEntry[side.getIndex()].equals(EntryType.PORTAL)) {
-                                Vector2i gkLoc;
+                                Vector2f gkLoc;
                                 Face direction;
                                 if(side.equals(Side.TOP)) {
-                                    gkLoc = new Vector2i(TILESIZE + x, TILESIZE + y);
+                                    gkLoc = new Vector2f(TILESIZE + x, TILESIZE + y);
                                     direction = Face.DOWN;
                                 } else if(side.equals(Side.LEFT)) {
-                                    gkLoc = new Vector2i(TILESIZE + x, TILESIZE + y);
+                                    gkLoc = new Vector2f(TILESIZE + x, TILESIZE + y);
                                     direction = Face.RIGHT;
                                 } else if(side.equals(Side.RIGHT)) {
-                                    gkLoc = new Vector2i(x - TILESIZE, y - TILESIZE);
+                                    gkLoc = new Vector2f(x - TILESIZE, y - TILESIZE);
                                     direction = Face.LEFT;
                                 } else {
-                                    gkLoc = new Vector2i(x - TILESIZE, y - TILESIZE);
+                                    gkLoc = new Vector2f(x - TILESIZE, y - TILESIZE);
                                     direction = Face.UP;
                                 }
-                                gkLoc.addEq(new Vector2i(8, 8));
+                                gkLoc.addEq(new Vector2f(8, 8));
                                 
                                 Portal portal = (Portal) EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.PORTAL, null);
                                 room.addEntry(portal);

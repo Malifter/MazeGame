@@ -42,7 +42,6 @@ public class Interior extends Room {
     
     private Vector2i center;
     private Vector2i location;
-    private Vector2i portalExit;
     // private ArrayList<Vertex2> enemySpawns; // Only needed if enemies can respawn
     private ArrayList<Hostile> enemies = new ArrayList<Hostile>();
     private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
@@ -91,7 +90,9 @@ public class Interior extends Room {
                 if(enemy.isEnabled()) {
                     enemy.update(elapsedTime);
                 } else {
-                    addItem(EntityFactory.createItem(new Vector2f(enemy.getRigidBody().getLocation()), ItemType.randomItem()));
+                    if(enemies.size() == 1) {
+                        addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
+                    }
                     hostileItr.remove();
                     continue;
                 }
@@ -129,6 +130,16 @@ public class Interior extends Room {
                     item.update(elapsedTime);
                 } else {
                     itemItr.remove();
+                    continue;
+                }
+            }
+            
+            // obstacles
+            Iterator<Obstacle> obstacleItr = obstacles.iterator();
+            while(obstacleItr.hasNext()) {
+                Obstacle obstacle = obstacleItr.next();
+                if(!obstacle.isEnabled()) {
+                    obstacleItr.remove();
                     continue;
                 }
             }
@@ -181,7 +192,9 @@ public class Interior extends Room {
                     for(Obstacle obstacle: obstacles) {
                         if(obstacle.getRigidBody().isEnabled() && (obstacle.isDangerous() || obstacle.isBlocking()) && Collisions.detectCollision(player, obstacle)) {
                             if(obstacle.isDangerous()) {
-                                player.takeDamage(Obstacle.COLLISION_DAMAGE);
+                                obstacle.collide(player);
+                            } else if(obstacle.isOpenable()) {
+                                obstacle.interact(player);
                             }
                             if(obstacle.isBlocking()) {
                                 Collisions.applySingleCorrection(player, obstacle);
@@ -207,7 +220,8 @@ public class Interior extends Room {
                     }
                     // projectiles
                     for(Projectile projectile: projectiles) {
-                        if(projectile.getRigidBody().isEnabled() && projectile.dangerousTo(enemy) && Collisions.detectCollision(enemy, projectile)) {
+                        if(projectile.getRigidBody().isEnabled() && projectile.dangerousTo(enemy) &&
+                                projectile.ownedByPlayer() && Collisions.detectCollision(enemy, projectile)) {
                             projectile.collide(enemy);
                         }
                     }
@@ -221,7 +235,7 @@ public class Interior extends Room {
                     for(Obstacle obstacle: obstacles) {
                         if(obstacle.getRigidBody().isEnabled() && (obstacle.isDangerous() || obstacle.isBlocking()) && Collisions.detectCollision(enemy, obstacle)) {
                             if(obstacle.isDangerous()) {
-                                enemy.takeDamage(Obstacle.COLLISION_DAMAGE);
+                                obstacle.collide(enemy);
                             }
                             if(obstacle.isBlocking()) {
                                 Collisions.applySingleCorrection(enemy, obstacle);
@@ -240,7 +254,7 @@ public class Interior extends Room {
                     // projectiles
                     for(Projectile projectile: projectiles) {
                         if(projectile.getRigidBody().isEnabled() && Collisions.detectCollision(obstacle, projectile)) {
-                            projectile.collide(null);
+                            projectile.collide(obstacle);
                         }
                     }
                     // neutrals
@@ -299,7 +313,7 @@ public class Interior extends Room {
                 if(projectile.getRigidBody().isEnabled()) {
                     for(Tile tile: foreground) {
                         if(tile.getRigidBody().isEnabled() && Collisions.detectCollision(projectile, tile)) {
-                            projectile.collide(null);
+                            projectile.collide();
                         }
                     }
                 }
@@ -404,13 +418,5 @@ public class Interior extends Room {
     
     public ArrayList<Hostile> getEnemies() {
         return enemies;
-    }
-    
-    public void setPortalExit(Vector2i portalExit) {
-        this.portalExit = portalExit;
-    }
-    
-    public Vector2i getPortalExit() {
-        return portalExit;
     }
 }

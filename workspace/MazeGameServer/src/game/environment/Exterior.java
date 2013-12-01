@@ -194,7 +194,7 @@ public class Exterior extends Room{
                 if(projectile.getRigidBody().isEnabled()) {
                     for(Tile tile: foreground) {
                         if(tile.getRigidBody().isEnabled() && Collisions.detectCollision(projectile, tile)) {
-                            projectile.collide(null);
+                            projectile.collide();
                         }
                     }
                 }

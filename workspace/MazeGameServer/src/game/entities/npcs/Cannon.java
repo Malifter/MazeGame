@@ -62,11 +62,9 @@ public class Cannon extends Hostile {
         if(angleShot) {
             if (isRight) image = imageArrayRight[1]; 
             else image = imageArray[1];
-            projectile.enableY();
         } else {
             if (isRight) image = imageArrayRight[0]; 
             else image = imageArray[0];
-            projectile.disableY();
         }
         room.addProjectile(projectile);
         angleShot = !angleShot;

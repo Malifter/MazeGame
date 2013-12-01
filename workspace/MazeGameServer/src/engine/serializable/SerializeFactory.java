@@ -2,6 +2,8 @@ package engine.serializable;
 
 import engine.Vector2f;
 import game.entities.Entity;
+import game.entities.environment.Entry;
+import game.entities.environment.Obstacle;
 import game.entities.npcs.Player;
 import game.enums.Sounds;
 import game.environment.Exterior;
@@ -33,5 +35,9 @@ public class SerializeFactory {
     
     public static SerializedEntity serialize(Entity entity) {
         return new SerializedEntity(entity.getUUID(), entity.getImage(), new Vector2f(entity.getRigidBody().getLocation()), !entity.isEnabled());
+    }
+    
+    public static SerializedObstacle serialize(Obstacle obstacle) {
+        return new SerializedObstacle(obstacle.getUUID(), obstacle.getImage(), new Vector2f(obstacle.getRigidBody().getLocation()), !obstacle.isEnabled());
     }
 }

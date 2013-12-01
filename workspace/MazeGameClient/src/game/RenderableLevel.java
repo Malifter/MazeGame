@@ -22,8 +22,25 @@ public class RenderableLevel {
     private final static String GIF = ".gif";
     private final static String layoutPath = "assets/layouts/";
     private final static String exteriorLayout = layoutPath+"exterior/OutsideLayout.oel";
-    private final static String roomLayouts[] = {layoutPath+"rooms/RoomLayout0.oel", layoutPath+"rooms/RoomLayout1.oel"};
-    private final static String hostageLayout = layoutPath+"rooms/RoomLayout0.oel";//layoutPath+"hostage/HostageRoomLayout.oel";
+    private final static String roomLayouts[] = {layoutPath+"rooms/RoomLayout0.oel",
+        layoutPath+"rooms/RoomLayout1.oel",
+        layoutPath+"rooms/RoomLayout2.oel",
+        layoutPath+"rooms/RoomLayout3.oel",
+        layoutPath+"rooms/RoomLayout4.oel",
+        layoutPath+"rooms/RoomLayout5.oel",
+        layoutPath+"rooms/RoomLayout6.oel",
+        layoutPath+"rooms/RoomLayout7.oel",
+        layoutPath+"rooms/RoomLayout8.oel",
+        layoutPath+"rooms/RoomLayout9.oel",
+        layoutPath+"rooms/RoomLayout10.oel",
+        layoutPath+"rooms/RoomLayout11.oel",
+        layoutPath+"rooms/RoomLayout12.oel",
+        layoutPath+"rooms/RoomLayout13.oel",
+        layoutPath+"rooms/RoomLayout14.oel",
+        layoutPath+"rooms/RoomLayout15.oel",
+        layoutPath+"rooms/RoomLayout16.oel",
+        layoutPath+"rooms/RoomLayout17.oel"};
+private final static String hostageLayout = layoutPath+"hostage/HostageRoom0.oel";
     private final static String tilesetPath = "tilesets/";
     
     private ArrayList<RenderableRoom> rooms = new ArrayList<RenderableRoom>();
@@ -60,7 +77,12 @@ public class RenderableLevel {
     public static RenderableRoom createRoom(int layout, Vector2i position) {
         try {
             RenderableRoom renderableRoom = new RenderableRoom();
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(roomLayouts[layout])));
+            BufferedReader bufferedReader;
+            if(layout == -1) {
+                bufferedReader = new BufferedReader(new FileReader(new File(hostageLayout)));
+            } else {
+                bufferedReader = new BufferedReader(new FileReader(new File(roomLayouts[layout])));
+            }
             String line = null;
             while((line = bufferedReader.readLine()) != null) {
                 line = line.toLowerCase();

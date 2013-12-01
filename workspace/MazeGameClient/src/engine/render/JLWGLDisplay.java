@@ -49,7 +49,7 @@ public class JLWGLDisplay implements IDisplay {
             glEnable(GL_TEXTURE_2D);
             // disable the OpenGL depth engine since we're rendering 2D
             // graphics
-            //glDisable(GL_DEPTH_TEST);
+            glDisable(GL_DEPTH_TEST);
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
             glOrtho(0, theWidth, theHeight, 0, -1, 1);

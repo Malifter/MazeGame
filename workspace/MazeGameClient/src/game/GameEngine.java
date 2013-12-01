@@ -6,8 +6,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.java.games.input.*;
 
@@ -23,6 +28,7 @@ import engine.render.IDisplay;
 import engine.render.Sprite;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
+import engine.serializable.SerializedObstacle;
 import engine.serializable.SerializedPlayer;
 import engine.serializable.SerializedRoom;
 import engine.soundmanager.SoundManager;
@@ -289,20 +295,7 @@ public class GameEngine {
             Game.update(delta, updatedObjects);
             
             // Paint the graphics
-            render();
-            if(updatedObjects != null) {
-                for(SerializedObject so: updatedObjects) {
-                    if(so instanceof SerializedEntity) {
-                        SerializedEntity se = (SerializedEntity)so;
-                        Sprite sprite = Game.getDisplay().getSprite(se.getImage());
-                        sprite.draw(se.getPosition().x.intValue(), se.getPosition().y.intValue());
-                    } else if(so instanceof SerializedPlayer) {
-                        SerializedPlayer sp = (SerializedPlayer)so;
-                        Sprite sprite = Game.getDisplay().getSprite(sp.getImage());
-                        sprite.draw(sp.getPosition().x.intValue(), sp.getPosition().y.intValue());
-                    }
-                }
-            }
+            render(updatedObjects);
             
             // update window contents
             display.update();
@@ -419,9 +412,42 @@ public class GameEngine {
     /**
      * render: Syncs the display to FPS
      */
-    public static void render() {
+    public static void render(List<SerializedObject> updatedObjects) {
         display.sync(FPS);
         drawEntities();
+        if(updatedObjects != null) {
+            HashMap<SerializedObject, Float> renderMap = new HashMap<SerializedObject, Float>();
+            ValueComparator bvc = new ValueComparator(renderMap);
+            TreeMap<SerializedObject, Float> sortedMap = new TreeMap<SerializedObject, Float>(bvc);
+            for(SerializedObject so: updatedObjects) {
+                if(so instanceof SerializedObstacle) {
+                    SerializedObstacle s = (SerializedObstacle)so;
+                    Sprite sprite = Game.getDisplay().getSprite(s.getImage());
+                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+                }
+                else if(so instanceof SerializedEntity) {
+                    SerializedEntity s = (SerializedEntity)so;
+                    renderMap.put(s, s.getPosition().y);
+                } else if(so instanceof SerializedPlayer) {
+                    SerializedPlayer s = (SerializedPlayer)so;
+                    renderMap.put(s, s.getPosition().y);
+                }
+            }
+            sortedMap.putAll(renderMap);
+            Iterator<SerializedObject> mapItr = sortedMap.navigableKeySet().iterator();
+            while(mapItr.hasNext()) {
+                SerializedObject so = mapItr.next();
+                if(so instanceof SerializedEntity) {
+                    SerializedEntity s = (SerializedEntity)so;
+                    Sprite sprite = Game.getDisplay().getSprite(s.getImage());
+                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+                } else if(so instanceof SerializedPlayer) {
+                    SerializedPlayer s = (SerializedPlayer)so;
+                    Sprite sprite = Game.getDisplay().getSprite(s.getImage());
+                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+                }
+            }
+        }
     }
     
     /**

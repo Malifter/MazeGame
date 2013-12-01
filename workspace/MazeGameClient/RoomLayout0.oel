@@ -4,7 +4,33 @@
     <Door id="1" x="112" y="128" Side="BOTTOM" Row="-1" Col="-1" />
     <Door id="2" x="224" y="64" Side="RIGHT" Row="-1" Col="-1" />
     <Door id="3" x="0" y="64" Side="LEFT" Row="-1" Col="-1" />
-    <PlayerSpawn id="4" x="112" y="64" />
+    <EnemySpawn id="8" x="168" y="32" />
+    <Obstacle1 id="10" x="48" y="32" />
+    <Obstacle1 id="11" x="64" y="48" />
+    <Obstacle1 id="12" x="80" y="64" />
+    <Obstacle1 id="15" x="144" y="64" />
+    <Obstacle1 id="18" x="160" y="80" />
+    <Obstacle1 id="19" x="176" y="96" />
+    <ItemSpawn id="20" x="16" y="112" />
+    <ItemSpawn id="21" x="208" y="16" />
+    <Obstacle1 id="4" x="32" y="16" />
+    <Obstacle1 id="9" x="16" y="16" />
+    <Obstacle1 id="22" x="32" y="32" />
+    <Obstacle1 id="23" x="48" y="48" />
+    <Obstacle1 id="24" x="80" y="48" />
+    <Obstacle1 id="13" x="144" y="80" />
+    <Obstacle1 id="14" x="176" y="80" />
+    <Obstacle1 id="16" x="48" y="16" />
+    <Obstacle1 id="17" x="64" y="16" />
+    <Obstacle1 id="25" x="64" y="32" />
+    <Obstacle1 id="26" x="160" y="96" />
+    <Obstacle1 id="27" x="160" y="112" />
+    <Obstacle1 id="28" x="176" y="112" />
+    <Obstacle1 id="29" x="208" y="112" />
+    <Obstacle1 id="30" x="192" y="112" />
+    <EnemySpawn id="6" x="56" y="88" />
+    <EnemySpawn2 id="7" x="176" y="40" />
+    <EnemySpawn2 id="5" x="64" y="96" />
   </Objects>
   <Foreground tileset="tiles_mm1_elec">
 3,3,3,3,3,3,3,-1,3,3,3,3,3,3,3

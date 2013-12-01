@@ -3,7 +3,7 @@ package game.entities.environment;
 import engine.physics.RigidBody;
 
 /*
-* Classname:            SpikeEntity.java
+* Classname:            Spikes.java
 *
 * Version information:  1.0
 *
