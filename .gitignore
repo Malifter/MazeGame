@@ -227,3 +227,5 @@ workspace/.metadata/.plugins/org.eclipse.jdt.ui/QualifiedTypeNameHistory.xml
 workspace/.metadata/.plugins/org.eclipse.ltk.ui.refactoring/dialog_settings.xml
 workspace/.metadata/.plugins/org.eclipse.search/dialog_settings.xml
 workspace/.metadata/.plugins/org.eclipse.ui.workbench.texteditor/dialog_settings.xml
+workspace/.metadata/.plugins/org.eclipse.epp.usagedata.recording/usagedata.csv
+workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/2.png
