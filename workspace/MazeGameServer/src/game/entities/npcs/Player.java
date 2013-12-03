@@ -68,7 +68,7 @@ public class Player extends Hostile {
     // SPAWN LOCATION NEEDS EITHER INSTANCE OF SPAWNLOC OR LOCATION IN EXTERIOR
     private int imgArraySize = 0;
     private int playerID = 0;
-    private Inventory inventory = new Inventory(this);
+    private Inventory inventory = new Inventory();
     private int lives;
     private Hostage follower = null;
     
@@ -445,24 +445,11 @@ public class Player extends Hostile {
         }
     }
     
-    public void pickItem(Item item){
-        if(item instanceof Consumable){
-            Consumable cItem = (Consumable) item;
-            cItem.consumed(this);
-        }else if(item instanceof NotConsumable){
-            NotConsumable ncItem = (NotConsumable) item;
-            this.addToInventory(ncItem);
-            if(ncItem instanceof Bomb) {
-                ((Bomb) ncItem).startTimer(this);
-                this.takeDamage(((Bomb) ncItem).getPower());
-            }
-            
-        }
-    }
     
-    public void addToInventory(NotConsumable ncItem){
-        ncItem.getRigidBody().disable();
-        this.getInventory().addItem(ncItem);
+    public void pickItem(Item item){
+        item.getRigidBody().disable();
+        item.pickUp(this);
+        //this.getInventory().addItem(ncItem);
     }
     
     public int getLives() {

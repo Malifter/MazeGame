@@ -189,8 +189,8 @@ public class Interior extends Room {
                     while(itemItr.hasNext()) {
                         Item item = itemItr.next();
                         if(item.getRigidBody().isEnabled() && Collisions.detectCollision(player, item)) {
-                            player.pickItem(item);
-                            itemItr.remove();
+                            item.pickUp(player);
+                            //itemItr.remove();
                         }
                     }
                     // obstacles

@@ -2,6 +2,7 @@ package game.entities.items;
 
 import engine.physics.RigidBody;
 import game.entities.Entity;
+import game.entities.npcs.Player;
 
 /*
 * Classname:            Item.java
@@ -20,6 +21,8 @@ public abstract class Item extends Entity {
     public Item(String anImage, RigidBody rb) {
         super(anImage, rb);
     }
+    public abstract void use(Player p);
+    public abstract void pickUp(Player p);
 }
     
     

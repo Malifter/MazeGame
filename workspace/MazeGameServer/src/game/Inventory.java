@@ -1,34 +1,44 @@
 package game;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import game.entities.items.NotConsumable;
 import game.entities.npcs.Player;
+import game.enums.ItemType;
 
 public class Inventory {
-    private ArrayList<NotConsumable> itemList = new ArrayList<NotConsumable>();
-    private Player player;
-    private int goldAmount = 0;
-    private int numKeys = 0;
-    
-    public Inventory(Player p){
-        this.player = p;
+    //private final ItemType[] items = {ItemType.BOMB, ItemType.CKEY, ItemType.DKEY, ItemType.GOLD, ItemType.SHIELD, ItemType.TOOL};
+    private final HashMap<ItemType, Integer> items = new HashMap<ItemType, Integer>();
+    public Inventory(){
+        items.put(ItemType.BOMB, 0);
+        items.put(ItemType.CKEY, 0);
+        items.put(ItemType.DKEY, 0);
+        items.put(ItemType.GOLD, 0);
+        items.put(ItemType.SHIELD, 0);
+        items.put(ItemType.TOOL, 0);
     }
     
-    public void addItem(NotConsumable item){
-        System.out.println("Item added to player :" + getPlayer());
-        itemList.add(item);
+    public void addItem(ItemType item){
+        //exception
+        items.put(item, items.get(item)+1);
     }
     
-    public void removeItem(NotConsumable item){
-        itemList.remove(item);
+    public void removeItem(ItemType item){
+        //exception handle
+        items.put(item, items.get(item)-1);
     }
     
-    public ArrayList<NotConsumable> getItem(){
-        return itemList;
+    public HashMap<ItemType, Integer> getItem(){
+        return items;
     }
-    
-    public Player getPlayer(){
-        return player;//use this to display player's inventory information
+
+    public int getQuantity(ItemType item){
+        return items.get(item);
     }
+
+    public void setQuantity(ItemType item, int quantity){
+        items.put(item, quantity);
+    }
+   //set quantity (ItemType, int)
 }

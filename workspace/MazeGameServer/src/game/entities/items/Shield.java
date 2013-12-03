@@ -1,6 +1,8 @@
 package game.entities.items;
 
 import engine.physics.RigidBody;
+import game.entities.npcs.Player;
+import game.enums.ItemType;
 
 public class Shield extends NotConsumable {
     private int strength;
@@ -16,5 +18,15 @@ public class Shield extends NotConsumable {
         if (strength <= 0) {
             isDestroyed = true;
         }
+    }
+
+    @Override
+    public void use(Player p) {
+        // TODO Auto-generated method stub  
+    }
+    
+    public void pickUp(Player player) {
+        disable();
+        player.getInventory().addItem(ItemType.SHIELD);
     }
 }

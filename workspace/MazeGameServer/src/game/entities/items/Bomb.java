@@ -2,8 +2,10 @@ package game.entities.items;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import engine.physics.RigidBody;
 import game.entities.npcs.Player;
+import game.enums.ItemType;
 
 public class Bomb extends NotConsumable {
     private int power = 0;
@@ -16,11 +18,9 @@ public class Bomb extends NotConsumable {
     
     public Bomb(RigidBody rb) {
         super("items/bomb/bomb.gif/", rb);
-       
         //bombClock = new BombTask();
         time = 7;
-        power = BOMB_POWER;
-        
+        power = BOMB_POWER;  
     }
     
     public void startTimer(Player player) {
@@ -42,11 +42,20 @@ public class Bomb extends NotConsumable {
 
     public void explode() {
         isExploded =  true;
-      
     }
 
     public int getPower() {
         return power;
+    }
+
+    public void pickUp(Player player) {
+        disable();
+        player.getInventory().addItem(ItemType.BOMB);
+    }
+    @Override
+    public void use(Player p) {
+        // TODO Auto-generated method stub
+        
     }
 }
 

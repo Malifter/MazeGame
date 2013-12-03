@@ -7,9 +7,10 @@ public class ExtraLife extends Consumable {
     public ExtraLife(RigidBody rb) {
         super("items/elife/elife.gif/", rb);
     }
+    
 
-    public void consumed(Player player) {
-        super.consumed(player);
+    public void use(Player player) {
+        disable();
         player.addLife();
     }
 }
