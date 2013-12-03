@@ -61,9 +61,6 @@ public class GameEngine {
         lastLoopTime = getTime();
         while (playingGame) {
             
-            // resets inputs
-            resetInputs();
-            
             long delta = getTime() - lastLoopTime;
             if(delta < 16) {
                 try {
@@ -101,19 +98,6 @@ public class GameEngine {
     }
     
     /**
-     * resetInputs: resets local engine inputs
-     */
-    private static void resetInputs() {
-        for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
-            inputLocks.get(playerID).lock();
-            for(int i = 0; i < Pressed.SIZE; i++) {
-                inputs.get(playerID).set(i, false);
-            }
-            inputLocks.get(playerID).unlock();
-        }
-    }
-    
-    /**
      * getInputs: sets local game inputs with local engine inputs
      */
     public static void getInputs() {
@@ -131,8 +115,13 @@ public class GameEngine {
      */
     public static void setInputs(List<Pressed> pressed, int playerID) {
         inputLocks.get(playerID).lock();
-        for(Pressed p: pressed) {
-            inputs.get(playerID).set(p.getValue(), true);
+        for(int i = 0; i < Pressed.SIZE; i++) {
+            inputs.get(playerID).set(i, false);
+        }
+        if(pressed != null) {
+            for(Pressed p: pressed) {
+                inputs.get(playerID).set(p.getValue(), true);
+            }
         }
         inputLocks.get(playerID).unlock();
     }
@@ -161,10 +150,10 @@ public class GameEngine {
     }
     
     public static void newPlayerConnected(int playerID) {
-        MazeGameServer.joinNewPlayer(playerID);
         if(MazeGameServer.numPlayers < MazeGameServer.NUM_PLAYERS) {
             initNewInputs();
             initNewUpdates();
+            MazeGameServer.joinNewPlayer(playerID);
         }
     }
     

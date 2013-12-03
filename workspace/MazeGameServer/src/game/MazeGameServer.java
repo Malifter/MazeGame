@@ -98,8 +98,8 @@ public class MazeGameServer {
     }
     
     public static void joinNewPlayer(int playerID) {
-        Vector2f spawnLocation = new Vector2f(level.getExterior().getPlayerSpawns().get(playerID));
         if(numPlayers < NUM_PLAYERS) {
+            Vector2f spawnLocation = new Vector2f(level.getExterior().getPlayerSpawns().get(playerID));
             level.getExterior().addPlayer(EntityFactory.createPlayer(Face.DOWN, spawnLocation, playerID, level.getExterior()));
             initNewInputs();
             initNewUpdates();

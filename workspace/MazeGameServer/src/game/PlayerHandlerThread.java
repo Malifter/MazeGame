@@ -66,10 +66,7 @@ public class PlayerHandlerThread implements Runnable {
             setUp();
             sendLevelToClient(LevelLoader.getLevelLayout());
             while(GameEngine.playingGame) {                
-                List<Pressed> inputs = checkForClientInputs();
-                if(inputs != null) {
-                    GameEngine.setInputs(inputs, playerID); // lock and apply inputs
-                }
+                GameEngine.setInputs(checkForClientInputs(), playerID); // lock and apply inputs
                 
                 List<SerializedObject> updates = GameEngine.getUpdates(playerID); // lock and get updates
                 if(updates.size() > 0) {

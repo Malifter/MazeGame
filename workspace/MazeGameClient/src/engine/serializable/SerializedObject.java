@@ -13,7 +13,7 @@ package engine.serializable;
 import java.io.Serializable;
 
 
-public abstract class SerializedObject implements Serializable{
+public abstract class SerializedObject implements Serializable {
 	private static final long serialVersionUID = -4988010332278134153L;
     protected String uniqueID;
 
