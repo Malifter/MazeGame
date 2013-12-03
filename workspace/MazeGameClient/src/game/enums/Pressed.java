@@ -10,7 +10,8 @@ public enum Pressed {
     PAUSE(6),
     START_GAME(7), 
     SELECT_FORWARD(8),
-    SELECT_BACKWARD(9);
+    SELECT_BACKWARD(9),
+    USE_ITEM(10);
     
     public static final int SIZE = values().length;
     

@@ -275,6 +275,9 @@ public class GameEngine {
             if(Game.pause.isDown()) inputs.add(Pressed.PAUSE);
             //if(Game.cameraMode.isDown()) inputs.add("cameraMode");
             if(Game.startGame.isDown()) inputs.add(Pressed.START_GAME);
+            if(Game.selectForward.isDown()) inputs.add(Pressed.SELECT_FORWARD);
+            if(Game.selectBackward.isDown()) inputs.add(Pressed.SELECT_BACKWARD);
+            if(Game.useItem.isDown()) inputs.add(Pressed.USE_ITEM);
             
             
             long delta = getTime() - lastLoopTime;
@@ -296,6 +299,7 @@ public class GameEngine {
             
             // Paint the graphics
             render(updatedObjects);
+            // draw GUI here or add last to render function
             
             // update window contents
             display.update();

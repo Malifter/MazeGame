@@ -1,6 +1,9 @@
 package engine.serializable;
 
+import java.util.List;
+
 import engine.Vector2f;
+import game.enums.ItemType;
 
 /*
 * Classname:            SerializedPlayer.java
@@ -19,11 +22,12 @@ public class SerializedPlayer extends SerializedObject {
     private static final long serialVersionUID = 2223980202920884570L;
     private String image;
     private Vector2f position;
-
-    public SerializedPlayer(String uniqueID, String image, Vector2f position) {
+    private List <ItemType> items;
+    public SerializedPlayer(String uniqueID, String image, Vector2f position, List<ItemType> items) {
         super(uniqueID);
         this.image = image;
         this.position = position;
+        this.items = items;
     }
 
     public String getImage() {
@@ -40,5 +44,13 @@ public class SerializedPlayer extends SerializedObject {
     
     public void setPosition(Vector2f position) {
         this.position = position;
+    }
+    
+    public void setItems(List<ItemType> items){
+        this.items = items;
+    }
+    
+    public List<ItemType> getItems(){
+        return items;
     }
 }

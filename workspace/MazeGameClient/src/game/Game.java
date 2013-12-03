@@ -66,6 +66,8 @@ public class Game {
             new PhysicalInput[] { PhysicalInput.KEYBOARD_E});
     public static Button selectBackward = new Button(
             new PhysicalInput[] { PhysicalInput.KEYBOARD_Q});
+    public static Button useItem = new Button(
+            new PhysicalInput[] { PhysicalInput.KEYBOARD_LEFT_SHIFT});
     
     public static int sound_hit;
     public static int sound_shot;
@@ -197,6 +199,9 @@ public class Game {
                 }
                 else if(so instanceof SerializedPlayer) {
                     SerializedPlayer sp = (SerializedPlayer) so;
+//                    GUI.populate(sp.getItems());
+//                    GUI.setPlayerHealth(sp.getHealth());
+//                    GUI.setPlayerLives(sp.getLives());
                     if(level.getCurrentIndex() == 0) {
                         cam.setFocusObject(sp);
                     }

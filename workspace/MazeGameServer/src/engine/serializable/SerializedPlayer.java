@@ -22,7 +22,9 @@ public class SerializedPlayer extends SerializedObject {
     private static final long serialVersionUID = 2223980202920884570L;
     private String image;
     private Vector2f position;
-    private List <ItemType> items;
+    private List <ItemType> items; // map of items
+    // int health
+    // int lives
     public SerializedPlayer(String uniqueID, String image, Vector2f position, List<ItemType> items) {
         super(uniqueID);
         this.image = image;
