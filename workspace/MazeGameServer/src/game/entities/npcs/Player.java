@@ -223,7 +223,12 @@ public class Player extends Hostile {
         if(isDamage == 0 && isVuln){
             //GameEngine.playSound(game.sound_hit);
             //setHealthPoints(getHealthPoints()-d);
-            setHealthPoints(getHealthPoints()-0);//for testing purpose
+            if(this.getInventory().getQuantity(ItemType.SHIELD)>0){//if have shield, take shield away
+                this.getInventory().removeItem((ItemType.SHIELD));
+            }else{
+                System.out.println(this.getInventory().getItem().toString());
+                setHealthPoints(getHealthPoints()-0);//for testing purpose
+            }
             isDamage = 1;
             imageIndex = 0;
             currentTime = GameEngine.getTime();
@@ -446,11 +451,11 @@ public class Player extends Hostile {
     }
     
     
-    public void pickItem(Item item){
-        item.getRigidBody().disable();
-        item.pickUp(this);
-        //this.getInventory().addItem(ncItem);
-    }
+//    public void pickItem(Item item){
+//        item.getRigidBody().disable();
+//        item.pickUp(this);
+//        //this.getInventory().addItem(ncItem);
+//    }
     
     public int getLives() {
         return lives;

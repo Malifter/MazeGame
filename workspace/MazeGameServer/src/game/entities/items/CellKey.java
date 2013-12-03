@@ -10,12 +10,12 @@ public class CellKey extends NotConsumable {
     }
     
     public void pickUp(Player player) {
+        System.out.println("Ckey picked up");
         disable();
         player.getInventory().addItem(ItemType.CKEY);
     }
     @Override
     public void use(Player p) {
         // TODO Auto-generated method stub
-        
     }
 }

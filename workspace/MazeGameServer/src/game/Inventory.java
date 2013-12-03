@@ -1,10 +1,6 @@
 package game;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import game.entities.items.NotConsumable;
-import game.entities.npcs.Player;
 import game.enums.ItemType;
 
 public class Inventory {

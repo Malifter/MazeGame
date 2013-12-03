@@ -9,6 +9,7 @@ public abstract class Consumable extends Item {
     }
     
     public void pickUp(Player p){
+        System.out.println("a consumable picked up");
         disable();
         use(p);
     }

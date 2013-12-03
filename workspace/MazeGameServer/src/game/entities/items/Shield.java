@@ -5,24 +5,22 @@ import game.entities.npcs.Player;
 import game.enums.ItemType;
 
 public class Shield extends NotConsumable {
-    private int strength;
-    private boolean isDestroyed;
+    private int durability=10;
     
     public Shield(RigidBody rb) {
         super("items/shield/shield.gif/", rb);
-        isDestroyed = false;
     }
     
-    public void getAttacked(int damage){
-        strength = strength - damage;
-        if (strength <= 0) {
-            isDestroyed = true;
+    public void takeDamage(int damage, Player player){
+        durability = durability - damage;
+        if (durability <= 0) {
+            player.getInventory().removeItem(ItemType.SHIELD);
         }
     }
 
     @Override
     public void use(Player p) {
-        // TODO Auto-generated method stub  
+        // TODO Auto-generated method stub
     }
     
     public void pickUp(Player player) {

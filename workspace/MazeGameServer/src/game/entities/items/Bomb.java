@@ -49,6 +49,7 @@ public class Bomb extends NotConsumable {
     }
 
     public void pickUp(Player player) {
+        System.out.println("bomb picked up");
         disable();
         player.getInventory().addItem(ItemType.BOMB);
     }

@@ -11,6 +11,7 @@ public class DisguiseTool extends NotConsumable {
     } 
     
     public void pickUp(Player player) {
+        System.out.println("disguishtool picked up");
         disable();
         player.getInventory().addItem(ItemType.TOOL);
     }

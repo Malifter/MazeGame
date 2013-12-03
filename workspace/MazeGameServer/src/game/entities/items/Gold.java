@@ -17,6 +17,7 @@ public class Gold extends NotConsumable {
 
     @Override
     public void pickUp(Player player) {
+        System.out.println("gold picked up");
         disable();
         player.getInventory().addItem(ItemType.GOLD);
     }

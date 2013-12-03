@@ -151,7 +151,7 @@ public class Exterior extends Room{
                     while(itemItr.hasNext()) {
                         Item item = itemItr.next();
                         if(item.getRigidBody().isEnabled() && Collisions.detectCollision(player, item)) {
-                            player.pickItem(item);
+                            item.pickUp(player);//player.pickItem(item);
                             itemItr.remove();
                         }
                     }

@@ -14,7 +14,7 @@ public class SerializeFactory {
     private SerializeFactory() {}
     
     public static SerializedPlayer serialize(Player player) {
-        return new SerializedPlayer(player.getUUID(), player.getImage(), new Vector2f(player.getRigidBody().getLocation()));
+        return new SerializedPlayer(player.getUUID(), player.getImage(), new Vector2f(player.getRigidBody().getLocation()), null);
     }
     
     public static SerializedSound serialize(Sounds sound) {
