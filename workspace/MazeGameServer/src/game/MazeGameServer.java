@@ -31,7 +31,7 @@ public class MazeGameServer {
     public static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
     public static ArrayList<Vector2f> mice = new ArrayList<Vector2f>();
     public static ArrayList<List<SerializedObject>> updates = new ArrayList<List<SerializedObject>>();
-    public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.SMALL);
+    public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.LARGE);
     
     /**
      * Constructor: Private to prevent instantiation.

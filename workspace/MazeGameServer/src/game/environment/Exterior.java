@@ -13,6 +13,7 @@ package game.environment;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import engine.Vector2i;
 import engine.physics.Collisions;
 import engine.serializable.SerializeFactory;
@@ -20,6 +21,7 @@ import engine.serializable.SerializedObject;
 import game.MazeGameServer;
 import game.entities.environment.Entry;
 import game.entities.environment.Tile;
+import game.entities.items.ABomb;
 import game.entities.items.Item;
 import game.entities.npcs.Hostage;
 import game.entities.npcs.Neutral;
@@ -151,8 +153,11 @@ public class Exterior extends Room{
                     while(itemItr.hasNext()) {
                         Item item = itemItr.next();
                         if(item.getRigidBody().isEnabled() && Collisions.detectCollision(player, item)) {
-                            item.pickUp(player);//player.pickItem(item);
-                            itemItr.remove();
+                            if(item instanceof ABomb){
+                                Collisions.applySingleRadialCorrection(item, player);
+                            }else{
+                                item.pickUp(player);
+                            }
                         }
                     }
                     // entries

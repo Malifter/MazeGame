@@ -66,6 +66,7 @@ public class Player extends Hostile {
     private Inventory inventory = new Inventory();
     private int lives;
     private Hostage follower = null;
+    private boolean hasShield = false;
     
     public Player(String img, RigidBody rb, int playerID, Room room) {
         super(img, rb, room);
@@ -202,6 +203,7 @@ public class Player extends Hostile {
     public void update(long elapsedTime) {
         spawn(6);
         faceMouse(MazeGameServer.mice.get(playerID));
+        handleItems(MazeGameServer.inputs.get(playerID));
         handleInputs(MazeGameServer.inputs.get(playerID), elapsedTime);
         if(!isVuln){
             if(GameEngine.getTime() - currentTime > 750)
@@ -234,8 +236,8 @@ public class Player extends Hostile {
         if(isDamage == 0 && isVuln){
             //GameEngine.playSound(game.sound_hit);
             //setHealthPoints(getHealthPoints()-d);
-            if(this.getInventory().getQuantity(ItemType.SHIELD)>0){//if have shield, take shield away
-                this.getInventory().removeItem((ItemType.SHIELD));
+            if(getShield()){//if have shield, take shield away
+                setShield(false);
             }else{
                 System.out.println(this.getInventory().getItem().toString());
                 setHealthPoints(getHealthPoints()-0);//for testing purpose
@@ -393,11 +395,17 @@ public class Player extends Hostile {
     }
     
     
-//    public void pickItem(Item item){
-//        item.getRigidBody().disable();
-//        item.pickUp(this);
-//        //this.getInventory().addItem(ncItem);
-//    }
+    public void handleItems(ArrayList<Boolean> inputs){
+        if(inputs.get(Pressed.SELECT_FORWARD.getValue())){
+            this.getInventory().selectNextItem();
+        }
+        if(inputs.get(Pressed.SELECT_BACKWARD.getValue())){
+            this.getInventory().selectPrevItem();
+        }
+        if(inputs.get(Pressed.USE_ITEM.getValue())){
+            this.getInventory().useSelectedItem(this);
+        }
+    }
     
     public int getLives() {
         return lives;
@@ -424,5 +432,13 @@ public class Player extends Hostile {
             return true;
         }
         return false;
+    }
+    
+    public boolean getShield(){
+        return hasShield;
+    }
+    
+    public void setShield(boolean hasShield){
+        this.hasShield = hasShield;
     }
 }

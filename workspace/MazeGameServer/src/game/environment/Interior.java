@@ -12,6 +12,8 @@ package game.environment;
 
 import game.MazeGameServer;
 import game.entities.EntityFactory;
+import game.entities.environment.Chest;
+import game.entities.environment.Door;
 import game.entities.environment.Entry;
 import game.entities.environment.Obstacle;
 import game.entities.environment.Tile;
@@ -22,6 +24,8 @@ import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
 import game.entities.projectiles.Projectile;
 import game.enums.ItemType;
+import game.enums.ObstacleType;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +50,7 @@ public class Interior extends Room {
     // private ArrayList<Vertex2> enemySpawns; // Only needed if enemies can respawn
     private ArrayList<Hostile> enemies = new ArrayList<Hostile>();
     private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+    private ArrayList<Chest> chests = new ArrayList<Chest>();
     
     public Interior(Vector2i location, int layout) {
         super(layout);
@@ -96,7 +101,11 @@ public class Interior extends Room {
                     enemy.update(elapsedTime);
                 } else {
                     if(enemies.size() == 1) {
-                        addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
+                        if(Math.random()>7.25){
+                            addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
+                        }else{
+                            addObstacle(EntityFactory.createObstacle(new Vector2f(center), ObstacleType.CHEST, this));
+                        }
                     }
                     hostileItr.remove();
                     continue;
@@ -189,7 +198,11 @@ public class Interior extends Room {
                     while(itemItr.hasNext()) {
                         Item item = itemItr.next();
                         if(item.getRigidBody().isEnabled() && Collisions.detectCollision(player, item)) {
-                            item.pickUp(player);
+                            if(item instanceof ABomb){
+                                Collisions.applySingleRadialCorrection(item, player);
+                            }else{
+                                item.pickUp(player);
+                            }
                             //itemItr.remove();
                         }
                     }
@@ -208,8 +221,19 @@ public class Interior extends Room {
                     }
                     // entries
                     for(Entry entry: entries) {
-                        if(entry.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(player, entry);
+                        if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
+                            if(entry instanceof Door) {
+                                Door door = (Door) entry;
+                                if(player.getInventory().hasItem(ItemType.DKEY)) {
+                                    System.out.println("Unlock an door");
+                                    player.getInventory().removeItem(ItemType.DKEY);
+                                    door.unlock();
+                                } else {
+                                    Collisions.detectAndApplySingleCorrection(player, entry);
+                                }
+                            } else {
+                                Collisions.detectAndApplySingleCorrection(player, entry);
+                            }
                         }
                     }
                 }

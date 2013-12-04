@@ -119,6 +119,9 @@ public class Game {
         inputs.add(pause);
         inputs.add(cameraMode);
         inputs.add(startGame);
+        inputs.add(selectForward);
+        inputs.add(selectBackward);
+        inputs.add(useItem);
         
         initSounds();
         

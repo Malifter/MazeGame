@@ -12,7 +12,7 @@ public class Gold extends NotConsumable {
     @Override
     public void use(Player player) {
         disable();
-        player.getInventory().addItem(ItemType.GOLD);        
+        player.getInventory().addItem(ItemType.GOLD); 
     }
 
     @Override

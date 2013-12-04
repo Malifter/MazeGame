@@ -4,6 +4,7 @@ import engine.Vector2i;
 import engine.Vector2f;
 import engine.physics.RigidBody;
 import game.entities.environment.*;
+import game.entities.items.ABomb;
 import game.entities.items.Bomb;
 import game.entities.items.CellKey;
 import game.entities.items.DisguiseTool;
@@ -23,6 +24,7 @@ import game.entities.npcs.ShieldGuy;
 import game.entities.npcs.Woodman;
 import game.entities.projectiles.Projectile;
 import game.enums.*;
+import game.environment.Interior;
 import game.environment.Room;
 import game.levelloader.LevelLoader;
 
@@ -76,7 +78,7 @@ public class EntityFactory {
         return neutral;
     }
     
-    public static Obstacle createObstacle(Vector2f location, ObstacleType type) {
+    public static Obstacle createObstacle(Vector2f location, ObstacleType type, Interior room) {
         Obstacle obstacle = null;
         RigidBody rb = null;
         location.addEq(new Vector2f(TILESIZE/2, TILESIZE/2));
@@ -97,6 +99,9 @@ public class EntityFactory {
                 rb = new RigidBody(location, TILESIZE, TILESIZE);
                 obstacle = new CellDoor(type.getPath()+"door.gif", rb);
                 break;
+            case CHEST:
+                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                obstacle = new Chest(rb, room);
         }
         return obstacle;
     }
@@ -138,7 +143,7 @@ public class EntityFactory {
     
     public static Item createItem(Vector2f location, ItemType type) {
         Item item = null;
-        RigidBody rb = new RigidBody(location, TILESIZE, TILESIZE);
+        RigidBody rb = new RigidBody(new Vector2f(location), 10, 10);
         switch(type) {
             case BOMB:
                 item = new Bomb(rb);
@@ -163,6 +168,9 @@ public class EntityFactory {
                 break;
             case SHIELD:
                 item = new Shield(rb);
+                break;
+            case A_BOMB:
+                item = new ABomb(rb);
                 break;
         }
         return item;

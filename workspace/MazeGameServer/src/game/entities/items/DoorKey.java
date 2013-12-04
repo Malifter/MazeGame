@@ -15,7 +15,6 @@ public class DoorKey extends NotConsumable {
 
     @Override
     public void use(Player p) {
-        // TODO Auto-generated method stub
         
     }
 
