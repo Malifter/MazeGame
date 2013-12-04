@@ -28,6 +28,7 @@ public class Obstacle extends Entity {
     protected boolean dangerous = false;
     protected boolean blocking = false;
     protected boolean openable = false;
+    protected boolean moveable = false;
     
     public Obstacle(String img, RigidBody rb) {
         super(img, rb);
@@ -45,6 +46,10 @@ public class Obstacle extends Entity {
         if(destructable) {
             disable();
         }
+    }
+    
+    public boolean isMoveable(){
+        return moveable;
     }
     
     public boolean isOpenable() {

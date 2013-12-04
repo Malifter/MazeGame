@@ -50,7 +50,6 @@ public class Interior extends Room {
     // private ArrayList<Vertex2> enemySpawns; // Only needed if enemies can respawn
     private ArrayList<Hostile> enemies = new ArrayList<Hostile>();
     private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
-    private ArrayList<Chest> chests = new ArrayList<Chest>();
     
     public Interior(Vector2i location, int layout) {
         super(layout);
@@ -214,6 +213,9 @@ public class Interior extends Room {
                             } else if(obstacle.isOpenable()) {
                                 obstacle.interact(player);
                             }
+                            if(obstacle.isMoveable()){
+                                Collisions.detectAndApplySingleRadialCorrection(obstacle, player);
+                            }
                             if(obstacle.isBlocking()) {
                                 Collisions.applySingleCorrection(player, obstacle);
                             }
@@ -324,6 +326,15 @@ public class Interior extends Room {
                     }
                 }
             }
+            
+//            for(int i = 0; i< items.size()-1; i++){//detect item collision with items.
+//                if(items.get(i).getRigidBody().isEnabled()){
+//                    for(int j=i+1; j<items.size(); j++){
+//                        Collisions.detectAndApplySingleCorrection(items.get(i),  items.get(j));
+//                    }
+//                }
+//            }
+            
             // COLLISIONS WITH ENVIRONMENT
             // players
             for(Player player: players) {

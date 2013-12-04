@@ -27,7 +27,7 @@ public class Chest extends Obstacle {
     private boolean locked = true; // Implement later
     private ArrayList<ItemType> items =  new ArrayList<ItemType>(); // Implement lat
     private Interior room;
-
+    private static String imageArray[] = {"items/chest/chest_locked.gif","items/chest/chest_unlocked.gif"};
     /**
      * Constructor
      * @param g
@@ -36,7 +36,7 @@ public class Chest extends Obstacle {
      * @param y
      */
     public Chest(RigidBody rb, Interior room) {
-        super("items/chest/chest.gif", rb);
+        super(imageArray[0], rb);
         generateContents();
         this.room = room;
         blocking = true;
@@ -53,13 +53,14 @@ public class Chest extends Obstacle {
     }
     
     public void interact(Player player){
-        System.out.println("Interacted");
-        //if(player.getInventory().hasItem(ItemType.DKEY)&&locked){
+       // if(player.getInventory().hasItem(ItemType.DKEY)&&locked){
         if(locked){
-            disable();
+            image = imageArray[1];
+            //moveable = true;
             unlock();
             dropContents();
-        }
+            }
+        //}
     }
     
     public boolean dropContents() {
