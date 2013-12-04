@@ -159,8 +159,8 @@ public class JLWGLDisplay implements IDisplay {
         wz = fbwz.get();
         glReadPixels(Mouse.getX(),Mouse.getY(),1,1,GL_DEPTH_COMPONENT,GL_FLOAT,fbwz);
         GLU.gluUnProject(wx, wy, wz, modelview, projection, viewport, obj_pos);
-        System.out.println("old: " + Mouse.getX() + " " + Mouse.getY());
-        System.out.println("new: " + obj_pos.get(0) + " " + obj_pos.get(1));
+        //System.out.println("old: " + Mouse.getX() + " " + Mouse.getY());
+        //System.out.println("new: " + obj_pos.get(0) + " " + obj_pos.get(1));
         return new Vector2f(obj_pos.get(0), obj_pos.get(1));
     }
 }

@@ -22,9 +22,17 @@ import engine.physics.RigidBody;
 public class Door extends Entry {
     private Door linkedDoor;
     private Vector2i exitLocation;
-    private boolean locked = false; // Implement later
+    private boolean locked; // Implement later
     
-
+    private static final String LOCKED_ARRAY[]={"animations/door/locked/up/door.gif", 
+                                                "animations/door/locked/down/door.gif",
+                                                "animations/door/locked/left/door.gif",
+                                                "animations/door/locked/right/door.gif"};
+    
+    private static final String UNLOCKED_ARRAY[]={"animations/door/unlocked/up/door.gif", 
+                                                "animations/door/unlocked/down/door.gif",
+                                                "animations/door/unlocked/left/door.gif",
+                                                "animations/door/unlocked/right/door.gif"};
     /**
      * Constructor
      * @param g
@@ -32,8 +40,8 @@ public class Door extends Entry {
      * @param x
      * @param y
      */
-    public Door(String img, RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side, boolean locked) {
-        super(img, rb);
+    public Door(RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side) {
+        super(LOCKED_ARRAY[0], rb);
         this.room = room;
         this.linkedDoor = linkedDoor;
         if(this.linkedDoor != null) {
@@ -41,8 +49,7 @@ public class Door extends Entry {
         }
         exitLocation = exitLoc;
         this.side = side;
-        if(locked) lock();
-        else unlock();
+        randomLock();
     }
     
     @Override
@@ -53,6 +60,14 @@ public class Door extends Entry {
             return true;
         }
         else return false;
+    }
+    
+    private void randomLock(){
+        if(Math.random()>0.50){
+            lock();
+        }else{
+            unlock();
+        }
     }
     
     public Vector2i getExit() {
@@ -69,11 +84,29 @@ public class Door extends Entry {
     }
     
     public void lock() {
+        if(side.equals(Side.TOP)) {
+            image = LOCKED_ARRAY[1];
+        } else if(side.equals(Side.LEFT)) {
+            image = LOCKED_ARRAY[3];
+        } else if(side.equals(Side.RIGHT)) {
+            image = LOCKED_ARRAY[2];
+        } else {
+            image = LOCKED_ARRAY[0];
+        }
         locked = true;
         rBody.enable();
     }
     
     public void unlock() {
+        if(side.equals(Side.TOP)) {
+            image = UNLOCKED_ARRAY[1];
+        } else if(side.equals(Side.LEFT)) {
+            image = UNLOCKED_ARRAY[3];
+        } else if(side.equals(Side.RIGHT)) {
+            image = UNLOCKED_ARRAY[2];
+        } else {
+            image = UNLOCKED_ARRAY[0];
+        }
         locked = false;
         rBody.disable();
     }

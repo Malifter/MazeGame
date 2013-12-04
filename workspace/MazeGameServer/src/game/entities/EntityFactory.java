@@ -183,28 +183,26 @@ public class EntityFactory {
         location.addEq(new Vector2i(TILESIZE/2, TILESIZE/2));
         switch(type) {
             case DOOR:
-                boolean locked = false;
+                //boolean locked = true;
                 Vector2i exit;
                 String entryPath = type.getPath();
                 if(side.equals(Side.TOP)) {
-                    entryPath += "unlocked/down/door.gif";
                     exit = new Vector2i(location.x.intValue(), TILESIZE + location.y.intValue());
                 } else if(side.equals(Side.LEFT)) {
-                    entryPath += "unlocked/right/door.gif";
                     exit = new Vector2i(TILESIZE + location.x.intValue(), location.y.intValue());
                 } else if(side.equals(Side.RIGHT)) {
-                    entryPath += "unlocked/left/door.gif";
                     exit = new Vector2i(location.x.intValue() - TILESIZE, location.y.intValue());
                 } else {
-                    entryPath += "unlocked/up/door.gif";
                     exit = new Vector2i(location.x.intValue(), location.y.intValue() - TILESIZE);
                 }
                 rb = new RigidBody(location, 24, 24);
-                entry = new Door(entryPath, rb, exit, room, linkedDoor, side, locked);
+                entry = new Door(rb, exit, room, linkedDoor, side);
                 break;
             case PORTAL:
                 rb = new RigidBody(location, 24, 24);
                 entry = new Portal("tilesets/tiles_mm1_elec/6.gif", rb, room, side);
+                break;
+            default:
                 break;
         }
         return entry;
