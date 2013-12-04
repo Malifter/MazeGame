@@ -1,4 +1,8 @@
 package engine.render;
+
+import org.lwjgl.input.Mouse;
+
+import engine.Vector2f;
 /**
  * File: Input.java
  * Authors: B. Adam, C. Buescher, T. Pickens, C. Schmunsler
@@ -54,4 +58,9 @@ public interface IDisplay {
      * @param aTitle
      */
     public void setTitle(String aTitle);
+    
+    /**
+     * getMouseCoordinates: Get's the mouse coordinates on screen and projects them down to world coordinates.
+     */
+    public Vector2f getMouseCoordinates();
 }

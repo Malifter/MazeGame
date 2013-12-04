@@ -29,6 +29,7 @@ public class MazeGameServer {
     public static final int NUM_PLAYERS = 4;
     public static int numPlayers = 0;
     public static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
+    public static ArrayList<Vector2f> mice = new ArrayList<Vector2f>();
     public static ArrayList<List<SerializedObject>> updates = new ArrayList<List<SerializedObject>>();
     public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.SMALL);
     
@@ -117,6 +118,7 @@ public class MazeGameServer {
             newInputs.add(false);
         }
         inputs.add(newInputs);
+        mice.add(new Vector2f());
     }
 }
 

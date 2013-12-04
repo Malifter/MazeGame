@@ -3,7 +3,11 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+
 import org.lwjgl.Sys;
+
+import engine.Vector2f;
+import engine.serializable.SerializedInputs;
 import engine.serializable.SerializedObject;
 import game.enums.Pressed;
 
@@ -29,6 +33,7 @@ public class GameEngine {
     public static ArrayList<ReentrantLock> inputLocks = new ArrayList<ReentrantLock>();
     private static ArrayList<ReentrantLock> updateLocks = new ArrayList<ReentrantLock>();
     private static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
+    private static ArrayList<Vector2f> mice = new ArrayList<Vector2f>();
     private static ArrayList<List<SerializedObject>> updates = new ArrayList<List<SerializedObject>>();
     
     /**
@@ -106,6 +111,7 @@ public class GameEngine {
             for(int i = 0; i < Pressed.SIZE; i++) {
                 MazeGameServer.inputs.get(playerID).set(i, inputs.get(playerID).get(i));
             }
+            MazeGameServer.mice.set(playerID, mice.get(playerID));
             inputLocks.get(playerID).unlock();
         }
     }
@@ -113,16 +119,17 @@ public class GameEngine {
     /**
      * setInputs: client inputs are stored in local engine inputs
      */
-    public static void setInputs(List<Pressed> pressed, int playerID) {
+    public static void setInputs(SerializedInputs sInputs, int playerID) {
         inputLocks.get(playerID).lock();
         for(int i = 0; i < Pressed.SIZE; i++) {
             inputs.get(playerID).set(i, false);
         }
-        if(pressed != null) {
-            for(Pressed p: pressed) {
+        if(sInputs.getPressed() != null) {
+            for(Pressed p: sInputs.getPressed()) {
                 inputs.get(playerID).set(p.getValue(), true);
             }
         }
+        mice.set(playerID, sInputs.getMouseLocation());
         inputLocks.get(playerID).unlock();
     }
     
@@ -169,5 +176,6 @@ public class GameEngine {
         }
         inputLocks.add(new ReentrantLock());
         inputs.add(newInputs);
+        mice.add(new Vector2f());
     }
 }

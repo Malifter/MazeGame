@@ -7,6 +7,7 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
+import engine.serializable.SerializedInputs;
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedRoom;
 import game.enums.Pressed;
@@ -110,9 +111,9 @@ public class PlayerHandlerThread implements Runnable {
      * @throws ClassNotFoundException 
      */
     @SuppressWarnings("unchecked")
-    protected List<Pressed> checkForClientInputs() throws IOException, ClassNotFoundException {
+    protected SerializedInputs checkForClientInputs() throws IOException, ClassNotFoundException {
         try {
-            return (ArrayList<Pressed>) ois.readObject();
+            return (SerializedInputs) ois.readObject();
         } catch(SocketTimeoutException ignore) {}
         catch(ClassNotFoundException ignore) {}
         catch(ClassCastException ignore) {}
@@ -126,7 +127,7 @@ public class PlayerHandlerThread implements Runnable {
         oos.writeObject(updates);
     }
     
-    protected void sendLevelToClient(ArrayList<SerializedRoom> levelLayout) throws IOException {
+    protected void sendLevelToClient(List<SerializedRoom> levelLayout) throws IOException {
         oos.writeObject(levelLayout);
     }
 

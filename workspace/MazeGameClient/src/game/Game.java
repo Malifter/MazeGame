@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import engine.Vector2i;
 import engine.Vector2f;
+import engine.inputhandler.Axis;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
 import engine.inputhandler.PhysicalInput;
@@ -67,7 +69,11 @@ public class Game {
     public static Button selectBackward = new Button(
             new PhysicalInput[] { PhysicalInput.KEYBOARD_Q});
     public static Button useItem = new Button(
-            new PhysicalInput[] { PhysicalInput.KEYBOARD_LEFT_SHIFT});
+            new PhysicalInput[] { PhysicalInput.KEYBOARD_SPACE});
+    public static Axis mouseX = new Axis(
+            new PhysicalInput[] { PhysicalInput.MOUSE_X});
+    public static Axis mouseY = new Axis(
+            new PhysicalInput[] { PhysicalInput.MOUSE_Y});
     
     public static int sound_hit;
     public static int sound_shot;

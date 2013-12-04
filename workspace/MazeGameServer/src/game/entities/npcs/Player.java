@@ -45,11 +45,6 @@ public class Player extends Hostile {
     private int isDying = 0;
     private int imageIndex = 0;
     private boolean spawned = false;
-    private Move firstMove = Move.NONE;
-    private boolean movingRight = false;
-    private boolean movingLeft = false;
-    private boolean movingUp = false;
-    private boolean movingDown = false;
     private Face facing = Face.RIGHT;
     private boolean isShooting = false;
     private boolean isFire = false;
@@ -101,11 +96,6 @@ public class Player extends Hostile {
         lastShotTime = 0;
         setHealthPoints(MAX_HEALTH);
         spawned = false;
-        movingLeft = false;
-        movingRight = false;
-        movingUp = false;
-        movingDown = false;
-        firstMove = Move.NONE;
         isShooting = false;
         facing = Face.RIGHT;
         isFire = false;
@@ -211,6 +201,7 @@ public class Player extends Hostile {
     @Override
     public void update(long elapsedTime) {
         spawn(6);
+        faceMouse(MazeGameServer.mice.get(playerID));
         handleInputs(MazeGameServer.inputs.get(playerID), elapsedTime);
         if(!isVuln){
             if(GameEngine.getTime() - currentTime > 750)
@@ -218,6 +209,26 @@ public class Player extends Hostile {
         }
         //reloadSprite();
     }
+    
+    public void faceMouse(Vector2f loc) {
+        Vector2f dir = loc.sub(rBody.getLocation());
+        if(Math.abs(dir.y) > Math.abs(dir.x)) {
+            // Up or Down
+            if(dir.y > 0) {
+                facing = Face.DOWN;
+            } else {
+                facing = Face.UP;
+            }
+        } else {
+            // Right or Left
+            if(dir.x > 0) {
+                facing = Face.RIGHT;
+            } else {
+                facing = Face.LEFT;
+            }
+        }
+    }
+    
     @Override
     public void takeDamage(int d) {
         if(isDamage == 0 && isVuln){
@@ -241,40 +252,33 @@ public class Player extends Hostile {
             currentTime = GameEngine.getTime();
         }
     }
+    
     public void handleInputs(ArrayList<Boolean> inputs, long elapsedTime) {
         if(spawned) {
             if(!isDead){
                 if(isVuln || flash <= 4){
                     if(isDamage == 0){
-                        movingRight = false;
-                        movingLeft = false;
-                        movingUp = false;
-                        movingDown = false;
                         float moveX = 0.0f;
                         float moveY = 0.0f;
                         float speed = SPEED * speedRatio;
                         if (inputs.get(Pressed.RIGHT.getValue())) {
-                            if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.RIGHT;
-                            movingRight = true;
                             moveX += speed;
-                        } else if (firstMove.compareTo(Move.RIGHT) == 0) firstMove = Move.NONE;
+                        }
                         if (inputs.get(Pressed.LEFT.getValue())) {
-                            if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.LEFT;
-                            movingLeft = true;
                             moveX -= speed;
-                        } else if (firstMove.compareTo(Move.LEFT) == 0) firstMove = Move.NONE;
+                        }
                         if (inputs.get(Pressed.UP.getValue())) {
-                            if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.UP;
-                            movingUp = true;
                             moveY -= speed;
-                        } else if (firstMove.compareTo(Move.UP) == 0) firstMove = Move.NONE;
+                        }
                         if (inputs.get(Pressed.DOWN.getValue())) {
-                            if(firstMove.compareTo(Move.NONE) == 0) firstMove = Move.DOWN;
-                            movingDown = true;
                             moveY += speed;
-                        } else if (firstMove.compareTo(Move.DOWN) == 0) firstMove = Move.NONE;
+                        }
                         
-                        if(firstMove.compareTo(Move.NONE) == 0) {
+                        if(moveX != 0 || moveY != 0) {
+                            if(speedRatio == 0.0f) speedRatio = 0.25f;
+                            if(speedRatio < 1.0f) speedRatio += 0.15f * speedRatio;//Math.min((float)Math.sqrt((double) speedRatio), 1.0f);
+                        }
+                        else {
                             if(speedRatio <= 0.05f) speedRatio = 0.0f;
                             if(speedRatio > 0.0f) speedRatio -= speedRatio * 0.2f;//Math.max(1.0f-(float)Math.sqrt((double) 1.0f-speedRatio), 0.0f);
                             speed = SPEED * speedRatio;
@@ -282,8 +286,6 @@ public class Player extends Hostile {
                             else if(rBody.getDelta().x < 0.0f) moveX -= speed;
                             if(rBody.getDelta().y > 0.0f) moveY += speed;
                             else if(rBody.getDelta().y < 0.0f) moveY -= speed;
-                        }
-                        else {
                             if(speedRatio == 0.0f) speedRatio = 0.25f;
                             if(speedRatio < 1.0f) speedRatio += 0.15f * speedRatio;//Math.min((float)Math.sqrt((double) speedRatio), 1.0f);
                         }
@@ -300,106 +302,9 @@ public class Player extends Hostile {
                         else if(!inputs.get(Pressed.FIRE.getValue()) && isShooting) {
                             isShooting = false;
                         }
-
-                        switch (firstMove) {
-                            case RIGHT:
-                                if(!movingLeft) {
-                                    animateMovement(Move.RIGHT);
-                                    facing = Face.RIGHT;
-                                }
-                                else if(movingLeft && movingUp && !movingDown) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.UP);
-                                    facing = Face.UP;
-                                    firstMove = Move.UP;
-                                }
-                                else if(movingLeft && !movingUp && movingDown) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.DOWN);
-                                    facing = Face.DOWN;
-                                    firstMove = Move.DOWN;
-                                }
-                                isFire = false;
-                                break;
-                            case LEFT:
-                                if(!movingRight) {
-                                    animateMovement(Move.LEFT);
-                                    facing = Face.LEFT;
-                                }
-                                else if(movingRight && movingUp && !movingDown) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.UP);
-                                    facing = Face.UP;
-                                    firstMove = Move.UP;
-                                }
-                                else if(movingRight && !movingUp && movingDown) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.DOWN);
-                                    facing = Face.DOWN;
-                                    firstMove = Move.DOWN;
-                                }
-                                isFire = false;
-                                break;
-                            case UP:
-                                if(!movingDown) {
-                                    animateMovement(Move.UP);
-                                    facing = Face.UP;
-                                }
-                                else if(movingDown && movingRight && !movingLeft) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.RIGHT);
-                                    facing = Face.RIGHT;
-                                    firstMove = Move.RIGHT;
-                                }
-                                else if(movingDown && !movingRight && movingLeft) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.LEFT);
-                                    facing = Face.LEFT;
-                                    firstMove = Move.LEFT;
-                                }
-                                isFire = false;
-                                break;
-                            case DOWN:
-                                if(!movingUp) {
-                                    animateMovement(Move.DOWN);
-                                    facing = Face.DOWN;
-                                }
-                                else if(movingUp && movingRight && !movingLeft) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.RIGHT);
-                                    facing = Face.RIGHT;
-                                    firstMove = Move.RIGHT;
-                                }
-                                else if(movingUp && !movingRight && movingLeft) {
-                                    imageIndex = 0;
-                                    animateMovement(Move.LEFT);
-                                    facing = Face.LEFT;
-                                    firstMove = Move.LEFT;
-                                }
-                                isFire = false;
-                                break;
-                            case NONE:
-                                switch (facing) {
-                                    case RIGHT:
-                                        image = isFire ? animationPath+"shootingRight1.gif" : shotTimer > 10 ? animationPath+"standingRight.gif" : image;
-                                        imgArraySize = 1;
-                                        break;
-                                    case LEFT:
-                                        image = isFire ? animationPath+"shooting1.gif" : shotTimer > 10 ? animationPath+"standing.gif" : image;
-                                        imgArraySize = 1;
-                                        break;
-                                    case UP:
-                                        image = isFire ? animationPath+"climbshoot.gif" : shotTimer > 10 ? animationPath+"climbing1.gif" : image;
-                                        imgArraySize = 1;
-                                        break;
-                                    case DOWN:
-                                        image = isFire ? animationPath+"jumpshoot1.gif" : shotTimer > 10 ? animationPath+"jumping1.gif" : image;
-                                        imgArraySize = 1;
-                                        break;
-                                }
-                                isFire = false;
-                                break;
-                        }
+                        
+                        animate();
+                        isFire = false;
                         shotTimer++;
                     }
                     else{
@@ -447,6 +352,43 @@ public class Player extends Hostile {
                     disable();
                 }
             }
+        }
+    }
+    
+    public void animate() {
+        switch(facing) {
+            case RIGHT:
+                if(rBody.getDelta().x != 0 || rBody.getDelta().y != 0) {
+                    animateMovement(Move.RIGHT);
+                } else {
+                    image = isFire ? animationPath+"shootingRight1.gif" : shotTimer > 10 ? animationPath+"standingRight.gif" : image;
+                    imgArraySize = 1;
+                }
+                break;
+            case LEFT:
+                if(rBody.getDelta().x != 0 || rBody.getDelta().y != 0) {
+                    animateMovement(Move.LEFT);
+                } else {
+                    image = isFire ? animationPath+"shooting1.gif" : shotTimer > 10 ? animationPath+"standing.gif" : image;
+                    imgArraySize = 1;
+                }
+                break;
+            case UP:
+                if(rBody.getDelta().x != 0 || rBody.getDelta().y != 0) {
+                    animateMovement(Move.UP);
+                } else {
+                    image = isFire ? animationPath+"climbshoot.gif" : shotTimer > 10 ? animationPath+"climbing1.gif" : image;
+                    imgArraySize = 1;
+                }
+                break;
+            case DOWN:
+                if(rBody.getDelta().x != 0 || rBody.getDelta().y != 0) {
+                    animateMovement(Move.DOWN);
+                } else {
+                    image = isFire ? animationPath+"jumpshoot1.gif" : shotTimer > 10 ? animationPath+"jumping1.gif" : image;
+                    imgArraySize = 1;
+                }
+                break;
         }
     }
     

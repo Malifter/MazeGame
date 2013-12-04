@@ -1,10 +1,19 @@
 package engine.render;
 import static org.lwjgl.opengl.GL11.*;
 
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
+import org.lwjgl.util.Point;
+import org.lwjgl.util.glu.*;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+
+import engine.Vector2f;
 
 /**
  * File: JLWGLDisplay.java
@@ -131,5 +140,27 @@ public class JLWGLDisplay implements IDisplay {
     @Override
     public void setTitle(String aTitle) {
         Display.setTitle(theWindowTitle + " | " + aTitle);
+    }
+    
+    @Override
+    public Vector2f getMouseCoordinates() {
+        IntBuffer viewport = BufferUtils.createIntBuffer(16);
+        FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
+        FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+        FloatBuffer fbwz = BufferUtils.createFloatBuffer(1);
+        FloatBuffer obj_pos = BufferUtils.createFloatBuffer(3);
+        float wx, wy, wz;
+        wx = Mouse.getX();
+        wy = Mouse.getY();
+        glGetInteger(GL_VIEWPORT, viewport);
+        glGetFloat(GL_MODELVIEW_MATRIX, modelview);
+        glGetFloat(GL_PROJECTION_MATRIX, projection);
+        wy = viewport.get(3) - wy;
+        wz = fbwz.get();
+        glReadPixels(Mouse.getX(),Mouse.getY(),1,1,GL_DEPTH_COMPONENT,GL_FLOAT,fbwz);
+        GLU.gluUnProject(wx, wy, wz, modelview, projection, viewport, obj_pos);
+        System.out.println("old: " + Mouse.getX() + " " + Mouse.getY());
+        System.out.println("new: " + obj_pos.get(0) + " " + obj_pos.get(1));
+        return new Vector2f(obj_pos.get(0), obj_pos.get(1));
     }
 }

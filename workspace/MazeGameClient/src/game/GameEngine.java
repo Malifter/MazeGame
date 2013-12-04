@@ -20,6 +20,7 @@ import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import engine.Vector2f;
 import engine.inputhandler.Axis;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
@@ -27,6 +28,7 @@ import engine.inputhandler.PhysicalInput;
 import engine.render.IDisplay;
 import engine.render.Sprite;
 import engine.serializable.SerializedEntity;
+import engine.serializable.SerializedInputs;
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedObstacle;
 import engine.serializable.SerializedPlayer;
@@ -108,6 +110,7 @@ public class GameEngine {
         inputMap.put(PhysicalInput.KEYBOARD_BACK, "Keyboard:Back");
         inputMap.put(PhysicalInput.KEYBOARD_TAB, "Keyboard:Tab");
         inputMap.put(PhysicalInput.KEYBOARD_RETURN, "Keyboard:Return");
+        inputMap.put(PhysicalInput.KEYBOARD_SPACE, "Keyboard:Space");
         inputMap.put(PhysicalInput.KEYBOARD_LEFT_SHIFT,
                 "Keyboard:Left Shift");
         inputMap.put(PhysicalInput.KEYBOARD_LEFT_CONTROL,
@@ -278,7 +281,9 @@ public class GameEngine {
             if(Game.selectForward.isDown()) inputs.add(Pressed.SELECT_FORWARD);
             if(Game.selectBackward.isDown()) inputs.add(Pressed.SELECT_BACKWARD);
             if(Game.useItem.isDown()) inputs.add(Pressed.USE_ITEM);
-            
+            display.getMouseCoordinates();
+            //System.out.println(display.getMouseCoordinates());
+            SerializedInputs sInputs = new SerializedInputs(inputs, new Vector2f(Game.mouseX.getValue(), Game.mouseY.getValue()));
             
             long delta = getTime() - lastLoopTime;
             lastLoopTime = getTime();
@@ -291,7 +296,7 @@ public class GameEngine {
                 fps = 0;
             }
             
-            sendInputsToServer(inputs);
+            sendInputsToServer(sInputs);
             
             // Update the world
             List<SerializedObject> updatedObjects = checkForServerUpdates();
@@ -331,8 +336,8 @@ public class GameEngine {
     /**
      * send inputs to server
      */
-    protected static void sendInputsToServer(List<Pressed> pressedInputs) throws IOException {
-        if(pressedInputs != null) oos.writeObject(pressedInputs);
+    protected static void sendInputsToServer(SerializedInputs sInputs) throws IOException {
+        if(sInputs != null) oos.writeObject(sInputs);
     }
  
     /**
@@ -480,4 +485,5 @@ public class GameEngine {
     public static void setMouseHidden(boolean mouseHidden) {
         Mouse.setGrabbed(mouseHidden);
     }
+    
 }
