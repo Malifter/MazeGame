@@ -1,7 +1,6 @@
 package game.entities.npcs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Random;
 
 import engine.Vector2f;
@@ -30,7 +29,7 @@ public class GateKeeper extends Neutral {
     private static final int MAX_STRAY_DISTANCE = 8;
     private static final int MAX_STRAY_TIME = 1000;
     private long strayTime = 0;
-  
+    private int itemIndex = 0;
     private static ItemType[] VALUES = ItemType.values();
     private static final Random RANDOM = new Random();
     private static final int SIZE = VALUES.length;
@@ -118,7 +117,13 @@ public class GateKeeper extends Neutral {
     }
     
     private ItemType randomItem(){
-        return VALUES[RANDOM.nextInt(SIZE)];
+        ItemType item;
+        do {
+            item = VALUES[RANDOM.nextInt(SIZE)];
+
+        } while(item.getIndex() == -1);
+        System.out.println("!!!!!!!!!!!!!!!!!"+item.toString());
+        return item;
         
     }
     
