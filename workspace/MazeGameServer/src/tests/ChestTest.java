@@ -12,10 +12,11 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import game.Game;
+import engine.physics.RigidBody;
 import game.GameEngine;
 import game.MazeGameServer;
 import game.entities.environment.Chest;
+import game.environment.Interior;
 
 import org.junit.Test;
 
@@ -25,7 +26,6 @@ import org.junit.Test;
  */
 public class ChestTest {
     
-    public Game game; // just a temporary game object to perform our tests on
     public String image;
     public int xPos;
     public int yPos;
@@ -39,7 +39,9 @@ public class ChestTest {
         initiateTestVariables();
         // linked Door is an optional parameter, so test with no linked door
         chest = null;
-        chest = new Chest(game, image, xPos, yPos);
+        RigidBody rb = null;
+        Interior room = null;
+        chest = new Chest(rb, room);
         assertNotNull(this.chest);
     }
     
@@ -47,7 +49,9 @@ public class ChestTest {
     public void testGenerateChestContents() {
         initiateTestVariables();
         chest = null;
-        chest = new Chest(game, image, xPos, yPos);
+        RigidBody rb = null;
+        Interior room = null;
+        chest = new Chest(rb, room);
         assertNotNull(chest.getContents());
         chest.generateContents();
         assertNotNull(chest.getContents());
@@ -57,7 +61,9 @@ public class ChestTest {
     public void testDropChestContentsAndLocks() {
         initiateTestVariables();
         chest = null;
-        chest = new Chest(game, image, xPos, yPos);
+        RigidBody rb = null;
+        Interior room = null;
+        chest = new Chest(rb, room);
         chest.lock();
         assertEquals(chest.dropContents(), false);
         chest.unlock();
@@ -66,7 +72,6 @@ public class ChestTest {
     
     public void initiateTestVariables() {
         try {
-            game = new MazeGameServer(new GameEngine());
             image = "chestLockedImage";
             xPos = 232;
             yPos = 72;
