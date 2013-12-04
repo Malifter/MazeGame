@@ -6,7 +6,8 @@ public enum ObstacleType {
     SPIKES("animations/spikes/"),
     PIT("animations/pit/"),
     ROCK("animations/rock/"),
-    CELLDOOR("animations/cell/");
+    CELLDOOR("animations/cell/"),
+    CHEST("items/bomb/");
     
     private final String path;
     
@@ -26,7 +27,7 @@ public enum ObstacleType {
         ObstacleType obstacle;
         do {
             obstacle = VALUES[RANDOM.nextInt(SIZE)];
-        } while(obstacle.equals(CELLDOOR));
+        } while(obstacle.equals(CELLDOOR)||obstacle.equals(CHEST));
         return obstacle;
     }
 }

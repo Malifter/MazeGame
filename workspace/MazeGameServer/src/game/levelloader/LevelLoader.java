@@ -11,6 +11,7 @@ import game.entities.environment.Portal;
 import game.enums.*;
 import game.environment.Exterior;
 import game.environment.Interior;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -591,19 +592,22 @@ public class LevelLoader {
                             room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, enemyType2));
                         } else if(parts[1].contains("itemspawn")) {
                             double rand = Math.random();
-                            if(rand <= 0.1) {
+                            if(rand <= 0.2) {
                                 room.addItem(EntityFactory.createItem(new Vector2f(x, y), ItemType.randomItem()));
+                            }else if(rand<=0.4){
+                                room.addObstacle(EntityFactory.createObstacle(new Vector2f(x,y), ObstacleType.CHEST, room));
                             }
+                          
                         } else if(parts[1].contains("bossspawn")) {
                             room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, EnemyType.WOODMAN));
                         } else if(parts[1].contains("obstacle1")) {
-                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType1));
+                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType1, room));
                         } else if(parts[1].contains("obstacle2")) {
-                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType2));
+                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType2, room));
                         } else if(parts[1].contains("hostagespawn")) {
                             room.addNeutral(EntityFactory.createNeutral(Face.randomFace(), new Vector2f(x, y), NeutralType.HOSTAGE, null));
                         } else if(parts[1].contains("celldoor")) {
-                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), ObstacleType.CELLDOOR));
+                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), ObstacleType.CELLDOOR, room));
                         } else if(parts[1].contains("door")) {
                             Side side = Side.findByValue(parts[5].split("\"")[1]);
                             if(generateEntry[side.getIndex()].equals(EntryType.DOOR)) {

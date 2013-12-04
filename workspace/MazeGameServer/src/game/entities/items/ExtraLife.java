@@ -10,7 +10,7 @@ public class ExtraLife extends Consumable {
     
 
     public void use(Player player) {
-        disable();
+        System.out.println("life is added");
         player.addLife();
     }
 }

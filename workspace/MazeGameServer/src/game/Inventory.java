@@ -1,6 +1,8 @@
 package game;
 import java.util.HashMap;
 
+import game.entities.EntityFactory;
+import game.entities.npcs.Player;
 import game.enums.ItemType;
 
 public class Inventory {
@@ -42,35 +44,33 @@ public class Inventory {
    
     public void selectNextItem(){
         ItemType item;
-//        item = ItemType.getByIndex(selectedIndex);
-//        System.out.print(item.getIndex());
-//        selectedIndex++;
-//        do{
-//            item = ItemType.getByIndex(selectedIndex);
-//            if(item.getIndex()==-1);
-//        }while (item.getIndex()==-1);
         do {
             selectedIndex++;
             selectedIndex = (selectedIndex) % ItemType.getSize();
-            item = ItemType.getByIndex(selectedIndex);
+            selectedItem = ItemType.getByIndex(Math.abs(selectedIndex));
 
-        } while(item.getIndex() == -1);
-        System.out.println("Item "+item.name());
+        } while(selectedItem.getIndex() == -1);
+        System.out.println("Item "+selectedItem.name());
     }
     
     public void selectPrevItem(){
         ItemType item;
-        System.out.println(selectedIndex);
         do {
             selectedIndex--;
             selectedIndex = (selectedIndex) % ItemType.getSize();
-            item = ItemType.getByIndex(selectedIndex);
-        } while(item.getIndex() == -1);
-        System.out.println("Item "+item.name());
+            selectedItem = ItemType.getByIndex(Math.abs(selectedIndex));
+        } while(selectedItem.getIndex() == -1);
+        System.out.println("Item "+selectedItem.name());
     }
     
-    public void useSelectedItem(){
-        
+    public void useSelectedItem(Player player){
+        if(items.get(selectedItem)>0){
+            items.put(selectedItem, items.get(selectedItem)-1);
+            if(selectedItem.equals(ItemType.BOMB)){
+                System.out.println("about to place bomb");
+                player.getRoom().addItem(EntityFactory.createItem(player.getRigidBody().getLocation(), ItemType.A_BOMB));
+            }
+        }
     }
 
     public boolean hasItem(ItemType item) {

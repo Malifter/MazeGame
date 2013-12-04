@@ -10,7 +10,7 @@ public class HealthBooster extends Consumable {
     }
     
     public void use(Player player) {
-        disable();
+        System.out.println("haelth is added");
         player.setHealthPoints(player.getHealthPoints()+HEALTHBOOST);
     }
 }

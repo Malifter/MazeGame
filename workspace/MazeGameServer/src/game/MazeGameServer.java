@@ -30,7 +30,7 @@ public class MazeGameServer {
     public static int numPlayers = 0;
     public static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
     public static ArrayList<List<SerializedObject>> updates = new ArrayList<List<SerializedObject>>();
-    public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.SMALL);
+    public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.LARGE);
     
     /**
      * Constructor: Private to prevent instantiation.

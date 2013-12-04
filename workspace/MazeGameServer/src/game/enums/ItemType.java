@@ -10,8 +10,9 @@ public enum ItemType {
     TOOL("items/tool/",4),
     SHIELD("items/shield/",5),
     LIFE("items/elife/",-1),
-    BOOSTER("items/booster/",-1);
-    
+    BOOSTER("items/booster/",-1),
+    A_BOMB("items/bomb/",-1);
+
     private final String path;
     private final int index;
     
@@ -37,7 +38,11 @@ public enum ItemType {
     }
     
     public static ItemType randomItem() {
-        return VALUES[RANDOM.nextInt(SIZE)];
+        ItemType item;
+        do{
+            item = VALUES[RANDOM.nextInt(SIZE)];
+        }while(item.equals(A_BOMB));
+        return item;
     }
     
     public static ItemType getByIndex(int index){

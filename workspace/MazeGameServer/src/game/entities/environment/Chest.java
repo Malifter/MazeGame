@@ -1,8 +1,12 @@
 package game.entities.environment;
 
+import engine.Vector2f;
 import engine.physics.RigidBody;
 import game.entities.Entity;
+import game.entities.EntityFactory;
+import game.entities.npcs.Player;
 import game.enums.ItemType;
+import game.environment.Interior;
 
 import java.util.ArrayList;
 
@@ -19,9 +23,10 @@ import java.util.ArrayList;
 /**
  * EnvironmentTile: Level background tile
  */
-public class Chest extends Entity {
-    private boolean locked = false; // Implement later
-    private ArrayList<ItemType> items; // Implement later
+public class Chest extends Obstacle {
+    private boolean locked = true; // Implement later
+    private ArrayList<ItemType> items =  new ArrayList<ItemType>(); // Implement lat
+    private Interior room;
 
     /**
      * Constructor
@@ -30,31 +35,38 @@ public class Chest extends Entity {
      * @param x
      * @param y
      */
-    public Chest(String img, RigidBody rb) {
-        super(img, rb);
+    public Chest(RigidBody rb, Interior room) {
+        super("items/chest/chest.gif", rb);
         generateContents();
+        this.room = room;
+        blocking = true;
+        destructable = false;
+        dangerous = false;
+        openable = true;
     }
     
     public void generateContents() {
-        // randomly generate an item (currently item class doesn't exist)
-        // will probably have a list that all chests can choose from
-        // then it just randomly selects items from the list
-        // we'll make this a list of ENUM's rather than Items because
-        // there is no point in instancing a class for items inside
-        // the chests. It's a waste of memory.
-        
-        // this will also most likely happen when the chest is constructed rather than when unlocked/opened
-        items = new ArrayList<ItemType>();
-        
-        // for now for a test random stuff
-        items.add(ItemType.DKEY);
+        double rand = Math.random();
+        if(rand>0.25){items.add(ItemType.randomItem());}
+        if(rand>0.5){items.add(ItemType.randomItem());}
+        if(rand>0.75){items.add(ItemType.randomItem());}
+    }
+    
+    public void interact(Player player){
+        System.out.println("Interacted");
+        //if(player.getInventory().hasItem(ItemType.DKEY)&&locked){
+        if(locked){
+            disable();
+            unlock();
+            dropContents();
+        }
     }
     
     public boolean dropContents() {
         if(!locked) {
-        // create the items that this chest generated
-        // create an abstract factory that generates items
-        // perhaps this should be taken care of outside
+            for(ItemType i : items){
+                room.addItem(EntityFactory.createItem(rBody.getLocation(), i));
+            }
             return true;
         }
         return false;

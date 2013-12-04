@@ -1,6 +1,7 @@
 package game.entities.environment;
 
 import game.entities.npcs.Player;
+import game.enums.ItemType;
 import game.enums.Side;
 import game.environment.Room;
 import engine.physics.RigidBody;
@@ -36,9 +37,9 @@ public class CellDoor extends Obstacle {
 
     @Override
     public void interact(Player player) {
-        //if(player.getInventory().hasCellKey()) {
+        if(player.getInventory().hasItem(ItemType.CKEY)) {
             unlock();
-        //}
+        }
     }
     
     public void lock() {

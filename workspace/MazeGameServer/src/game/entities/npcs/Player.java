@@ -71,6 +71,7 @@ public class Player extends Hostile {
     private Inventory inventory = new Inventory();
     private int lives;
     private Hostage follower = null;
+    private boolean hasShield = false;
     
     public Player(String img, RigidBody rb, int playerID, Room room) {
         super(img, rb, room);
@@ -224,8 +225,8 @@ public class Player extends Hostile {
         if(isDamage == 0 && isVuln){
             //GameEngine.playSound(game.sound_hit);
             //setHealthPoints(getHealthPoints()-d);
-            if(this.getInventory().getQuantity(ItemType.SHIELD)>0){//if have shield, take shield away
-                this.getInventory().removeItem((ItemType.SHIELD));
+            if(getShield()){//if have shield, take shield away
+                setShield(false);
             }else{
                 System.out.println(this.getInventory().getItem().toString());
                 setHealthPoints(getHealthPoints()-0);//for testing purpose
@@ -460,7 +461,7 @@ public class Player extends Hostile {
             this.getInventory().selectPrevItem();
         }
         if(inputs.get(Pressed.USE_ITEM.getValue())){
-            //this.getInventory()
+            this.getInventory().useSelectedItem(this);
         }
     }
     
@@ -489,5 +490,13 @@ public class Player extends Hostile {
             return true;
         }
         return false;
+    }
+    
+    public boolean getShield(){
+        return hasShield;
+    }
+    
+    public void setShield(boolean hasShield){
+        this.hasShield = hasShield;
     }
 }
