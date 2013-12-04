@@ -99,12 +99,13 @@ public class GateKeeper extends Neutral {
     // This might be moved later if I apply a strategy pattern to the collisions.
     // This happens when a collision is detected between the player and the gatekeeper.
     public void negotiate(Player player) {
-        ItemType myItem = randomItem(); 
+        ItemType myItem = randomItem();
+        System.out.println("!!!!!!!!!!!!!!!!!"+myItem.toString());
         if(!myPortal.isActivated()){
-            if (player.getInventory().getItem().equals(myItem)) {
+            if (player.getInventory().hasItem(myItem)) {
                 activateWarmHole();
             }
-            else if (player.getInventory().getItem().equals(ItemType.GOLD)) {
+            else if (player.getInventory().hasItem(ItemType.GOLD)) {
                 activateWarmHole();
             }
             else 
@@ -122,7 +123,7 @@ public class GateKeeper extends Neutral {
             item = VALUES[RANDOM.nextInt(SIZE)];
 
         } while(item.getIndex() == -1);
-        System.out.println("!!!!!!!!!!!!!!!!!"+item.toString());
+        
         return item;
         
     }
