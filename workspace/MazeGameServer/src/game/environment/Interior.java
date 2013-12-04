@@ -226,7 +226,7 @@ public class Interior extends Room {
                         if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
                             if(entry instanceof Door) {
                                 Door door = (Door) entry;
-                                if(player.getInventory().hasItem(ItemType.DKEY)) {
+                                if(player.getInventory().hasItem(ItemType.DKEY)&&Collisions.detectCollision(player, door)) {
                                     System.out.println("Unlock an door");
                                     player.getInventory().removeItem(ItemType.DKEY);
                                     door.unlock();

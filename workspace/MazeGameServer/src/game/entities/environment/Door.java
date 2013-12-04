@@ -63,7 +63,7 @@ public class Door extends Entry {
     }
     
     private void randomLock(){
-        if(Math.random()>0.50){
+        if(Math.random()>0.85){
             lock();
         }else{
             unlock();

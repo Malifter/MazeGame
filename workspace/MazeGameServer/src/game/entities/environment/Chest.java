@@ -56,7 +56,7 @@ public class Chest extends Obstacle {
        // if(player.getInventory().hasItem(ItemType.DKEY)&&locked){
         if(locked){
             image = imageArray[1];
-            //moveable = true;
+            moveable = true;
             unlock();
             dropContents();
             }
