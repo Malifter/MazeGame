@@ -8,8 +8,4 @@ public abstract class NotConsumable extends Item{
         super(img, rb);
     }
     
-//    public void pickUp(Player player){
-//        disable();
-//        player.getInventory().addItem(ItemType.);
-//    }
 }

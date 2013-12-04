@@ -53,7 +53,7 @@ public class Bomb extends NotConsumable {
         disable();
         player.getInventory().addItem(ItemType.BOMB);
     }
-    @Override
+    
     public void use(Player p) {
         // TODO Auto-generated method stub
         

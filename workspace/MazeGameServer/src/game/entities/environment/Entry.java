@@ -29,6 +29,10 @@ public class Entry extends Entity {
         return false;
     }
     
+    public boolean interact() {
+        return false;
+    }
+    
     protected boolean contains(Player player) {
         if(player.getRigidBody().getMax().x >= rBody.getMax().x)
             return false;

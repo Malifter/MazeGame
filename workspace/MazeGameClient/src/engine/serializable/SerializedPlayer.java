@@ -1,5 +1,6 @@
 package engine.serializable;
 
+import java.util.HashMap;
 import java.util.List;
 
 import engine.Vector2f;
@@ -22,8 +23,10 @@ public class SerializedPlayer extends SerializedObject {
     private static final long serialVersionUID = 2223980202920884570L;
     private String image;
     private Vector2f position;
-    private List <ItemType> items;
-    public SerializedPlayer(String uniqueID, String image, Vector2f position, List<ItemType> items) {
+    private HashMap<ItemType, Integer> items; // map of items
+    // int health
+    // int lives
+    public SerializedPlayer(String uniqueID, String image, Vector2f position, HashMap<ItemType, Integer> items) {
         super(uniqueID);
         this.image = image;
         this.position = position;
@@ -46,11 +49,11 @@ public class SerializedPlayer extends SerializedObject {
         this.position = position;
     }
     
-    public void setItems(List<ItemType> items){
+    public void setItems(HashMap<ItemType, Integer> items){
         this.items = items;
     }
     
-    public List<ItemType> getItems(){
+    public HashMap<ItemType, Integer> getItems(){
         return items;
     }
 }

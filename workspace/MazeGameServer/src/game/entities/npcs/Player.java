@@ -211,6 +211,7 @@ public class Player extends Hostile {
     @Override
     public void update(long elapsedTime) {
         spawn(6);
+        handleItems(MazeGameServer.inputs.get(playerID));
         handleInputs(MazeGameServer.inputs.get(playerID), elapsedTime);
         if(!isVuln){
             if(GameEngine.getTime() - currentTime > 750)
@@ -451,11 +452,17 @@ public class Player extends Hostile {
     }
     
     
-//    public void pickItem(Item item){
-//        item.getRigidBody().disable();
-//        item.pickUp(this);
-//        //this.getInventory().addItem(ncItem);
-//    }
+    public void handleItems(ArrayList<Boolean> inputs){
+        if(inputs.get(Pressed.SELECT_FORWARD.getValue())){
+            this.getInventory().selectNextItem();
+        }
+        if(inputs.get(Pressed.SELECT_BACKWARD.getValue())){
+            this.getInventory().selectPrevItem();
+        }
+        if(inputs.get(Pressed.USE_ITEM.getValue())){
+            //this.getInventory()
+        }
+    }
     
     public int getLives() {
         return lives;

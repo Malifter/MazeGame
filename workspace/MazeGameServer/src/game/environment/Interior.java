@@ -12,6 +12,7 @@ package game.environment;
 
 import game.MazeGameServer;
 import game.entities.EntityFactory;
+import game.entities.environment.Door;
 import game.entities.environment.Entry;
 import game.entities.environment.Obstacle;
 import game.entities.environment.Tile;
@@ -22,6 +23,7 @@ import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
 import game.entities.projectiles.Projectile;
 import game.enums.ItemType;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -208,8 +210,19 @@ public class Interior extends Room {
                     }
                     // entries
                     for(Entry entry: entries) {
-                        if(entry.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(player, entry);
+                        if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
+                            if(entry instanceof Door) {
+                                Door door = (Door) entry;
+                                if(player.getInventory().hasItem(ItemType.DKEY)) {
+                                    System.out.println("Unlock an door");
+                                    player.getInventory().removeItem(ItemType.DKEY);
+                                    door.unlock();
+                                } else {
+                                    Collisions.detectAndApplySingleCorrection(player, entry);
+                                }
+                            } else {
+                                Collisions.detectAndApplySingleCorrection(player, entry);
+                            }
                         }
                     }
                 }
