@@ -21,12 +21,14 @@ import engine.serializable.SerializeFactory;
 import engine.serializable.SerializedObject;
 import game.MazeGameServer;
 import game.entities.environment.Entry;
+import game.entities.environment.Explosion;
 import game.entities.environment.Tile;
 import game.entities.items.ABomb;
 import game.entities.items.Item;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
 import game.entities.projectiles.Projectile;
+import game.enums.GameState;
 
 public class Exterior extends Room{
     public static final int HEIGHT = 528;
@@ -54,7 +56,7 @@ public class Exterior extends Room{
                         player.update(elapsedTime);
                     }
                     else {
-                        // THIS PLAYER LOSES
+                        MazeGameServer.states.set(player.getPlayerID(), GameState.LOSE);
                         playerItr.remove();
                         continue;
                     }
@@ -118,6 +120,16 @@ public class Exterior extends Room{
                     continue;
                 }
             }
+            
+            // explosions
+            Iterator<Explosion> explosionItr = explosions.iterator();
+            while(explosionItr.hasNext()) {
+                Explosion explosion = explosionItr.next();
+                if(!explosion.isEnabled()) {
+                    explosionItr.remove();
+                    continue;
+                }
+            }
         }
     }
     
@@ -161,8 +173,17 @@ public class Exterior extends Room{
                     }
                     // entries
                     for(Entry entry: entries) {
-                        if(entry.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(player, entry);
+                        if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
+                            if(!entry.interact(player)) {
+                                Collisions.detectAndApplySingleCorrection(player, entry);
+                            }
+                        }
+                    }
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplySingleCorrection(player, explosion);
+                            player.takeDamage(explosion.getExplosionDamage(player));
                         }
                     }
                 }

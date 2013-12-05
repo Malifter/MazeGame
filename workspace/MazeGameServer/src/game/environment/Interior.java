@@ -14,6 +14,7 @@ import game.MazeGameServer;
 import game.entities.EntityFactory;
 import game.entities.environment.Door;
 import game.entities.environment.Entry;
+import game.entities.environment.Explosion;
 import game.entities.environment.Obstacle;
 import game.entities.environment.Tile;
 import game.entities.items.*;
@@ -155,6 +156,16 @@ public class Interior extends Room {
                     continue;
                 }
             }
+            
+            // explosions
+            Iterator<Explosion> explosionItr = explosions.iterator();
+            while(explosionItr.hasNext()) {
+                Explosion explosion = explosionItr.next();
+                if(!explosion.isEnabled()) {
+                    explosionItr.remove();
+                    continue;
+                }
+            }
         }
     }
     
@@ -230,18 +241,16 @@ public class Interior extends Room {
                         }
                         
                         if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
-                            if(entry instanceof Door) {
-                                Door door = (Door) entry;                                
-                                if(player.getInventory().hasItem(ItemType.DKEY)&&Collisions.detectCollision(player, door)) {
-                                    System.out.println("Unlock an door");
-                                    player.getInventory().removeItem(ItemType.DKEY);
-                                    door.unlock();
-                                } else {
-                                    Collisions.detectAndApplySingleCorrection(player, entry);
-                                }
-                            } else {
+                            if(!entry.interact(player)) {
                                 Collisions.detectAndApplySingleCorrection(player, entry);
                             }
+                        }
+                    }
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplySingleCorrection(player, explosion);
+                            player.takeDamage(explosion.getExplosionDamage(player));
                         }
                     }
                 }
@@ -287,6 +296,13 @@ public class Interior extends Room {
                     for(Entry entry: entries) {
                         Collisions.detectAndApplySingleCorrection(enemy, entry);
                     }
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplySingleCorrection(enemy, explosion);
+                            enemy.takeDamage(explosion.getExplosionDamage(enemy));
+                        }
+                    }
                 }
             }
             // obstacles
@@ -308,6 +324,13 @@ public class Interior extends Room {
                     for(Item item: items) {
                         if(item.getRigidBody().isEnabled()) {
                             Collisions.detectAndApplySingleCorrection(item, obstacle);
+                        }
+                    }
+                } else if (obstacle.getRigidBody().isEnabled() && obstacle.isDestructable()) {
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled() && Collisions.detectCollision(obstacle, explosion)) {
+                            obstacle.destroy();
                         }
                     }
                 }

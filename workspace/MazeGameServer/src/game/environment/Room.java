@@ -12,6 +12,7 @@ package game.environment;
 
 import game.entities.Entity;
 import game.entities.environment.Entry;
+import game.entities.environment.Explosion;
 import game.entities.environment.Tile;
 import game.entities.items.Item;
 import game.entities.npcs.Neutral;
@@ -29,6 +30,7 @@ public class Room {
     protected ArrayList<Neutral> neutrals = new ArrayList<Neutral>();
     protected ArrayList<Item> items = new ArrayList<Item>();
     protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+    protected ArrayList<Explosion> explosions = new ArrayList<Explosion>();
     protected int roomID = 0;   
     public final int layout;
     
@@ -89,6 +91,18 @@ public class Room {
     
     public ArrayList<Item> getItems() {
         return items;
+    }
+    
+    public void addExplosion(Explosion explosion) {
+        explosions.add(explosion);
+    }
+    
+    public void removeExplosion(Explosion explosion) {
+        explosions.remove(explosion);
+    }
+    
+    public ArrayList<Explosion> getExplosions() {
+        return explosions;
     }
     
     public void addProjectile(Projectile projectile) {

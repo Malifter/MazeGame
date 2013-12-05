@@ -217,6 +217,11 @@ public class EntityFactory {
         return entry;
     }
     
+    public static Explosion createExplosion(Vector2f location) {
+        RigidBody rb = new RigidBody(location, TILESIZE*2, TILESIZE*2);
+        return new Explosion(rb);
+    }
+    
     public static Tile createTile(Vector2f location) {
         RigidBody rb = new RigidBody(location, TILESIZE, TILESIZE);
         return new Tile(rb);

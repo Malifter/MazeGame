@@ -32,6 +32,7 @@ public class ABomb extends NotConsumable {
     }
 
     public void explode() {
+        
         disable();
         System.out.print("time is up");
         //things happens when it explodes

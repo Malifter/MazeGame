@@ -28,7 +28,7 @@ public class Diagonal extends Projectile {
      * Diagonal
      */
     public Diagonal(RigidBody rb, Face direction, Hostile hostile) {
-        super(AnimationPath.PROJECTILE_1, rb, hostile);
+        super(AnimationPath.PROJECTILE_2, rb, hostile);
         origin = new Vector2f(owner.getRigidBody().getLocation());
         damage = owner.getDamage();
 

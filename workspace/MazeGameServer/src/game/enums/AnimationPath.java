@@ -28,6 +28,7 @@ public enum AnimationPath {
     SPIKES("animations/obstacles/spikes/"),
     PROJECTILE_1("animations/projectiles/projectile_1/"),
     PROJECTILE_2("animations/projectiles/projectile_2/"),
+    EXPLOSION("animations/effects/explosion/"),
     NONE("");
     
     private final String path;
