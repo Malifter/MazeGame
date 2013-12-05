@@ -3,6 +3,7 @@ package game.entities.items;
 import engine.physics.RigidBody;
 import game.entities.Entity;
 import game.entities.npcs.Player;
+import game.enums.AnimationPath;
 
 /*
 * Classname:            Item.java
@@ -15,14 +16,17 @@ import game.entities.npcs.Player;
 */
 
 public abstract class Item extends Entity {
-    //public enum ItemType {HEALTHBOOSTER, WEAPON, KEY};
-    //public ItemType type;
-
-    public Item(String anImage, RigidBody rb) {
-        super(anImage, rb);
+    
+    public Item(AnimationPath ap, RigidBody rb) {
+        super(ap, rb);
     }
+    
     public abstract void use(Player p);
     public abstract void pickUp(Player p);
+    
+    public void update(long elapsedTime) {
+        // do nothing
+    }
 }
     
     

@@ -1,6 +1,9 @@
 package game.entities.environment;
 
 import game.entities.npcs.Player;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
+import game.enums.ItemType;
 import game.enums.Side;
 import game.environment.Room;
 import engine.Vector2i;
@@ -32,17 +35,25 @@ public class Door extends Entry {
      * @param x
      * @param y
      */
-    public Door(String img, RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side, boolean locked) {
-        super(img, rb);
-        this.room = room;
+    public Door(RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side, boolean locked) {
+        super(AnimationPath.DOOR, rb, room, side);
         this.linkedDoor = linkedDoor;
         if(this.linkedDoor != null) {
             this.linkedDoor.setLink(this);
         }
         exitLocation = exitLoc;
-        this.side = side;
         if(locked) lock();
         else unlock();
+    }
+    
+    @Override
+    public boolean interact(Player player) {
+        if(locked && player.getInventory().hasItem(ItemType.DKEY)) {
+            unlock();
+            player.getInventory().removeItem(ItemType.DKEY);
+            return true;
+        }
+        return false;
     }
     
     @Override
@@ -71,11 +82,13 @@ public class Door extends Entry {
     public void lock() {
         locked = true;
         rBody.enable();
+        animState = AnimationState.IDLE;
     }
     
     public void unlock() {
         locked = false;
         rBody.disable();
+        animState = AnimationState.ACTIVE;
     }
     
     public boolean isLocked() {

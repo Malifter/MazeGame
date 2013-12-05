@@ -42,6 +42,7 @@ public class LevelLoader {
     private final static String hostageLayout = layoutPath+"hostage/HostageRoom0.oel";
     private final static String tilesetPath = "tilesets/";
     public final static int TILESIZE = 16;
+    private final static Vector2f OFFSET = new Vector2f(TILESIZE/2, TILESIZE/2);
     
     private static Level level;
     
@@ -311,11 +312,11 @@ public class LevelLoader {
     }
     
     private static void forceAddDoorToOuter(Exterior outer, int x, int y, Door linkedDoor, Side side) {
-        outer.addEntry(EntityFactory.createEntry(new Vector2i(x, y), outer, side, EntryType.DOOR, linkedDoor));
+        outer.addEntry(EntityFactory.createEntry((new Vector2f(x, y)).add(OFFSET), outer, side, EntryType.DOOR, linkedDoor));
     }
     
     private static Door forceAddDoorToRoom(Interior room, int x, int y, Side side) {
-        Door door = (Door) EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, null);
+        Door door = (Door) EntityFactory.createEntry((new Vector2f(x, y)).add(OFFSET), room, side, EntryType.DOOR, null);
         room.addEntry(door);
         return door;
     }
@@ -554,7 +555,7 @@ public class LevelLoader {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                room.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+tileset+"/"+parts[p]+GIF));
+                                room.addToForeground(EntityFactory.createTile((new Vector2f(x, y)).add(OFFSET)));
                             }
                             x += TILESIZE;
                         }
@@ -563,82 +564,49 @@ public class LevelLoader {
                     }
                 }
                 
-                // ONLY CARE ABOUT BACKGROUND FOR CLIENT SIDE IGNORE ON SERVER SIDE
-                /*if(line.contains("background")) {
-                    int x = position.x, y = position.y;
-                    String tileset = line.split("\"")[1];
-                    while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("background")) {
-                        String[] parts = line.toLowerCase().split(",");
-                        for(int p = 0; p < parts.length; p++) {
-                            if(Integer.parseInt(parts[p]) != -1) {
-                                room.addToBackground(new EnvironmentTile(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x, y)));
-                            }
-                            x += EnvironmentTILESIZE;
-                        }
-                        x = position.x;
-                        y += EnvironmentTILESIZE;
-                    }
-                }*/
-                
                 //objects
                 if(line.contains("objects")) {
                     while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("objects")) {
                         String[] parts = line.toLowerCase().split("\\s+");
                         int x = Integer.parseInt(parts[3].split("\"")[1]) + position.x;
                         int y = Integer.parseInt(parts[4].split("\"")[1]) + position.y;
+                        Vector2f location = new Vector2f(x, y);
                         if(parts[1].contains("enemyspawn")) {
-                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, enemyType1));
+                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), location.add(OFFSET), room, enemyType1));
                         } else if(parts[1].contains("enemyspawn2")) {
-                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, enemyType2));
+                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), location.add(OFFSET), room, enemyType2));
                         } else if(parts[1].contains("itemspawn")) {
                             double rand = Math.random();
                             if(rand <= 0.2) {
-                                room.addItem(EntityFactory.createItem(new Vector2f(x, y), ItemType.randomItem()));
+                                room.addItem(EntityFactory.createItem(location.add(OFFSET), ItemType.randomItem()));
                             }else if(rand<=0.4){
-                                room.addObstacle(EntityFactory.createObstacle(new Vector2f(x,y), ObstacleType.CHEST, room));
+                                room.addObstacle(EntityFactory.createObstacle(location.add(OFFSET), ObstacleType.CHEST, room));
                             }
                           
                         } else if(parts[1].contains("bossspawn")) {
-                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), new Vector2f(x, y), room, EnemyType.WOODMAN));
+                            room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), location.add(OFFSET), room, EnemyType.SPIDER_BOSS));
                         } else if(parts[1].contains("obstacle1")) {
-                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType1, room));
+                            room.addObstacle(EntityFactory.createObstacle(location.add(OFFSET), obstacleType1, room));
                         } else if(parts[1].contains("obstacle2")) {
-                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), obstacleType2, room));
+                            room.addObstacle(EntityFactory.createObstacle(location.add(OFFSET), obstacleType2, room));
                         } else if(parts[1].contains("hostagespawn")) {
-                            room.addNeutral(EntityFactory.createNeutral(Face.randomFace(), new Vector2f(x, y), NeutralType.HOSTAGE, null));
+                            room.addNeutral(EntityFactory.createNeutral(location.add(OFFSET), NeutralType.HOSTAGE, null));
                         } else if(parts[1].contains("celldoor")) {
-                            room.addObstacle(EntityFactory.createObstacle(new Vector2f(x, y), ObstacleType.CELLDOOR, room));
+                            room.addObstacle(EntityFactory.createObstacle(location.add(OFFSET), ObstacleType.CELLDOOR, room));
                         } else if(parts[1].contains("door")) {
                             Side side = Side.findByValue(parts[5].split("\"")[1]);
                             if(generateEntry[side.getIndex()].equals(EntryType.DOOR)) {
                                 if(door != null && door.getSide().opposite().equals(side)) {
-                                    room.addEntry(EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, door));
+                                    room.addEntry(EntityFactory.createEntry(location.add(OFFSET), room, side, EntryType.DOOR, door));
                                 } else {
-                                    room.addEntry(EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.DOOR, null));
+                                    room.addEntry(EntityFactory.createEntry(location.add(OFFSET), room, side, EntryType.DOOR, null));
                                 }
                             } else if (generateEntry[side.getIndex()].equals(EntryType.PORTAL)) {
-                                Vector2f gkLoc;
-                                Face direction;
-                                if(side.equals(Side.TOP)) {
-                                    gkLoc = new Vector2f(TILESIZE + x, TILESIZE + y);
-                                    direction = Face.DOWN;
-                                } else if(side.equals(Side.LEFT)) {
-                                    gkLoc = new Vector2f(TILESIZE + x, TILESIZE + y);
-                                    direction = Face.RIGHT;
-                                } else if(side.equals(Side.RIGHT)) {
-                                    gkLoc = new Vector2f(x - TILESIZE, y - TILESIZE);
-                                    direction = Face.LEFT;
-                                } else {
-                                    gkLoc = new Vector2f(x - TILESIZE, y - TILESIZE);
-                                    direction = Face.UP;
-                                }
-                                gkLoc.addEq(new Vector2f(8, 8));
-                                
-                                Portal portal = (Portal) EntityFactory.createEntry(new Vector2i(x, y), room, side, EntryType.PORTAL, null);
+                                Portal portal = (Portal) EntityFactory.createEntry(location.add(OFFSET), room, side, EntryType.PORTAL, null);
                                 room.addEntry(portal);
-                                room.addNeutral(EntityFactory.createNeutral(direction, gkLoc, NeutralType.GATEKEEPER, portal));
+                                room.addNeutral(EntityFactory.createNeutral(portal.getRigidBody().getLocation(), NeutralType.GATEKEEPER, portal));
                             } else {
-                                room.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+"invisible.gif"));
+                                room.addToForeground(EntityFactory.createTile(location.add(OFFSET)));
                             }
                         }
                         // ADD OTHER OBJECTS HERE
@@ -654,6 +622,7 @@ public class LevelLoader {
     
     private static Exterior createOuter(String layout, int size, ArrayList<Interior> rooms) {
         try {
+            @SuppressWarnings("resource")
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(layout)));
             Exterior outer = new Exterior(0);
             String line = null;
@@ -668,7 +637,7 @@ public class LevelLoader {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
                             if(Integer.parseInt(parts[p]) != -1) {
-                                outer.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+tileset+"/"+parts[p]+GIF));
+                                outer.addToForeground(EntityFactory.createTile((new Vector2f(x, y)).add(OFFSET)));
                             }
                             x += TILESIZE;
                         }
@@ -677,30 +646,13 @@ public class LevelLoader {
                     }
                 }
                 
-                // ONLY CARE ABOUT BACKGROUND FOR CLIENT SIDE IGNORE ON SERVER SIDE
-                /*if(line.contains("background")) {
-                    int x = position.x, y = position.y;
-                    String tileset = line.split("\"")[1];
-                    while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("background")) {
-                        String[] parts = line.toLowerCase().split(",");
-                        for(int p = 0; p < parts.length; p++) {
-                            if(Integer.parseInt(parts[p]) != -1) {
-                                room.addToBackground(new EnvironmentTile(tilesetPath+tileset+"/"+parts[p]+GIF, new Vertex2(x, y)));
-                            }
-                            x += EnvironmentTILESIZE;
-                        }
-                        x = position.x;
-                        y += EnvironmentTILESIZE;
-                    }
-                }*/
-                
                 //objects
                 if(line.contains("objects")) {
                     while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("objects")) {
                         String[] parts = line.toLowerCase().split("\\s+");
                         int x = Integer.parseInt(parts[3].split("\"")[1]);
                         int y = Integer.parseInt(parts[4].split("\"")[1]);
-                        
+                        Vector2f location = new Vector2f(x, y);
                         if(parts[1].contains("playerspawn")) {
                             outer.addPlayerSpawn(new Vector2i(x, y));
                         }
@@ -717,14 +669,14 @@ public class LevelLoader {
                                         door = (Door)entry;
                                     }
                                     if(door != null && door.getSide().opposite().equals(side)) {
-                                        outer.addEntry(EntityFactory.createEntry(new Vector2i(x, y), outer, side, EntryType.DOOR, door));
+                                        outer.addEntry(EntityFactory.createEntry(location.add(OFFSET), outer, side, EntryType.DOOR, door));
                                         doorLinked = true;
                                         break;
                                     }
                                 }
                             }
                             if(!doorLinked) {
-                                outer.addToForeground(EntityFactory.createTile(new Vector2i(x, y), tilesetPath+"invisible.gif"));
+                                outer.addToForeground(EntityFactory.createTile(location.add(OFFSET)));
                             }
                         }
                         // ADD OTHER OBJECTS HERE

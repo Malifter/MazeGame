@@ -5,6 +5,9 @@ import engine.Vector2f;
 import engine.physics.RigidBody;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
+import game.enums.Face;
 
 /*
 * Classname:            Entity.java
@@ -20,20 +23,18 @@ import engine.serializable.SerializedObject;
  * IDrawable: Interface for entity objects.
  */
 public abstract class Entity {
-    protected String image;
     protected final String uuid;
     protected RigidBody rBody;
     protected boolean enabled = false;
+    protected final AnimationPath animPath;
+    protected AnimationState animState = AnimationState.IDLE;
+    protected Face facing = Face.NONE;
     
-    public Entity(String img, RigidBody rb) {
+    public Entity(AnimationPath ap, RigidBody rb) {
+        animPath = ap;
         rBody = rb;
-        image = img;
         uuid = UUID.randomUUID().toString();
         enable();
-    }
-    
-    public String getImage() {
-        return image;
     }
     
     public String getUUID() {
@@ -48,12 +49,10 @@ public abstract class Entity {
         rBody = rb;
     }
     
-    public void update(long elapsedTime) {
-        
-    }
+    public abstract void update(long elapsedTime);
     
     public SerializedObject serialize() {
-        return new SerializedEntity(uuid, image, new Vector2f(rBody.getLocation()), !isEnabled());
+        return new SerializedEntity(uuid, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled());
     }
     
     public boolean isEnabled() {
@@ -68,5 +67,17 @@ public abstract class Entity {
     public void enable() {
         enabled = true;
         rBody.enable();
+    }
+    
+    public AnimationPath getAnimationPath() {
+        return animPath;
+    }
+    
+    public Face getFaceDirection() {
+        return facing;
+    }
+    
+    public AnimationState getAnimationState() {
+        return animState;
     }
 }

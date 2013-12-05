@@ -2,6 +2,7 @@ package game.entities.environment;
 
 import engine.physics.RigidBody;
 import game.entities.Entity;
+import game.enums.AnimationPath;
 
 /*
 * Classname:            EnvironmentTile.java
@@ -18,14 +19,11 @@ import game.entities.Entity;
  */
 public class Tile extends Entity {
 
-    /**
-     * Constructor
-     * @param g
-     * @param anImage
-     * @param x
-     * @param y
-     */
-    public Tile(String img, RigidBody rb) {
-        super(img, rb);
+    public Tile(RigidBody rb) {
+        super(AnimationPath.NONE, rb);
+    }
+    
+    public void update(long elapsedTime) {
+        // do nothing
     }
 }

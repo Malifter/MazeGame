@@ -3,6 +3,8 @@ package game.entities.environment;
 import engine.physics.RigidBody;
 import game.MazeGameServer;
 import game.entities.npcs.Player;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
 import game.enums.Side;
 import game.environment.Interior;
 import game.environment.Room;
@@ -33,29 +35,11 @@ public class Portal extends Entry {
      * @param x - the starting location x
      * @param y - the starting location y
      */
-    public Portal(String img, RigidBody rb, Room room, Side side) {
-        super(img, rb);
-        this.room = room;
-        activated = false;
-        this.side = side;
+    public Portal(RigidBody rb, Room room, Side side) {
+        super(AnimationPath.PORTAL, rb, room, side);
+        deactivate();
     }
     
-    @Override
-    public void update(long time) {
-        // Animate the idle animation for
-        // an enabled portal
-        
-        // Don't worry about this for now,
-        // I'll try to create an Animator class
-        // or you can try to code it like how it's done
-        // in in the Player class.
-        
-        // The only problem is we have no animations
-        // to use for this unless you just use
-        // some of the assets we already have.
-    }
-    
-    @Override
     public boolean transport(Player player) {
         if(isActivated() && contains(player)) {
             Interior destRoom = selectRandomRoom();
@@ -80,11 +64,13 @@ public class Portal extends Entry {
     public void activate() {
         activated = true;
         rBody.disable();
+        animState = AnimationState.ACTIVE;
     }
     
     public void deactivate() {
         activated = false;
         rBody.enable();
+        animState = AnimationState.IDLE;
     }
     
     public boolean isActivated() {

@@ -1,10 +1,10 @@
 package game.entities.environment;
 
-import engine.Vector2f;
 import engine.physics.RigidBody;
-import game.entities.Entity;
 import game.entities.EntityFactory;
 import game.entities.npcs.Player;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
 import game.enums.ItemType;
 import game.environment.Interior;
 
@@ -24,8 +24,8 @@ import java.util.ArrayList;
  * EnvironmentTile: Level background tile
  */
 public class Chest extends Obstacle {
-    private boolean locked = true; // Implement later
-    private ArrayList<ItemType> items =  new ArrayList<ItemType>(); // Implement lat
+    private boolean locked = true;
+    private ArrayList<ItemType> items =  new ArrayList<ItemType>();
     private Interior room;
 
     /**
@@ -36,13 +36,15 @@ public class Chest extends Obstacle {
      * @param y
      */
     public Chest(RigidBody rb, Interior room) {
-        super("items/chest/chest.gif", rb);
-        generateContents();
+        super(AnimationPath.CHEST, rb);
         this.room = room;
         blocking = true;
         destructable = false;
         dangerous = false;
         openable = true;
+        moveable = true;
+        lock();
+        generateContents();
     }
     
     public void generateContents() {
@@ -53,12 +55,10 @@ public class Chest extends Obstacle {
     }
     
     public void interact(Player player){
-        System.out.println("Interacted");
-        //if(player.getInventory().hasItem(ItemType.DKEY)&&locked){
-        if(locked){
-            disable();
+        if(locked && player.getInventory().hasItem(ItemType.DKEY)) {
             unlock();
             dropContents();
+            player.getInventory().removeItem(ItemType.DKEY);
         }
     }
     
@@ -78,9 +78,11 @@ public class Chest extends Obstacle {
     
     public void lock() {
         locked = true;
+        animState = AnimationState.IDLE;
     }
     
     public void unlock() {
         locked = false;
+        animState = AnimationState.ACTIVE;
     }
 }

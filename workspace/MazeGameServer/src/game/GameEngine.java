@@ -66,20 +66,20 @@ public class GameEngine {
         lastLoopTime = getTime();
         while (playingGame) {
             
-            long delta = getTime() - lastLoopTime;
-            if(delta < 16) {
+            long elapsedTime = getTime() - lastLoopTime;
+            if(elapsedTime < 16) {
                 try {
-                    Thread.sleep(16 - delta);
+                    Thread.sleep(16 - elapsedTime);
                 } catch (InterruptedException wait) {
                 }
-                delta = 16;
+                elapsedTime = 16;
             }
             lastLoopTime = getTime();
             
             // Copy over inputs from clients
             getInputs();
             // Update the world
-            MazeGameServer.update(delta);
+            MazeGameServer.update(elapsedTime);
             // Send updates to server
             setUpdates();
 
@@ -124,12 +124,12 @@ public class GameEngine {
         for(int i = 0; i < Pressed.SIZE; i++) {
             inputs.get(playerID).set(i, false);
         }
-        if(sInputs.getPressed() != null) {
+        if(sInputs != null && sInputs.getPressed() != null) {
             for(Pressed p: sInputs.getPressed()) {
                 inputs.get(playerID).set(p.getValue(), true);
             }
+            mice.set(playerID, sInputs.getMouseLocation());
         }
-        mice.set(playerID, sInputs.getMouseLocation());
         inputLocks.get(playerID).unlock();
     }
     

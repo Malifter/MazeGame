@@ -1,9 +1,9 @@
 package game.entities.environment;
 
 import game.entities.npcs.Player;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
 import game.enums.ItemType;
-import game.enums.Side;
-import game.environment.Room;
 import engine.physics.RigidBody;
 
 /*
@@ -29,13 +29,11 @@ public class CellDoor extends Obstacle {
      * @param x
      * @param y
      */
-    public CellDoor(String img, RigidBody rb) {
-        super(img, rb);
+    public CellDoor(RigidBody rb) {
+        super(AnimationPath.CELLDOOR, rb);
         lock();
-        dangerous = false;
     }
 
-    @Override
     public void interact(Player player) {
         if(player.getInventory().hasItem(ItemType.CKEY)) {
             unlock();
@@ -48,6 +46,7 @@ public class CellDoor extends Obstacle {
         destructable = true;
         openable = true;
         rBody.enable();
+        animState = AnimationState.IDLE;
     }
     
     public void unlock() {
@@ -56,6 +55,7 @@ public class CellDoor extends Obstacle {
         destructable = false;
         openable = false;
         rBody.disable();
+        animState = AnimationState.ACTIVE;
     }
     
     public boolean isLocked() {

@@ -11,7 +11,8 @@ package game;
 */
 
 import org.lwjgl.opengl.GL11;
-import engine.serializable.SerializedPlayer;
+
+import engine.serializable.SerializedEntity;
 
 /**
  * Camera 
@@ -19,7 +20,7 @@ import engine.serializable.SerializedPlayer;
 public class Camera {
     private static final int Width = 240;
     private static final int Height = 144;
-    SerializedPlayer focus;
+    SerializedEntity focus;
     float posX, posY;
     float upX, upY;
     float offsetX, offsetY;
@@ -38,7 +39,7 @@ public class Camera {
         offsetY = -(Height/2+36); //focus' half height - window half height
     }
     
-    public void setFocusObject(SerializedPlayer sp) {
+    public void setFocusObject(SerializedEntity sp) {
         focus = sp;
     }
     

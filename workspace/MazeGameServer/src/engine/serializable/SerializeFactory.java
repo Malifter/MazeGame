@@ -2,7 +2,6 @@ package engine.serializable;
 
 import engine.Vector2f;
 import game.entities.Entity;
-import game.entities.environment.Entry;
 import game.entities.environment.Obstacle;
 import game.entities.npcs.Player;
 import game.enums.Sounds;
@@ -14,7 +13,8 @@ public class SerializeFactory {
     private SerializeFactory() {}
     
     public static SerializedPlayer serialize(Player player) {
-        return new SerializedPlayer(player.getUUID(), player.getImage(), new Vector2f(player.getRigidBody().getLocation()), null);
+        return new SerializedPlayer(player.getUUID(), player.getAnimationPath(), player.getAnimationState(), 
+                player.getFaceDirection(), new Vector2f(player.getRigidBody().getLocation()), null);
     }
     
     public static SerializedSound serialize(Sounds sound) {
@@ -34,10 +34,12 @@ public class SerializeFactory {
     }
     
     public static SerializedEntity serialize(Entity entity) {
-        return new SerializedEntity(entity.getUUID(), entity.getImage(), new Vector2f(entity.getRigidBody().getLocation()), !entity.isEnabled());
+        return new SerializedEntity(entity.getUUID(), entity.getAnimationPath(), entity.getAnimationState(), 
+                entity.getFaceDirection(), new Vector2f(entity.getRigidBody().getLocation()), !entity.isEnabled());
     }
     
     public static SerializedObstacle serialize(Obstacle obstacle) {
-        return new SerializedObstacle(obstacle.getUUID(), obstacle.getImage(), new Vector2f(obstacle.getRigidBody().getLocation()), !obstacle.isEnabled());
+        return new SerializedObstacle(obstacle.getUUID(), obstacle.getAnimationPath(), obstacle.getAnimationState(),
+                obstacle.getFaceDirection(), new Vector2f(obstacle.getRigidBody().getLocation()), !obstacle.isEnabled());
     }
 }

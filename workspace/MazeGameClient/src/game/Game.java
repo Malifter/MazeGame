@@ -11,6 +11,7 @@ import engine.inputhandler.Axis;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
 import engine.inputhandler.PhysicalInput;
+import engine.render.Animator;
 import engine.render.IDisplay;
 import engine.render.JLWGLDisplay;
 import engine.serializable.SerializedEntity;
@@ -41,7 +42,6 @@ public class Game {
     private static RenderableEntity loseScreen = null;
     private static RenderableEntity startScreen = null;
     public static RenderableLevel level;
-    public static Map<String, Vector2f> destinations;
     private static Camera cam = null;
     private static boolean win = false;
     private static boolean isStart = false;
@@ -90,7 +90,6 @@ public class Game {
     
     public static void init() {
         initDisplay();
-        destinations = new HashMap<String, Vector2f>();
         cam = new Camera();
     }
     
@@ -141,25 +140,13 @@ public class Game {
         ArrayList<RenderableEntity> tmp = new ArrayList<RenderableEntity>();
         if(isStart){
             if(!win && !lose){
-                /*tmp.addAll(background);
-                tmp.addAll(foreground);
-                tmp.addAll(traps);*/
-                //for(RenderableRoom r: level.getRooms()) {
                 RenderableRoom r = level.getCurrentRoom();
                 for(RenderableEntity bg: r.getBackground()) {
                     if(bg != null) tmp.add(bg);
                 }
-                //}
-                //for(RenderableRoom r: level.getRooms()) {
                 for(RenderableEntity fg: r.getForeground()) {
                     if(fg != null) tmp.add(fg);
                 }
-                //}
-                /*for(RenderableRoom r: renderableRooms) {
-                    for(Entity t: r.getTraps()) {
-                        if(t != null) tmp.add(t);
-                    }
-                }*/
             }
             else if(win){
                 tmp.add(winScreen);
@@ -196,52 +183,37 @@ public class Game {
             //timeBGM = GameEngine.getTime();
             //GameEngine.playMusic(BGM_quickman);
         ///=}
+        
         if(updateObjects != null) {
-            for(SerializedObject so: updateObjects) {
-                if(so instanceof SerializedRoom) {
-                    SerializedRoom sr = (SerializedRoom) so;
-                    level.setCurrentRoom(sr.getIndex());
-                    if(sr.getIndex() != 0) {
-                        cam.setFocusObject(null);
-                        cam.setOrientation(sr.getPosition().x, sr.getPosition().y-36, 0, 1);
+            ArrayList<SerializedEntity> entities = new ArrayList<SerializedEntity>();
+            for(SerializedObject object: updateObjects) {
+                if(object instanceof SerializedRoom) {
+                    SerializedRoom room = (SerializedRoom) object;
+                    if(level.getCurrentIndex() != room.getIndex()) {
+                        level.setCurrentRoom(room.getIndex());
+                        if(room.getIndex() != 0) {
+                            cam.setFocusObject(null);
+                            cam.setOrientation(room.getPosition().x, room.getPosition().y-36, 0, 1);
+                        }
+                        Animator.clear();
                     }
                 }
-                else if(so instanceof SerializedPlayer) {
-                    SerializedPlayer sp = (SerializedPlayer) so;
+                else if(object instanceof SerializedPlayer) {
+                    SerializedEntity player = (SerializedEntity) object;
 //                    GUI.populate(sp.getItems());
 //                    GUI.setPlayerHealth(sp.getHealth());
 //                    GUI.setPlayerLives(sp.getLives());
                     if(level.getCurrentIndex() == 0) {
-                        cam.setFocusObject(sp);
+                        cam.setFocusObject(player);
                     }
-                }  
-                /*
-                else if(so instanceof SerializedEntity) {
-                    if(sp.needsDelete()) {
-                        entities.remove(so.getID());
-                        destinations.remove(so.getID());
-                    } else {
-                        destinations.put(se.getID(), se.getPosition());
-                        entities.put(so.getID(), so);
-                    }
+                    entities.add(player);
+                } else if(object instanceof SerializedEntity) {
+                    SerializedEntity entity = (SerializedEntity) object;
+                    entities.add(entity);
                 }
-                 */
             }
+            Animator.setEntities(entities);
         }
-        /*
-        if(player.needsDelete()) {
-            lose = true;
-            cameraMode.setDown(true);
-            cam.mode = false;
-        }
-        //cam.setFocusEntity(player);
-        player.update(time);
-        *//*
-        for(Map.Entry<String, SerializedObject> entry: entities.entrySet()) {
-            if(entry.getValue().getPosition() != destinations.get(entry.getKey())) {
-                entry.getValue().setPosition(destinations.get(entry.getKey()));
-            }
-        }*/
         
         cam.update();
         

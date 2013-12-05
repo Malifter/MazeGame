@@ -5,7 +5,8 @@ import java.util.TimerTask;
 
 import engine.physics.RigidBody;
 import game.entities.npcs.Player;
-import game.enums.ItemType;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
 
 public class ABomb extends NotConsumable {
     private Timer timer;
@@ -13,11 +14,12 @@ public class ABomb extends NotConsumable {
     private static final int BOMB_TIME = 7;
     
     public ABomb(RigidBody rb){
-        super("items/bomb/bomb.gif/", rb);
+        super(AnimationPath.BOMB, rb);
         startTimer();
     }
     
     public void startTimer() {
+        animState = AnimationState.ACTIVE;
         timer = new Timer();
         timer.schedule(new BombTask(), BOMB_TIME * 1000); 
     }
@@ -41,6 +43,6 @@ public class ABomb extends NotConsumable {
     }
     
     public void use(Player p) {
-        // TODO Auto-generated method stub 
+        // do nothing
     }
 }

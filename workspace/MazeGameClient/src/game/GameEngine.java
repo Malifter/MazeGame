@@ -6,12 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import net.java.games.input.*;
@@ -25,6 +22,7 @@ import engine.inputhandler.Axis;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
 import engine.inputhandler.PhysicalInput;
+import engine.render.Animator;
 import engine.render.IDisplay;
 import engine.render.Sprite;
 import engine.serializable.SerializedEntity;
@@ -281,13 +279,11 @@ public class GameEngine {
             if(Game.selectForward.isDown()) inputs.add(Pressed.SELECT_FORWARD);
             if(Game.selectBackward.isDown()) inputs.add(Pressed.SELECT_BACKWARD);
             if(Game.useItem.isDown()) inputs.add(Pressed.USE_ITEM);
-            display.getMouseCoordinates();
-            //System.out.println(display.getMouseCoordinates());
-            SerializedInputs sInputs = new SerializedInputs(inputs, new Vector2f(Game.mouseX.getValue(), Game.mouseY.getValue()));
+            SerializedInputs sInputs = new SerializedInputs(inputs, display.getMouseCoordinates());
             
-            long delta = getTime() - lastLoopTime;
+            long elapsedTime = getTime() - lastLoopTime;
             lastLoopTime = getTime();
-            lastFpsTime += delta;
+            lastFpsTime += elapsedTime;
             fps++;
             
             if (lastFpsTime > 1000) {
@@ -296,13 +292,15 @@ public class GameEngine {
                 fps = 0;
             }
             
+            // send inputs to server
             sendInputsToServer(sInputs);
             
             // Update the world
             List<SerializedObject> updatedObjects = checkForServerUpdates();
-            Game.update(delta, updatedObjects);
-            
-            // Paint the graphics
+            Game.update(elapsedTime, updatedObjects);
+
+            // render the graphics
+            Animator.update(elapsedTime);
             render(updatedObjects);
             // draw GUI here or add last to render function
             
@@ -430,15 +428,15 @@ public class GameEngine {
             TreeMap<SerializedObject, Float> sortedMap = new TreeMap<SerializedObject, Float>(bvc);
             for(SerializedObject so: updatedObjects) {
                 if(so instanceof SerializedObstacle) {
+                    // just draw obstacles
                     SerializedObstacle s = (SerializedObstacle)so;
-                    Sprite sprite = Game.getDisplay().getSprite(s.getImage());
+                    Sprite sprite = Game.getDisplay().getSprite(Animator.getPath(s.getID()));
                     sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
-                }
-                else if(so instanceof SerializedEntity) {
-                    SerializedEntity s = (SerializedEntity)so;
-                    renderMap.put(s, s.getPosition().y);
                 } else if(so instanceof SerializedPlayer) {
                     SerializedPlayer s = (SerializedPlayer)so;
+                    renderMap.put(s, s.getPosition().y);
+                } else if(so instanceof SerializedEntity) {
+                    SerializedEntity s = (SerializedEntity)so;
                     renderMap.put(s, s.getPosition().y);
                 }
             }
@@ -446,13 +444,13 @@ public class GameEngine {
             Iterator<SerializedObject> mapItr = sortedMap.navigableKeySet().iterator();
             while(mapItr.hasNext()) {
                 SerializedObject so = mapItr.next();
-                if(so instanceof SerializedEntity) {
-                    SerializedEntity s = (SerializedEntity)so;
-                    Sprite sprite = Game.getDisplay().getSprite(s.getImage());
-                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
-                } else if(so instanceof SerializedPlayer) {
+                if(so instanceof SerializedPlayer) {
                     SerializedPlayer s = (SerializedPlayer)so;
-                    Sprite sprite = Game.getDisplay().getSprite(s.getImage());
+                    Sprite sprite = Game.getDisplay().getSprite(Animator.getPath(s.getID()));
+                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+                } else if(so instanceof SerializedEntity) {
+                    SerializedEntity s = (SerializedEntity)so;
+                    Sprite sprite = Game.getDisplay().getSprite(Animator.getPath(s.getID()));
                     sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
                 }
             }

@@ -1,42 +1,38 @@
 package game.entities.npcs;
 
 import engine.physics.RigidBody;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
+import game.enums.Face;
 import game.environment.Room;
 
-public class Hostile extends NPC {
-    protected boolean isDead = false;
+public abstract class Hostile extends NPC {
+    protected boolean dead = false;
+    protected boolean flying = false;
     protected int health;
     protected int damage;
     protected int range;
     protected int numProjectiles = 0;
     protected Room room;
     
-    public Hostile(String img, RigidBody rb, Room room) {
-        super(img, rb);
+    public Hostile(AnimationPath ap, RigidBody rb, Room room, Face f) {
+        super(ap, rb, f);
         this.room = room;
     }
     
-    public void setHealthPoints(int hp) {
+    public void setHealth(int hp) {
         if(hp < 0) {
-            this.health = 0;
+            health = 0;
+            dead = true;
+            //animState = AnimationState.DEAD;
         }
         else {
-            this.health = hp;
+            health = hp;
         }
     }
 
-    public int getHealthPoints() {
+    public int getHealth() {
         return health;
-    }
-    
-    public void checkHealth() {
-        if(health == 0) {
-            disable();
-        }
-    }
-    
-    public void setDamage(int d) {
-        damage = d;
     }
     
     public int getDamage() {
@@ -48,7 +44,8 @@ public class Hostile extends NPC {
     }
     
     public void takeDamage(int d) {
-        setHealthPoints(health-d);
+        //GameEngine.playSound(((MazeGameServer)game).sound_hit);
+        setHealth(health-d);
     }
     
     public void setRoom(Room room) {
@@ -69,5 +66,13 @@ public class Hostile extends NPC {
     
     public void attack(Hostile other) {
         other.takeDamage(damage);
+    }
+    
+    public boolean isDead() {
+        return dead;
+    }
+    
+    public boolean isFlying() {
+        return flying;
     }
 }

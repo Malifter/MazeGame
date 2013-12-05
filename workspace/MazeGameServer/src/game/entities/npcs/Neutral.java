@@ -1,14 +1,14 @@
 package game.entities.npcs;
 
 import engine.physics.RigidBody;
+import game.enums.AnimationPath;
+import game.enums.Face;
 
-public class Neutral extends NPC {
+public abstract class Neutral extends NPC {
 
-    public Neutral(String img, RigidBody rb) {
-        super(img, rb);
+    public Neutral(AnimationPath ap, RigidBody rb, Face f) {
+        super(ap, rb, f);
     }
     
-    public void interact(Player player) {
-        
-    }
+    public abstract void interact(Player player);
 }

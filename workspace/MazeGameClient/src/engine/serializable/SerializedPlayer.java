@@ -1,9 +1,11 @@
 package engine.serializable;
 
 import java.util.HashMap;
-import java.util.List;
 
 import engine.Vector2f;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
+import game.enums.Face;
 import game.enums.ItemType;
 
 /*
@@ -16,44 +18,22 @@ import game.enums.ItemType;
 * Copyright notice:     Copyright (c) 2013 Garrett Benoit
 */
 
-public class SerializedPlayer extends SerializedObject {
-    /**
-     * serialVersionUID
-     */
+public class SerializedPlayer extends SerializedEntity {
     private static final long serialVersionUID = 2223980202920884570L;
-    private String image;
-    private Vector2f position;
     private HashMap<ItemType, Integer> items; // map of items
     // int health
     // int lives
-    public SerializedPlayer(String uniqueID, String image, Vector2f position, HashMap<ItemType, Integer> items) {
-        super(uniqueID);
-        this.image = image;
-        this.position = position;
-        this.items = items;
-    }
-
-    public String getImage() {
-        return image;
-    }
     
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Vector2f getPosition() {
-        return position;
-    }
-    
-    public void setPosition(Vector2f position) {
-        this.position = position;
-    }
-    
-    public void setItems(HashMap<ItemType, Integer> items){
+    public SerializedPlayer(String uniqueID, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, HashMap<ItemType, Integer> items) {
+        super(uniqueID, animPath, animState, face, position, false);
         this.items = items;
     }
     
-    public HashMap<ItemType, Integer> getItems(){
+    public void setItems(HashMap<ItemType,Integer> items){
+        this.items = items;
+    }
+    
+    public HashMap<ItemType,Integer> getItems(){
         return items;
     }
 }

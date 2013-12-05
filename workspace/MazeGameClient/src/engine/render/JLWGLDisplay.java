@@ -14,6 +14,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import engine.Vector2f;
+import game.enums.Face;
 
 /**
  * File: JLWGLDisplay.java
@@ -144,23 +145,12 @@ public class JLWGLDisplay implements IDisplay {
     
     @Override
     public Vector2f getMouseCoordinates() {
-        IntBuffer viewport = BufferUtils.createIntBuffer(16);
-        FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
-        FloatBuffer projection = BufferUtils.createFloatBuffer(16);
-        FloatBuffer fbwz = BufferUtils.createFloatBuffer(1);
-        FloatBuffer obj_pos = BufferUtils.createFloatBuffer(3);
-        float wx, wy, wz;
-        wx = Mouse.getX();
-        wy = Mouse.getY();
-        glGetInteger(GL_VIEWPORT, viewport);
-        glGetFloat(GL_MODELVIEW_MATRIX, modelview);
-        glGetFloat(GL_PROJECTION_MATRIX, projection);
-        wy = viewport.get(3) - wy;
-        wz = fbwz.get();
-        glReadPixels(Mouse.getX(),Mouse.getY(),1,1,GL_DEPTH_COMPONENT,GL_FLOAT,fbwz);
-        GLU.gluUnProject(wx, wy, wz, modelview, projection, viewport, obj_pos);
-        System.out.println("old: " + Mouse.getX() + " " + Mouse.getY());
-        System.out.println("new: " + obj_pos.get(0) + " " + obj_pos.get(1));
-        return new Vector2f(obj_pos.get(0), obj_pos.get(1));
+        float mouseX = Mouse.getX();
+        float mouseY = Mouse.getY();
+        mouseX -= (theWidth/2.0f);
+        mouseY -= ((theHeight/2.0f) - 90);
+        mouseX *= 0.234375;
+        mouseY *= 0.234375;
+        return new Vector2f(mouseX, -mouseY);
     }
 }

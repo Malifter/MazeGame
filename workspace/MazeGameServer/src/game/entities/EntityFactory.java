@@ -14,15 +14,18 @@ import game.entities.items.Gold;
 import game.entities.items.HealthBooster;
 import game.entities.items.Item;
 import game.entities.items.Shield;
-import game.entities.npcs.Cannon;
+import game.entities.npcs.Chaser;
+import game.entities.npcs.FlyingBag;
 import game.entities.npcs.GateKeeper;
 import game.entities.npcs.Hostage;
 import game.entities.npcs.Hostile;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
-import game.entities.npcs.ShieldGuy;
-import game.entities.npcs.Woodman;
+import game.entities.npcs.Spider;
+import game.entities.npcs.SpiderBoss;
+import game.entities.projectiles.Diagonal;
 import game.entities.projectiles.Projectile;
+import game.entities.projectiles.Straight;
 import game.enums.*;
 import game.environment.Interior;
 import game.environment.Room;
@@ -33,8 +36,9 @@ public class EntityFactory {
     
     public static Player createPlayer(Face direction, Vector2f location, int playerID, Room room) {
         RigidBody rb = new RigidBody(location, 12, 30);
-        RigidBody.useLowerBoundingBox(rb, 1.0f/3.0f);
-        Player player = new Player("spawn1.gif", rb, playerID, room);
+        RigidBody.useLowerBoundingBox(rb, 1.0f/2.0f);
+        rb.setOffset(rb.getOffset().x, rb.getOffset().y - 4);
+        Player player = new Player(rb, playerID, room, Face.DOWN);
         return player;
     }
     
@@ -42,37 +46,58 @@ public class EntityFactory {
         Hostile enemy = null;
         RigidBody rb = null;
         switch(type) {
-            case WOODMAN:
-                rb = new RigidBody(location, 26, 32);
-                RigidBody.useLowerBoundingBox(rb, 1.0f/2.0f);
-                enemy = new Woodman(type.getPath()+"woodman1.gif", rb, room);
+            case SPIDER_BOSS:
+                rb = new RigidBody(location, TILESIZE*2, TILESIZE*2);
+                enemy = new SpiderBoss(rb, room, Face.DOWN);
                 break;
-            case SHIELD:
-                rb = new RigidBody(location, 24, 24);
-                RigidBody.useLowerBoundingBox(rb, 1.0f/2.0f);
-                enemy = new ShieldGuy(type.getPath()+"ShieldGuy1.gif", rb, room);
+            case FLYBAG:
+                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                enemy = new FlyingBag(rb, room, Face.DOWN);
                 break;
-            case CANNON:
-                rb = new RigidBody(location, 33, 30);
-                RigidBody.useLowerBoundingBox(rb, 2.0f/3.0f);
-                enemy = new Cannon(type.getPath()+"cannon1floor.gif", rb, room);
+            case SPIDER:
+                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                enemy = new Spider(rb, room, Face.DOWN);
+                break;
+            case CHASER:
+                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                enemy = new Chaser(rb, room, Face.DOWN);
                 break;
         }
         return enemy;
     }
     
-    public static Neutral createNeutral(Face direction, Vector2f location, NeutralType type, Portal portal) {
+    public static Neutral createNeutral(Vector2f location, NeutralType type, Portal portal) {
         Neutral neutral = null;
         RigidBody rb = null;
         switch(type) {
             case HOSTAGE:
-                location.addEq(new Vector2f(TILESIZE/2, TILESIZE/2));
                 rb = new RigidBody(location, 14, 14);
-                neutral = new Hostage(type.getPath()+"hostage0.gif", rb);
+                neutral = new Hostage(rb);
                 break;
             case GATEKEEPER:
-                rb = new RigidBody(location, 14, 14);
-                neutral = new GateKeeper(type.getPath()+"alien4.gif", rb, portal);
+                Face direction = Face.NONE;
+                Side side = portal.getSide();
+                Vector2f offset = new Vector2f(TILESIZE, TILESIZE);
+                switch(side) {
+                    case TOP:
+                        offset = location.add(offset);
+                        direction = Face.DOWN;
+                        break;
+                    case LEFT:
+                        offset = location.add(offset);
+                        direction = Face.RIGHT;
+                        break;
+                    case RIGHT:
+                        offset = location.sub(offset);
+                        direction = Face.LEFT;
+                        break;
+                    case BOTTOM:
+                        offset = location.sub(offset);
+                        direction = Face.UP;
+                        break;
+                }
+                rb = new RigidBody(offset, 14, 14);
+                neutral = new GateKeeper(rb, portal, direction);
                 break;
         }
         return neutral;
@@ -81,23 +106,22 @@ public class EntityFactory {
     public static Obstacle createObstacle(Vector2f location, ObstacleType type, Interior room) {
         Obstacle obstacle = null;
         RigidBody rb = null;
-        location.addEq(new Vector2f(TILESIZE/2, TILESIZE/2));
         switch(type) {
             case SPIKES:
                 rb = new RigidBody(location, 12, 12);
-                obstacle = new Spikes(type.getPath()+"spikes.gif", rb);
+                obstacle = new Spikes(rb);
                 break;
             case PIT:
-                rb = new RigidBody(location, TILESIZE, TILESIZE);
-                obstacle = new Pit(type.getPath()+"pit.gif", rb);
+                rb = new RigidBody(location, 15, 15);
+                obstacle = new Pit(rb);
                 break;
             case ROCK:
-                rb = new RigidBody(location, TILESIZE, TILESIZE);
-                obstacle = new Rock(type.getPath()+"rock.gif", rb);
+                rb = new RigidBody(location, 15, 15);
+                obstacle = new Rock(rb);
                 break;
             case CELLDOOR:
                 rb = new RigidBody(location, TILESIZE, TILESIZE);
-                obstacle = new CellDoor(type.getPath()+"door.gif", rb);
+                obstacle = new CellDoor(rb);
                 break;
             case CHEST:
                 rb = new RigidBody(location, TILESIZE, TILESIZE);
@@ -106,32 +130,20 @@ public class EntityFactory {
         return obstacle;
     }
     
-    public static Projectile createProjectile(Vector2f location, Vector2f target, Hostile hostile, ProjectileType type) {
+    public static Projectile createProjectile(Vector2f location, Vector2f target, Face face, Hostile hostile, ProjectileType type) {
         Projectile projectile = null;
         RigidBody rb = null;
+        Vector2f newLocation = new Vector2f(location);
         switch(type) {
             case STRAIGHT:
-                Vector2f dir = target.sub(location);
-                Face direction;
-                if(Math.abs(dir.y) > Math.abs(dir.x)) {
-                    // Up or Down
-                    if(dir.y > 0) {
-                        direction = Face.DOWN;
-                    } else {
-                        direction = Face.UP;
-                    }
-                } else {
-                    // Right or Left
-                    if(dir.x > 0) {
-                        direction = Face.RIGHT;
-                    } else {
-                        direction = Face.LEFT;
-                    }
-                }
-                rb = new RigidBody(new Vector2f(location), 6, 6);
-                projectile = new Projectile("shot.gif", rb, direction, hostile);
+                newLocation.y += 2;
+                rb = new RigidBody(newLocation, 6, 6);
+                projectile = new Straight(rb, face, hostile);
                 break;
             case DIAGONAL:
+                newLocation.y += 2;
+                rb = new RigidBody(newLocation, 6, 6);
+                projectile = new Diagonal(rb, face, hostile);
                 break;
             case ARC:
                 break;
@@ -176,43 +188,37 @@ public class EntityFactory {
         return item;
     }
     
-    public static Entry createEntry(Vector2i location, Room room, Side side, EntryType type, Door linkedDoor) {
+    public static Entry createEntry(Vector2f location, Room room, Side side, EntryType type, Door linkedDoor) {
         Entry entry = null;
         RigidBody rb = null;
-        // Have to shift the location from the top-left to center of door
-        location.addEq(new Vector2i(TILESIZE/2, TILESIZE/2));
         switch(type) {
             case DOOR:
                 boolean locked = false;
                 Vector2i exit;
-                String entryPath = type.getPath();
                 if(side.equals(Side.TOP)) {
-                    entryPath += "unlocked/down/door.gif";
                     exit = new Vector2i(location.x.intValue(), TILESIZE + location.y.intValue());
                 } else if(side.equals(Side.LEFT)) {
-                    entryPath += "unlocked/right/door.gif";
                     exit = new Vector2i(TILESIZE + location.x.intValue(), location.y.intValue());
                 } else if(side.equals(Side.RIGHT)) {
-                    entryPath += "unlocked/left/door.gif";
                     exit = new Vector2i(location.x.intValue() - TILESIZE, location.y.intValue());
                 } else {
-                    entryPath += "unlocked/up/door.gif";
                     exit = new Vector2i(location.x.intValue(), location.y.intValue() - TILESIZE);
                 }
                 rb = new RigidBody(location, 24, 24);
-                entry = new Door(entryPath, rb, exit, room, linkedDoor, side, locked);
+                entry = new Door(rb, exit, room, linkedDoor, side, locked);
                 break;
             case PORTAL:
                 rb = new RigidBody(location, 24, 24);
-                entry = new Portal("tilesets/tiles_mm1_elec/6.gif", rb, room, side);
+                entry = new Portal(rb, room, side);
+                break;
+            case NONE:
                 break;
         }
         return entry;
     }
     
-    public static Tile createTile(Vector2i location, String tileset) {
-        location.addEq(new Vector2i(TILESIZE/2, TILESIZE/2));
+    public static Tile createTile(Vector2f location) {
         RigidBody rb = new RigidBody(location, TILESIZE, TILESIZE);
-        return new Tile(tileset, rb);
+        return new Tile(rb);
     }
 }

@@ -1,6 +1,7 @@
 package game.entities.environment;
 
 import engine.physics.RigidBody;
+import game.enums.AnimationPath;
 
 /*
 * Classname:            Spikes.java
@@ -16,12 +17,9 @@ import engine.physics.RigidBody;
  * SpikeEntity: spike traps
  */
 public class Spikes extends Obstacle {
-    private static final long serialVersionUID = -4363795480195834006L;
     
-    public Spikes(String image, RigidBody rb) {
-        super(image, rb);
+    public Spikes(RigidBody rb) {
+        super(AnimationPath.SPIKES, rb);
         dangerous = true;
-        destructable = false;
-        blocking = false;
     }
 }

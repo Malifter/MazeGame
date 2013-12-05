@@ -6,15 +6,33 @@ import engine.serializable.SerializedObject;
 import engine.serializable.SerializedObstacle;
 import game.entities.Entity;
 import game.entities.npcs.Player;
+import game.enums.AnimationPath;
+import game.enums.Face;
 import game.enums.Side;
 import game.environment.Room;
 
-public class Entry extends Entity {
+public abstract class Entry extends Entity {
     protected Room room;
     protected Side side;
     
-    public Entry(String img, RigidBody rb) {
-        super(img, rb);
+    public Entry(AnimationPath ap, RigidBody rb, Room room, Side side) {
+        super(ap, rb);
+        this.room = room;
+        this.side = side;
+        switch(this.side) {
+            case RIGHT:
+                facing = Face.LEFT;
+                break;
+            case LEFT:
+                facing = Face.RIGHT;
+                break;
+            case TOP:
+                facing = Face.DOWN;
+                break;
+            case BOTTOM:
+                facing = Face.UP;
+                break;
+        }
     }
     
     public Room getRoom() {
@@ -25,11 +43,13 @@ public class Entry extends Entity {
         return side;
     }
     
-    public boolean transport(Player player) {
-        return false;
+    public void update(long elapsedTime) {
+        // do nothing
     }
     
-    public boolean interact() {
+    public abstract boolean transport(Player player);
+    
+    public boolean interact(Player player) {
         return false;
     }
     
@@ -47,6 +67,6 @@ public class Entry extends Entity {
     
     @Override
     public SerializedObject serialize() {
-        return new SerializedObstacle(uuid, image, new Vector2f(rBody.getLocation()), !isEnabled());
+        return new SerializedObstacle(uuid, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled());
     }
 }

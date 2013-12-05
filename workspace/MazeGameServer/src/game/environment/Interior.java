@@ -216,6 +216,8 @@ public class Interior extends Room {
                             }
                             if(obstacle.isBlocking()) {
                                 Collisions.applySingleCorrection(player, obstacle);
+                            } else if(obstacle.isMoveable()) {
+                                Collisions.applyEqualRadialCorrection(player, obstacle);
                             }
                         }
                     }
@@ -260,14 +262,18 @@ public class Interior extends Room {
                             Collisions.detectAndApplySingleRadialCorrection(item, enemy);
                         }
                     }
-                    // obstacles
-                    for(Obstacle obstacle: obstacles) {
-                        if(obstacle.getRigidBody().isEnabled() && (obstacle.isDangerous() || obstacle.isBlocking()) && Collisions.detectCollision(enemy, obstacle)) {
-                            if(obstacle.isDangerous()) {
-                                obstacle.collide(enemy);
-                            }
-                            if(obstacle.isBlocking()) {
-                                Collisions.applySingleCorrection(enemy, obstacle);
+                    if(!enemy.isFlying()) {
+                        // obstacles
+                        for(Obstacle obstacle: obstacles) {
+                            if(obstacle.getRigidBody().isEnabled() && (obstacle.isDangerous() || obstacle.isBlocking()) && Collisions.detectCollision(enemy, obstacle)) {
+                                if(obstacle.isDangerous()) {
+                                    obstacle.collide(enemy);
+                                }
+                                if(obstacle.isBlocking()) {
+                                    Collisions.applySingleCorrection(enemy, obstacle);
+                                } else if(obstacle.isMoveable()) {
+                                    Collisions.applyEqualRadialCorrection(enemy, obstacle);
+                                }
                             }
                         }
                     }

@@ -1,6 +1,7 @@
 package game.entities.environment;
 
 import engine.physics.RigidBody;
+import game.enums.AnimationPath;
 
 /*
 * Classname:            Rock.java
@@ -16,11 +17,9 @@ import engine.physics.RigidBody;
  * Rock: rock
  */
 public class Rock extends Obstacle {
-    private static final long serialVersionUID = -4363795480195834006L;
-    
-    public Rock(String image, RigidBody rb) {
-        super(image, rb);
-        dangerous = false;
+
+    public Rock(RigidBody rb) {
+        super(AnimationPath.ROCK, rb);
         destructable = true;
         blocking = true;
     }

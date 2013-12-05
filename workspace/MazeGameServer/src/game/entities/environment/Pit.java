@@ -1,6 +1,7 @@
 package game.entities.environment;
 
 import engine.physics.RigidBody;
+import game.enums.AnimationPath;
 
 /*
 * Classname:            Pit.java
@@ -16,13 +17,9 @@ import engine.physics.RigidBody;
  * Pit: pit
  */
 public class Pit extends Obstacle {
-    private static final long serialVersionUID = -4363795480195834006L;
-    
-    public Pit(String image, RigidBody rb) {
-        super(image, rb);
-        dangerous = false;
-        destructable = false;
+
+    public Pit(RigidBody rb) {
+        super(AnimationPath.PIT, rb);
         blocking = true;
-        openable = false;
     }
 }

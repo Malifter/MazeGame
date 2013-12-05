@@ -1,11 +1,11 @@
 package game.entities.items;
 
 import engine.physics.RigidBody;
-import game.entities.npcs.Player;
+import game.enums.AnimationPath;
 
 public abstract class NotConsumable extends Item{
-    public NotConsumable(String img, RigidBody rb) {
-        super(img, rb);
-    }
     
+    public NotConsumable(AnimationPath ap, RigidBody rb) {
+        super(ap, rb);
+    }
 }

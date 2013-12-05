@@ -1,6 +1,9 @@
 package engine.serializable;
 
 import engine.Vector2f;
+import game.enums.AnimationPath;
+import game.enums.AnimationState;
+import game.enums.Face;
 
 /*
 * Classname:            SerializedEntity.java
@@ -14,23 +17,43 @@ import engine.Vector2f;
 
 public class SerializedEntity extends SerializedObject {
     private static final long serialVersionUID = -3253907327685796548L;
-    private String image;
+    private AnimationPath animPath;
+    private AnimationState animState;
+    private Face face;
     private boolean delete = false;
     private Vector2f position;
 
-    public SerializedEntity(String uniqueID, String image, Vector2f position, boolean delete) {
+    public SerializedEntity(String uniqueID, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, boolean delete) {
         super(uniqueID);
-        this.image = image;
+        this.animPath = animPath;
+        this.animState = animState;
+        this.face = face;
         this.position = position;
         this.delete = delete;
     }
 
-    public String getImage() {
-        return image;
+    public AnimationPath getAnimPath() {
+        return animPath;
     }
     
-    public void setImage(String image) {
-        this.image = image;
+    public void setAnimPath(AnimationPath animPath) {
+        this.animPath = animPath;
+    }
+    
+    public AnimationState getAnimState() {
+        return animState;
+    }
+    
+    public void setAnimState(AnimationState animState) {
+        this.animState = animState;
+    }
+    
+    public Face getFace() {
+        return face;
+    }
+    
+    public void setFace(Face face) {
+        this.face = face;
     }
 
     public Vector2f getPosition() {
