@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class InventoryTest {
     
-    public Game game; // just a temporary game object to perform our tests on
+   
     public String image;
     public int xPos;
     public int yPos;
@@ -84,8 +84,9 @@ public class InventoryTest {
     }
     public void initiateTestVariables() {
         try {
-            game = new MazeGameServer(new GameEngine());
-            image = "chestLockedImage";
+           
+            image = null;
+            
             xPos = 232;
             yPos = 72;
         } catch(Exception e) {

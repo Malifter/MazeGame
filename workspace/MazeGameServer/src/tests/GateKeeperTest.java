@@ -5,13 +5,13 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
-import game.Game;
-import game.GameEngine;
-import game.MazeGameServer;
-import game.entities.Entity;
-import game.entities.environment.Obstacle;
+import engine.Vector2i;
+import engine.physics.RigidBody;
+
 import game.entities.environment.Portal;
 import game.entities.npcs.GateKeeper;
+import game.entities.npcs.Player;
+import game.enums.ItemType;
 import game.environment.Interior;
 
 import org.junit.Test;
@@ -24,7 +24,6 @@ import org.junit.Test;
 
 public class GateKeeperTest {
     
-    public Game game; // just a temporary game object to perform our tests on
     public String image;
     public int xPos;
     public int yPos;
@@ -32,7 +31,8 @@ public class GateKeeperTest {
     public Portal myPortal;
     public Interior myRoom;
     public ArrayList<Interior> rooms;
-    public Entity player;
+    public Player player;
+    public RigidBody rb;
     
     public void main(String [] args) {
     }
@@ -42,7 +42,7 @@ public class GateKeeperTest {
         initiateTestVariables();
         
         gateKeeper = null;
-        gateKeeper = new GateKeeper(game, image, xPos, yPos, xPos, yPos, xPos, yPos, myPortal);
+        gateKeeper = new GateKeeper(image, rb, myPortal);
         assertNotNull(this.gateKeeper);
     }
     
@@ -51,7 +51,8 @@ public class GateKeeperTest {
         initiateTestVariables();
         
         gateKeeper = null;
-        gateKeeper = new GateKeeper(game, image, xPos, yPos, xPos, yPos, xPos, yPos, myPortal);
+        gateKeeper = new GateKeeper(image, rb, myPortal);
+        //player.getInventory().addItem(ItemType.GOLD);
         gateKeeper.negotiate(player);
         assertEquals(myPortal.isActivated(), true);
     }
@@ -61,7 +62,7 @@ public class GateKeeperTest {
         initiateTestVariables();
         
         gateKeeper = null;
-        gateKeeper = new GateKeeper(game, image, xPos, yPos, xPos, yPos, xPos, yPos, myPortal);        
+        gateKeeper = new GateKeeper(image, rb, myPortal);      
         assertNotNull(this.gateKeeper.getPortal());
         
     }
@@ -71,7 +72,7 @@ public class GateKeeperTest {
         initiateTestVariables();
         
         gateKeeper = null;
-        gateKeeper = new GateKeeper(game, image, xPos, yPos, xPos, yPos, xPos, yPos, myPortal);
+        gateKeeper = new GateKeeper(image, rb, myPortal);
         assertNotNull(this.gateKeeper);
         this.gateKeeper.activateWarmHole();
         assertEquals(myPortal.isActivated(), true);
@@ -82,21 +83,19 @@ public class GateKeeperTest {
         initiateTestVariables();
         
         gateKeeper = null;
-        gateKeeper = new GateKeeper(game, image, xPos, yPos, xPos, yPos, xPos, yPos, myPortal);
+        gateKeeper = new GateKeeper(image, rb, myPortal);
         assertNotNull(this.gateKeeper);
         this.gateKeeper.deactivateWarmHole();
         assertEquals(myPortal.isActivated(), false);
     }
+    
     public void initiateTestVariables() {
         try {            
-            game = new MazeGameServer(new GameEngine());
-            image = "chestLockedImage";
-            xPos = 232;
-            yPos = 72;
-            myPortal = null;
-            myRoom = null;
-            myPortal = new Portal(game, image, xPos, yPos, myRoom, rooms);
-            player = null;
+          
+            image = null;
+            rb = new RigidBody(new Vector2i(0, 0), 24, 24);
+            myPortal = new Portal(image, rb, myRoom, null);
+            player = new Player(image, new RigidBody(new Vector2i(0, 0), 24, 24), 1, myRoom);
             
         } catch(Exception e) {
             System.out.println("Variable instantiation failed. Aborting JUnit tests.");

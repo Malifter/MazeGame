@@ -2,12 +2,11 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import game.Game;
-import game.GameEngine;
-import game.MazeGameServer;
+import engine.Vector2i;
+import engine.physics.RigidBody;
+
 import game.entities.Entity;
-import game.entities.environment.Door;
-import game.entities.environment.Obstacle;
+
 import game.entities.npcs.Player;
 import game.environment.Room;
 
@@ -20,13 +19,13 @@ import org.junit.Test;
 
 public class RoomTest {
     
-    public Game game; // just a temporary game object to perform our tests on
-    public String image;
-    public int roomLayout = 1;
+  
+    public int roomLayout;
     public int xPos;
     public int yPos;
     public Room room;
     public Entity tile;
+    public Player player;
     
     public void main(String [] args) {
     }
@@ -34,53 +33,37 @@ public class RoomTest {
     @Test
     public void testRoomConstructor() {
         initiateTestVariables();
-        
+
         room = null;
         room = new Room(roomLayout);
         assertNotNull(this.room);
         
     }
     
-    @Test
-    public void testAddToForeground() {
-        initiateTestVariables();
-        
-        room = null;
-        room = new Room(roomLayout);
-        assertNotNull(this.room);
-        this.room.addToForeground(tile);
-    }
     
     @Test
     public void testAddPlayer() {
         initiateTestVariables();
-        Player player = null;
+        player = new Player (null, new RigidBody(new Vector2i(0, 0), 24, 24), 0, room);
         room = null;
         room = new Room(roomLayout);
-        assertNotNull(this.room);
         this.room.addPlayer(player);
+        assertEquals(true, room.getPlayers().contains(player));
+        
     }
     
     @Test
     public void testRemovePlayer() {
         initiateTestVariables();
-        Player player = null;
+        player = new Player (null, new RigidBody(new Vector2i(0, 0), 24, 24), 0, room);
         room = null;
         room = new Room(roomLayout);
         assertNotNull(this.room);
         this.room.addPlayer(player);
         this.room.removePlayer(player);
+        assertEquals(room.hasPlayers(), false);
     }
     
-    @Test
-    public void testAddDoor() {
-        initiateTestVariables();
-        Door door = null;
-        room = null;
-        room = new Room(roomLayout);
-        assertNotNull(this.room);
-        this.room.addDoor(door);
-    }
     
     @Test
     public void testNumPlayers() {
@@ -89,7 +72,7 @@ public class RoomTest {
         room = null;
         room = new Room(roomLayout);
         assertNotNull(this.room);
-        Player player = null;
+        player = new Player (null, new RigidBody(new Vector2i(0, 0), 24, 24), 0, room);
         this.room.addPlayer(player);
         assertEquals(this.room.numPlayers(), 1);
     }
@@ -101,41 +84,16 @@ public class RoomTest {
         room = null;
         room = new Room(roomLayout);
         assertNotNull(this.room);
-        Player player = null;
+        player = new Player (null, new RigidBody(new Vector2i(0, 0), 24, 24), 0, room);
         this.room.addPlayer(player);
         assertNotNull(this.room.getPlayers());
     }
     
-    @Test
-    public void testGetForeground() {
-        initiateTestVariables();
-        
-        room = null;
-        room = new Room(roomLayout);
-        assertNotNull(this.room);
-        this.room.addToForeground(tile);
-        assertNotNull(this.room.getForeground());
-    }
+   
     
-    @Test
-    public void testGetDoors() {
-        initiateTestVariables();
-        
-        room = null;
-        room = new Room(roomLayout);
-        assertNotNull(this.room);
-        Door door = null;
-        this.room.addDoor(door);
-        assertNotNull(this.room.getDoors());
-    }
-       
     public void initiateTestVariables() {
         try {
-            game = new MazeGameServer(new GameEngine());
-            image = "chestLockedImage";
-            xPos = 232;
-            yPos = 72;
-            tile = null;
+            roomLayout = 1;
         } catch(Exception e) {
             System.out.println("Variable instantiation failed. Aborting JUnit tests.");
             e.printStackTrace();

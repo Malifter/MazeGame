@@ -37,7 +37,7 @@ import org.junit.Test;
  * DoorTest: <add description>
  */
 public class InteriorTest {
-    public Game game; // just a temporary game object to perform our tests on
+    
     public int xPos;
     public int yPos;
     public Interior Interior;
