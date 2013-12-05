@@ -21,8 +21,10 @@ public class PortalTest {
     public Room room;
     public Player player;
     public RigidBody rb;
+    public RigidBody rb2;
     public Side side;
     public int playerID = 0;
+    public int roomLayout = 0;
     public boolean locked;
     public Vector2i location;
 
@@ -32,7 +34,7 @@ public class PortalTest {
     @Test
     public void testPortalConstructor() {
         initiateTestVariables();
-        // linked Door is an optional parameter, so test with no linked door
+        
         portal = null;
         portal = new Portal(img, rb, room, side);
         assertNotNull(this.portal);
@@ -42,39 +44,64 @@ public class PortalTest {
     
     @Test
     public void testTransport() {
-        fail("Not yet implemented");
+        initiateTestVariables();
+        
+        player = new Player(img, rb2, playerID, room);
+        portal = null;
+        portal = new Portal(img, rb, room, side);
+        
+        portal.activate();
+        player.getRigidBody().setLocation(portal.getRigidBody().getLocation());
+        
+        portal.transport(player);
+
+        assertEquals(this.room.hasPlayers(), false);
+       
     }
     
-    @Test
-    public void testPortal() {
-        fail("Not yet implemented");
-    }
-    
+   
     @Test
     public void testActivate() {
-        fail("Not yet implemented");
+        initiateTestVariables();
+        
+        portal = null;
+        portal = new Portal(img, rb, room, side);
+        portal.activate();
+        assertEquals(portal.isActivated(), true);
     }
     
     @Test
     public void testDeactivate() {
-        fail("Not yet implemented");
+        initiateTestVariables();
+        
+        portal = null;
+        portal = new Portal(img, rb, room, side);
+        portal.deactivate();
+        assertEquals(portal.isActivated(), false);
     }
     
     @Test
     public void testIsActivated() {
-        fail("Not yet implemented");
+        initiateTestVariables();
+        
+        portal = null;
+        portal = new Portal(img, rb, room, side);
+        portal.activate();
+        assertEquals(portal.isActivated(), true);
     }
     
     public void initiateTestVariables() {
     try {
+
+        rb = new RigidBody(new Vector2i(0, 0), 24, 24);
+        rb2 = new RigidBody(new Vector2i(0, 0), 24, 24);
+        room = new Room(roomLayout);
         
-        
-        rb = new RigidBody(new Vector2i(0, 0);, 24, 24);
                    
         img = null;      
         
         side = Side.RIGHT;
-        room = new Room(playerID);
+        
        
     } catch(Exception e) {
         System.out.println("Variable instantiation failed. Aborting JUnit tests.");
@@ -82,4 +109,5 @@ public class PortalTest {
         System.exit(1);
     }
     
+    }
 }

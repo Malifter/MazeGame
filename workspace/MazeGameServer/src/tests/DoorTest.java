@@ -43,10 +43,12 @@ public class DoorTest {
     public Room room2;
     public Player player;
     public RigidBody rb;
+    public RigidBody rb2;
     public Side side;
     public int roomLayout = 0;
     public boolean locked;
     public Vector2i location;
+    private int playerID = 0;
     
     public void main(String [] args) {
     }
@@ -134,18 +136,18 @@ public class DoorTest {
         room2 = new Room(roomLayout);
         Door linkedDoor = new Door(rb, new Vector2i(0 + LevelLoader.TILESIZE, 0 + LevelLoader.TILESIZE), room2, null, Side.LEFT);
         door = new Door(rb, exitLocation, room, linkedDoor, side);  
+        
+        
         door.unlock();
-        linkedDoor.unlock();
-        System.out.println(player.getRigidBody().getLocation());
+        
+        player = new Player(img, rb2, playerID , room);
         
         player.getRigidBody().setLocation(door.getRigidBody().getLocation());
         
-        System.out.println(player.getRigidBody().getLocation());
         
-        //door.transport(player);
-                
-        //assertEquals(room2.getPlayers().contains(player), true);
-        //assertEquals((int)player.getMinY(), (int)linkedDoor.getExit().getY());
+        door.transport(player);
+
+        assertEquals(room.hasPlayers(), false);
     }
     
     
@@ -164,8 +166,8 @@ public class DoorTest {
             //location.addEq(new Vector2i(LevelLoader.TILESIZE/2, LevelLoader.TILESIZE/2));
             exitLocation = new Vector2i(0, 0);
             rb = new RigidBody(exitLocation, 24, 24);
-                       
-            img = "animations/door/unlocked/down/door.gif";
+            rb2 = new RigidBody(new Vector2i(0, 0), 24, 24);           
+            img = null;
             //xPos = 232;
             //yPos = 72;            
             

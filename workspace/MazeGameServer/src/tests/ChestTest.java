@@ -52,7 +52,7 @@ public class ChestTest {
         initiateTestVariables();
        
         chest = new Chest(rb, room);
-        assertNotNull(chest.getContents());
+        
         chest.generateContents();
         assertNotNull(chest.getContents());
     }
@@ -71,7 +71,7 @@ public class ChestTest {
     public void initiateTestVariables() {
         try {
             rb = new RigidBody(new Vector2i(0, 0), 24, 24);
-            image = "chestLockedImage";
+            image = null;
             room = new Interior(new Vector2i(0, 0), 0);
         } catch(Exception e) {
             System.out.println("Variable instantiation failed. Aborting JUnit tests.");
