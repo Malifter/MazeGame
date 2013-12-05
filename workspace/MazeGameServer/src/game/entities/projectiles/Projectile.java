@@ -1,7 +1,5 @@
 package game.entities.projectiles;
 
-import engine.Vector2f;
-import engine.physics.Collisions;
 import engine.physics.RigidBody;
 import game.entities.Entity;
 import game.entities.environment.Obstacle;
@@ -9,7 +7,6 @@ import game.entities.environment.Pit;
 import game.entities.npcs.Hostile;
 import game.entities.npcs.Player;
 import game.enums.AnimationPath;
-import game.enums.Face;
 
 /*
 * Classname:            Projectile.java

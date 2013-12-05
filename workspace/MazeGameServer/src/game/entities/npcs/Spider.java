@@ -23,8 +23,8 @@ import game.environment.Room;
  * Spider
  */
 public class Spider extends Hostile {
-    private static final int MAX_HEALTH = 5;
-    private static final int COLLISION_DAMAGE = 5;
+    private static final int MAX_HEALTH = 100;
+    private static final int COLLISION_DAMAGE = 20;
     private static final int AGGRO_RANGE = 128;
     private static final long MAX_ACTION_TIME = 1000;
     private static final long ATTACK_INTERVAL = 1000;

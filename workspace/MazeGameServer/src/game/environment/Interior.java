@@ -12,30 +12,26 @@ package game.environment;
 
 import game.MazeGameServer;
 import game.entities.EntityFactory;
-import game.entities.environment.Chest;
 import game.entities.environment.Door;
 import game.entities.environment.Entry;
 import game.entities.environment.Obstacle;
 import game.entities.environment.Tile;
 import game.entities.items.*;
-import game.entities.npcs.Hostage;
 import game.entities.npcs.Hostile;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
 import game.entities.projectiles.Projectile;
+import game.enums.GameState;
 import game.enums.ItemType;
 import game.enums.ObstacleType;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import engine.Vector2i;
 import engine.Vector2f;
 import engine.physics.Collisions;
 import engine.serializable.SerializeFactory;
 import engine.serializable.SerializedObject;
-
 
 public class Interior extends Room {
 
@@ -76,7 +72,7 @@ public class Interior extends Room {
                         continue;
                     }
                     else {
-                        // THIS PLAYER LOSES
+                        MazeGameServer.states.set(player.getPlayerID(), GameState.LOSE);
                         playerItr.remove();
                         continue;
                     }
@@ -216,13 +212,10 @@ public class Interior extends Room {
                             } else if(obstacle.isOpenable()) {
                                 obstacle.interact(player);
                             }
-                            if(obstacle.isMoveable()){
-                                Collisions.detectAndApplySingleRadialCorrection(obstacle, player);
-                            }
-                            if(obstacle.isBlocking()) {
-                                Collisions.applySingleCorrection(player, obstacle);
-                            } else if(obstacle.isMoveable()) {
+                            if(obstacle.isMoveable()) {
                                 Collisions.applyEqualRadialCorrection(player, obstacle);
+                            } else if(obstacle.isBlocking()) {
+                                Collisions.applySingleCorrection(player, obstacle);
                             }
                         }
                     }
@@ -282,10 +275,10 @@ public class Interior extends Room {
                                 if(obstacle.isDangerous()) {
                                     obstacle.collide(enemy);
                                 }
-                                if(obstacle.isBlocking()) {
-                                    Collisions.applySingleCorrection(enemy, obstacle);
-                                } else if(obstacle.isMoveable()) {
+                                if(obstacle.isMoveable()) {
                                     Collisions.applyEqualRadialCorrection(enemy, obstacle);
+                                } else if(obstacle.isBlocking()) {
+                                    Collisions.applySingleCorrection(enemy, obstacle);
                                 }
                             }
                         }
@@ -345,7 +338,6 @@ public class Interior extends Room {
                     // other items
                     for(Item other: items) {
                         if(!item.equals(other) && other.getRigidBody().isEnabled()) {
-                            System.out.println("overlapping items");
                             Collisions.detectAndApplyEqualRadialCorrection(item, other);
                         }
                     }

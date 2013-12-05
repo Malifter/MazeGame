@@ -97,6 +97,7 @@ public class EntityFactory {
                         break;
                 }
                 rb = new RigidBody(offset, 14, 14);
+                System.out.println(side + " " + direction);
                 neutral = new GateKeeper(rb, portal, direction);
                 break;
         }
@@ -112,19 +113,19 @@ public class EntityFactory {
                 obstacle = new Spikes(rb);
                 break;
             case PIT:
-                rb = new RigidBody(location, 15, 15);
+                rb = new RigidBody(location, 12, 12);
                 obstacle = new Pit(rb);
                 break;
             case ROCK:
-                rb = new RigidBody(location, 15, 15);
+                rb = new RigidBody(location, 12, 12);
                 obstacle = new Rock(rb);
                 break;
             case CELLDOOR:
-                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                rb = new RigidBody(location, 14, 14);
                 obstacle = new CellDoor(rb);
                 break;
             case CHEST:
-                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                rb = new RigidBody(location, 12, 12);
                 obstacle = new Chest(rb, room);
         }
         return obstacle;
@@ -193,7 +194,6 @@ public class EntityFactory {
         RigidBody rb = null;
         switch(type) {
             case DOOR:
-                //boolean locked = true;
                 Vector2i exit;
                 if(side.equals(Side.TOP)) {
                     exit = new Vector2i(location.x.intValue(), TILESIZE + location.y.intValue());
@@ -205,7 +205,7 @@ public class EntityFactory {
                     exit = new Vector2i(location.x.intValue(), location.y.intValue() - TILESIZE);
                 }
                 rb = new RigidBody(location, 24, 24);
-                entry = new Door(rb, exit, room, linkedDoor, side, locked);
+                entry = new Door(rb, exit, room, linkedDoor, side);
                 break;
             case PORTAL:
                 rb = new RigidBody(location, 24, 24);

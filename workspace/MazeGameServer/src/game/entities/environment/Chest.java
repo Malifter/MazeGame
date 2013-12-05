@@ -38,11 +38,9 @@ public class Chest extends Obstacle {
     public Chest(RigidBody rb, Interior room) {
         super(AnimationPath.CHEST, rb);
         this.room = room;
-        blocking = true;
-        destructable = false;
-        dangerous = false;
         openable = true;
         moveable = true;
+        blocking = true;
         lock();
         generateContents();
     }

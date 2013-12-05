@@ -1,13 +1,8 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import engine.Vector2i;
-import engine.Vector2f;
-import engine.inputhandler.Axis;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
 import engine.inputhandler.PhysicalInput;
@@ -15,9 +10,11 @@ import engine.render.Animator;
 import engine.render.IDisplay;
 import engine.render.JLWGLDisplay;
 import engine.serializable.SerializedEntity;
+import engine.serializable.SerializedGameState;
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedPlayer;
 import engine.serializable.SerializedRoom;
+import game.enums.GameState;
 
 /*
 * Classname:            MazeGameClient.java
@@ -33,19 +30,16 @@ import engine.serializable.SerializedRoom;
  * MazeGameClient: This is our MazeGame game
  */
 public class Game {
-    private static boolean isDone = false;
+    private static boolean done = false;
     private static transient IDisplay display;
     private static ArrayList<Input> inputs = null;
     private static int theWidth = 1024;
     private static int theHeight = 768;
     private static RenderableEntity winScreen = null;
     private static RenderableEntity loseScreen = null;
-    private static RenderableEntity startScreen = null;
     public static RenderableLevel level;
     private static Camera cam = null;
-    private static boolean win = false;
-    private static boolean isStart = false;
-    private static boolean lose = false;
+    public static GameState state = GameState.PLAYING;
     public static Button right = new Button(new PhysicalInput[] {
             PhysicalInput.KEYBOARD_RIGHT, PhysicalInput.KEYBOARD_D });
     public static Button left = new Button(new PhysicalInput[] {
@@ -69,11 +63,7 @@ public class Game {
     public static Button selectBackward = new Button(
             new PhysicalInput[] { PhysicalInput.KEYBOARD_Q});
     public static Button useItem = new Button(
-            new PhysicalInput[] { PhysicalInput.KEYBOARD_LEFT_SHIFT});
-    public static Axis mouseX = new Axis(
-            new PhysicalInput[] { PhysicalInput.MOUSE_X});
-    public static Axis mouseY = new Axis(
-            new PhysicalInput[] { PhysicalInput.MOUSE_Y});
+            new PhysicalInput[] { PhysicalInput.KEYBOARD_LEFT_SHIFT});;
     
     public static int sound_hit;
     public static int sound_shot;
@@ -81,7 +71,7 @@ public class Game {
     public static int sound_spawn;
     public static int sound_dead;
     public static int BGM_quickman;
-    private static long timeBGM = 0;
+    //private static long timeBGM = 0;
     
     /**
      * Constructor - private to prevent instance creation
@@ -108,6 +98,8 @@ public class Game {
             level.addRoom(RenderableLevel.createRoom(levelLayout.get(i).getIndex(), levelLayout.get(i).getPosition()));
         }
         cam.setOrientation(512,0,0,1);
+        cameraMode.setDown(false);
+        cam.mode = true;
         inputs = new ArrayList<Input>();
         inputs.add(left);
         inputs.add(right);
@@ -124,39 +116,33 @@ public class Game {
         
         initSounds();
         
-        timeBGM = GameEngine.getTime();
+        //timeBGM = GameEngine.getTime();
         //GameEngine.playMusic(BGM_quickman);
         GameEngine.playSound(sound_spawn);
         
         //GameEngine.setMouseHidden(true);
-        startScreen = new RenderableEntity("UI/startScreen.gif", new Vector2i());
-        winScreen = new RenderableEntity("UI/winScreen.gif", new Vector2i());
-        loseScreen = new RenderableEntity("UI/game_over.gif", new Vector2i());
-        
+        winScreen = new RenderableEntity("UI/winScreen.gif", new Vector2i(theWidth/2, theHeight/2));
+        loseScreen = new RenderableEntity("UI/loseScreen.gif", new Vector2i(theWidth/2, theHeight/2));
+
         return inputs;
     }
     
     public static ArrayList<RenderableEntity> getEntities() {
         ArrayList<RenderableEntity> tmp = new ArrayList<RenderableEntity>();
-        if(isStart){
-            if(!win && !lose){
-                RenderableRoom r = level.getCurrentRoom();
-                for(RenderableEntity bg: r.getBackground()) {
-                    if(bg != null) tmp.add(bg);
-                }
-                for(RenderableEntity fg: r.getForeground()) {
-                    if(fg != null) tmp.add(fg);
-                }
+        if(state.equals(GameState.PLAYING)){
+            RenderableRoom r = level.getCurrentRoom();
+            for(RenderableEntity bg: r.getBackground()) {
+                if(bg != null) tmp.add(bg);
             }
-            else if(win){
-                tmp.add(winScreen);
-            }
-            else {
-                tmp.add(loseScreen);
+            for(RenderableEntity fg: r.getForeground()) {
+                if(fg != null) tmp.add(fg);
             }
         }
-        else{
-            tmp.add(startScreen);
+        else if(state.equals(GameState.WIN)){
+            tmp.add(winScreen);
+        }
+        else {
+            tmp.add(loseScreen);
         }
         return tmp;
     }
@@ -197,8 +183,10 @@ public class Game {
                         }
                         Animator.clear();
                     }
-                }
-                else if(object instanceof SerializedPlayer) {
+                } else if(object instanceof SerializedGameState) {
+                    SerializedGameState gamestate = (SerializedGameState) object;
+                    state = gamestate.getGameState();
+                } else if(object instanceof SerializedPlayer) {
                     SerializedEntity player = (SerializedEntity) object;
 //                    GUI.populate(sp.getItems());
 //                    GUI.setPlayerHealth(sp.getHealth());
@@ -214,30 +202,18 @@ public class Game {
             }
             Animator.setEntities(entities);
         }
-        
         cam.update();
         
         if(escape.isDown()) {
-            isDone = true;
+            done = true;
         }     
-        if(!isStart){
+        if(!state.equals(GameState.PLAYING)){
             cameraMode.setDown(true);
             cam.mode = false;
-            
-            if(startGame.isDown()){
-                isStart = true;
-                cameraMode.setDown(false);
-                cam.mode = true;
+            if(startGame.isDown()) {
+                done = true;
             }
-       }
-        if(win){
-            cameraMode.setDown(true);
-            cam.mode = false;
         }
-    }
-
-    public void setWin(boolean w) {
-        win = w;
     }
     
     /**
@@ -247,7 +223,7 @@ public class Game {
      * @return isDone
      */
     public static boolean isDone() {
-        return isDone;
+        return done;
     }
 }
 

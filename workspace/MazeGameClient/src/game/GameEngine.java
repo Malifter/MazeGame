@@ -10,14 +10,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
-
 import net.java.games.input.*;
-
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-
-import engine.Vector2f;
 import engine.inputhandler.Axis;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
@@ -32,6 +28,7 @@ import engine.serializable.SerializedObstacle;
 import engine.serializable.SerializedPlayer;
 import engine.serializable.SerializedRoom;
 import engine.soundmanager.SoundManager;
+import game.enums.GameState;
 import game.enums.Pressed;
 
 /*
@@ -266,20 +263,6 @@ public class GameEngine {
             
             // Get the input
             getInputs();
-            List<Pressed> inputs = new ArrayList<Pressed>();
-            if(Game.right.isDown()) inputs.add(Pressed.RIGHT);
-            if(Game.left.isDown()) inputs.add(Pressed.LEFT);
-            if(Game.up.isDown()) inputs.add(Pressed.UP);
-            if(Game.down.isDown()) inputs.add(Pressed.DOWN);
-            if(Game.fire.isDown()) inputs.add(Pressed.FIRE);
-            if(Game.escape.isDown()) inputs.add(Pressed.ESCAPE);
-            if(Game.pause.isDown()) inputs.add(Pressed.PAUSE);
-            //if(Game.cameraMode.isDown()) inputs.add("cameraMode");
-            if(Game.startGame.isDown()) inputs.add(Pressed.START_GAME);
-            if(Game.selectForward.isDown()) inputs.add(Pressed.SELECT_FORWARD);
-            if(Game.selectBackward.isDown()) inputs.add(Pressed.SELECT_BACKWARD);
-            if(Game.useItem.isDown()) inputs.add(Pressed.USE_ITEM);
-            SerializedInputs sInputs = new SerializedInputs(inputs, display.getMouseCoordinates());
             
             long elapsedTime = getTime() - lastLoopTime;
             lastLoopTime = getTime();
@@ -292,11 +275,29 @@ public class GameEngine {
                 fps = 0;
             }
             
-            // send inputs to server
-            sendInputsToServer(sInputs);
-            
-            // Update the world
-            List<SerializedObject> updatedObjects = checkForServerUpdates();
+            List<SerializedObject> updatedObjects = null;
+            if(Game.state.equals(GameState.PLAYING)) {
+                List<Pressed> inputs = new ArrayList<Pressed>();
+                if(Game.right.isDown()) inputs.add(Pressed.RIGHT);
+                if(Game.left.isDown()) inputs.add(Pressed.LEFT);
+                if(Game.up.isDown()) inputs.add(Pressed.UP);
+                if(Game.down.isDown()) inputs.add(Pressed.DOWN);
+                if(Game.fire.isDown()) inputs.add(Pressed.FIRE);
+                if(Game.escape.isDown()) inputs.add(Pressed.ESCAPE);
+                if(Game.pause.isDown()) inputs.add(Pressed.PAUSE);
+                //if(Game.cameraMode.isDown()) inputs.add("cameraMode");
+                if(Game.startGame.isDown()) inputs.add(Pressed.START_GAME);
+                if(Game.selectForward.isDown()) inputs.add(Pressed.SELECT_FORWARD);
+                if(Game.selectBackward.isDown()) inputs.add(Pressed.SELECT_BACKWARD);
+                if(Game.useItem.isDown()) inputs.add(Pressed.USE_ITEM);
+                SerializedInputs sInputs = new SerializedInputs(inputs, display.getMouseCoordinates());
+                
+                // send inputs to server
+                sendInputsToServer(sInputs);
+                
+                // Update the world
+                updatedObjects = checkForServerUpdates();
+            }
             Game.update(elapsedTime, updatedObjects);
 
             // render the graphics
@@ -422,7 +423,7 @@ public class GameEngine {
     public static void render(List<SerializedObject> updatedObjects) {
         display.sync(FPS);
         drawEntities();
-        if(updatedObjects != null) {
+        if(updatedObjects != null && Game.state.equals(GameState.PLAYING)) {
             HashMap<SerializedObject, Float> renderMap = new HashMap<SerializedObject, Float>();
             ValueComparator bvc = new ValueComparator(renderMap);
             TreeMap<SerializedObject, Float> sortedMap = new TreeMap<SerializedObject, Float>(bvc);

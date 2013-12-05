@@ -16,10 +16,10 @@ public class ABomb extends NotConsumable {
     public ABomb(RigidBody rb){
         super(AnimationPath.BOMB, rb);
         startTimer();
+        animState = AnimationState.ACTIVE;
     }
     
     public void startTimer() {
-        animState = AnimationState.ACTIVE;
         timer = new Timer();
         timer.schedule(new BombTask(), BOMB_TIME * 1000); 
     }

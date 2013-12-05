@@ -3,10 +3,12 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 import engine.Vector2f;
+import engine.serializable.SerializeFactory;
 import engine.serializable.SerializedObject;
 import game.entities.Entity;
 import game.entities.EntityFactory;
 import game.enums.Face;
+import game.enums.GameState;
 import game.enums.Pressed;
 import game.levelloader.Level;
 import game.levelloader.LevelLoader;
@@ -25,12 +27,13 @@ import game.levelloader.LevelLoader;
  * MazeGameServer: This is our Mega Man game
  */
 public class MazeGameServer {
-    private static boolean isDone;
+    private static boolean done = false;
     public static final int NUM_PLAYERS = 4;
     public static int numPlayers = 0;
     public static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
     public static ArrayList<Vector2f> mice = new ArrayList<Vector2f>();
     public static ArrayList<List<SerializedObject>> updates = new ArrayList<List<SerializedObject>>();
+    public static ArrayList<GameState> states = new ArrayList<GameState>();
     public final static Level level = LevelLoader.generateRandomLevel(LevelLoader.LevelSize.SMALL);
     
     /**
@@ -41,7 +44,7 @@ public class MazeGameServer {
     private MazeGameServer(){}
     
     public static void init() {
-        isDone = false;
+
     }
     
     public static ArrayList<Entity> getEntities() {
@@ -49,14 +52,14 @@ public class MazeGameServer {
         return tmp;
     }
     
-    private static void initSounds() {
+    /*private static void initSounds() {
         /*sound_hit = GameEngine.addSound("hit.wav");
         sound_shot = GameEngine.addSound("shot.wav");
         sound_spawn = GameEngine.addSound("spawn.wav");
         sound_deflect = GameEngine.addSound("deflect.wav");
         sound_dead = GameEngine.addSound("dead.wav");
-        BGM_quickman = GameEngine.addSound("music/quickmanBGM.wav");*/
-    }
+        BGM_quickman = GameEngine.addSound("music/quickmanBGM.wav");
+    }*/
     
     /*
      * (non-Javadoc)
@@ -68,6 +71,10 @@ public class MazeGameServer {
         level.update(elapsedTime);
         level.applyCollisions();
         level.serialize();
+        // game state
+        for(int playerID = 0; playerID < numPlayers; playerID++) {
+            updates.get(playerID).add(SerializeFactory.serialize(MazeGameServer.states.get(playerID)));
+        }
         
         /*if((GameEngine.getTime()-timeBGM) > 38000) {
             timeBGM = GameEngine.getTime();
@@ -81,14 +88,7 @@ public class MazeGameServer {
      * @return isDone
      */
     public static boolean isDone() {
-        return isDone;
-    }
-    
-    /**
-     * Notification that the player has died.
-     */
-    public static void notifyDeath() {
-        isDone = true;
+        return done;
     }
     
     public static void clearUpdates() {
@@ -110,6 +110,7 @@ public class MazeGameServer {
     
     private static void initNewUpdates() {
         updates.add(new ArrayList<SerializedObject>());
+        states.add(GameState.PLAYING);
     }
     
     private static void initNewInputs() {
@@ -119,6 +120,16 @@ public class MazeGameServer {
         }
         inputs.add(newInputs);
         mice.add(new Vector2f());
+    }
+    
+    public static void hostageSaved(int playerID) {
+        for(int i = 0; i < numPlayers; i++) {
+            if(i == playerID) {
+                states.set(i, GameState.WIN);
+            } else {
+                states.set(i, GameState.LOSE);
+            }
+        }
     }
 }
 

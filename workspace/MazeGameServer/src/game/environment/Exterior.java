@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import engine.Vector2f;
 import engine.Vector2i;
 import engine.physics.Collisions;
 import engine.serializable.SerializeFactory;
@@ -23,7 +24,6 @@ import game.entities.environment.Entry;
 import game.entities.environment.Tile;
 import game.entities.items.ABomb;
 import game.entities.items.Item;
-import game.entities.npcs.Hostage;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
 import game.entities.projectiles.Projectile;
@@ -31,6 +31,7 @@ import game.entities.projectiles.Projectile;
 public class Exterior extends Room{
     public static final int HEIGHT = 528;
     public static final int WIDTH = 720;
+    public static final int SPAWN_RADIUS = 50;
     private ArrayList<Vector2i> playerSpawns = new ArrayList<Vector2i>(); // for now make these the safe zones too possibly
     
     public Exterior(int layout) {
@@ -71,17 +72,16 @@ public class Exterior extends Room{
                     }
                 }
                 
-                /*if(player.hasHostage()) {
-                    if(playerSpawns.get(player.getPlayerID()).contains(player.getHostage())) {
-                        score++;
-                        Game.hostageSaved();
-                        removeHostage(player.getHostage());
+                if(player.hasFollower()) {
+                    if(Collisions.findDistance(new Vector2f(playerSpawns.get(player.getPlayerID())), player.getFollower().getRigidBody().getLocation()) < SPAWN_RADIUS ) {
+                        MazeGameServer.hostageSaved(player.getPlayerID());
+                        //removeHostage(player.getHostage()); For now only 1 hostage
                     }
                     // In the game update if there's no more hostages to save then player with highest score is winner!
                     // If in single player mode, then level is cleared when all hostages are saved (still get score) same thing
                     // If you lose all lives before game is over then you get -score for that but still +score for each hostage saved
                     // person with highest score wins regardless if they went out
-                }*/
+                }
             }
             
             // projectiles
@@ -96,7 +96,6 @@ public class Exterior extends Room{
                 }
             }
             
-            // neutrals
             Iterator<Neutral> neutralItr = neutrals.iterator();
             while(neutralItr.hasNext()) {
                 Neutral neutral = neutralItr.next();
@@ -189,6 +188,13 @@ public class Exterior extends Room{
                     // entries
                     for(Entry entry: entries) {
                         Collisions.detectAndApplySingleCorrection(item, entry);
+                    }
+                    
+                    // other items
+                    for(Item other: items) {
+                        if(!item.equals(other) && other.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplyEqualRadialCorrection(item, other);
+                        }
                     }
                 }
             }

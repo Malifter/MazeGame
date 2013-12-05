@@ -25,11 +25,11 @@ import game.entities.EntityFactory;
  * Player:
  */
 public class Player extends Hostile {
-    private static final int MAX_HEALTH = 28;
-    private static final int BLASTER_DAMAGE = 1;
+    private static final int MAX_HEALTH = 100;
+    private static final int BLASTER_DAMAGE = 20;
     private static final int ATTACK_RANGE = 168;
     private static final float SPEED = 0.8f;
-    private static final int MAX_PROJECTILES = 5;
+    //private static final int MAX_PROJECTILES = 5;
     private static final long MAX_INVUNERABLE_TIME = 1000;
     private static final long SHOOT_INTERVAL = 300;
     private long shootTime = 0;
@@ -85,7 +85,10 @@ public class Player extends Hostile {
     
     @Override
     public void update(long elapsedTime) {
-        if(!dead) {
+        if(dead) {
+            disable();
+        }
+        else {
             faceMouse(MazeGameServer.mice.get(playerID));
             handleItemInputs(MazeGameServer.inputs.get(playerID));
             handleMoveInputs(MazeGameServer.inputs.get(playerID), elapsedTime);
@@ -188,7 +191,7 @@ public class Player extends Hostile {
     public void handleFireInputs(ArrayList<Boolean> inputs, long elapsedTime) {
         shootTime += elapsedTime;
         if (inputs.get(Pressed.FIRE.getValue()) && !shootPressed) {
-            if(numProjectiles < MAX_PROJECTILES && shootTime > SHOOT_INTERVAL){
+            if(/*numProjectiles < MAX_PROJECTILES &&*/ shootTime > SHOOT_INTERVAL){
                 fire();
                 shootTime = 0;
             }

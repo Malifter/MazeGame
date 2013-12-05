@@ -23,12 +23,12 @@ import game.environment.Room;
  * Spider
  */
 public class SpiderBoss extends Hostile {
-    private static final int MAX_HEALTH = 5;
-    private static final int COLLISION_DAMAGE = 5;
+    private static final int MAX_HEALTH = 400;
+    private static final int COLLISION_DAMAGE = 20;
     private static final int AGGRO_RANGE = 128;
-    private static final long MAX_ACTION_TIME = 1000;
+    private static final long MAX_ACTION_TIME = 250;
     private static final long ATTACK_INTERVAL = 1000;
-    private static final long MAX_ATTACK_INTERVAL = 3000;
+    private static final long MAX_ATTACK_INTERVAL = 1500;
     private static final float SPEED = 2.0f;
     private long attackTime = 0;
     private long idleTime = 0;
@@ -68,24 +68,11 @@ public class SpiderBoss extends Hostile {
     private void determineActions(long elapsedTime) {
         if(animState.equals(AnimationState.IDLE)) {
             idleTime += elapsedTime;
-            attackTime += elapsedTime;
             // been idle for too long, so attempt to move
             if(idleTime >= MAX_ACTION_TIME) {
                 determineDirection();
                 idleTime = 0;
                 animState = AnimationState.RUN;
-            }
-            // minimum attack rate
-            if(attackTime >= ATTACK_INTERVAL) {
-                if(Math.random() > 0.7) {
-                    fire();
-                    attackTime = 0;
-                }
-            }
-            // maximum attack rate
-            if(attackTime >= MAX_ATTACK_INTERVAL) {
-                fire();
-                attackTime = 0;
             }
         } else if(animState.equals(AnimationState.RUN)) {
             moveTime += elapsedTime;
@@ -99,6 +86,19 @@ public class SpiderBoss extends Hostile {
             }
             rBody.move(elapsedTime);
         }
+        attackTime += elapsedTime;
+        // minimum attack rate
+        if(attackTime >= ATTACK_INTERVAL) {
+            if(Math.random() > 0.7) {
+                fire();
+                attackTime = 0;
+            }
+        }
+        // maximum attack rate
+        if(attackTime >= MAX_ATTACK_INTERVAL) {
+            fire();
+            attackTime = 0;
+        }
     }
     
     private void determineDirection() {
@@ -108,19 +108,19 @@ public class SpiderBoss extends Hostile {
         switch(newFace) {
             case RIGHT:
                 facing = Face.RIGHT;
-                direction.x = 1.0f;
+                direction.x = SPEED;
                 break;
             case LEFT:
                 facing = Face.LEFT;
-                direction.x = -1.0f;
+                direction.x = -SPEED;
                 break;
             case UP:
                 facing = Face.UP;
-                direction.y = -1.0f;
+                direction.y = -SPEED;
                 break;
             case DOWN:
                 facing = Face.DOWN;
-                direction.y = 1.0f;
+                direction.y = SPEED;
                 break;
             case NONE:
                 animState = AnimationState.IDLE;

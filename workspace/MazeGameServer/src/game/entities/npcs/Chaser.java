@@ -22,8 +22,8 @@ import game.environment.Room;
  * Chaser
  */
 public class Chaser extends Hostile {
-    private static final int MAX_HEALTH = 5;
-    private static final int COLLISION_DAMAGE = 5;
+    private static final int MAX_HEALTH = 100;
+    private static final int COLLISION_DAMAGE = 20;
     private static final int AGGRO_RANGE = 65;
     private static final float SPEED = 0.5f;
     private Player target = null;

@@ -4,13 +4,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.List;
-
 import engine.serializable.SerializedInputs;
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedRoom;
-import game.enums.Pressed;
 import game.levelloader.LevelLoader;
 
 /*
@@ -110,7 +107,6 @@ public class PlayerHandlerThread implements Runnable {
      * Checks if any client inputs have been sent
      * @throws ClassNotFoundException 
      */
-    @SuppressWarnings("unchecked")
     protected SerializedInputs checkForClientInputs() throws IOException, ClassNotFoundException {
         try {
             return (SerializedInputs) ois.readObject();

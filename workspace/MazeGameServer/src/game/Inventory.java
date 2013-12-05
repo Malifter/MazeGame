@@ -18,7 +18,7 @@ public class Inventory {
     public Inventory(){
         items.put(ItemType.BOMB, 0);
         items.put(ItemType.CKEY, 0);
-        items.put(ItemType.DKEY, 0);
+        items.put(ItemType.DKEY, 1);
         items.put(ItemType.GOLD, 0);
         items.put(ItemType.SHIELD, 0);
         items.put(ItemType.TOOL, 0);
@@ -47,7 +47,6 @@ public class Inventory {
     }
    
     public void selectNextItem(){
-        ItemType item;
         do {
             selectedIndex++;
             selectedIndex = (selectedIndex) % ItemType.getSize();
@@ -58,7 +57,6 @@ public class Inventory {
     }
     
     public void selectPrevItem(){
-        ItemType item;
         do {
             selectedIndex--;
             selectedIndex = (selectedIndex) % ItemType.getSize();

@@ -4,6 +4,7 @@ import engine.Vector2f;
 import game.entities.Entity;
 import game.entities.environment.Obstacle;
 import game.entities.npcs.Player;
+import game.enums.GameState;
 import game.enums.Sounds;
 import game.environment.Exterior;
 import game.environment.Interior;
@@ -29,8 +30,8 @@ public class SerializeFactory {
         return new SerializedRoom(null, room.getRoomID());
     }
     
-    public static SerializedGameState serialize(/*GameState state*/) {
-        return new SerializedGameState(/*state*/);
+    public static SerializedGameState serialize(GameState state) {
+        return new SerializedGameState(state);
     }
     
     public static SerializedEntity serialize(Entity entity) {

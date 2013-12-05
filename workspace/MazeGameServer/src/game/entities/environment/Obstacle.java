@@ -52,10 +52,6 @@ public abstract class Obstacle extends Entity {
         }
     }
     
-    public boolean isMoveable(){
-        return moveable;
-    }
-    
     public boolean isOpenable() {
         return openable;
     }

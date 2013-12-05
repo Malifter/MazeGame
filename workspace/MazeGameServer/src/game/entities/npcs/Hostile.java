@@ -2,7 +2,6 @@ package game.entities.npcs;
 
 import engine.physics.RigidBody;
 import game.enums.AnimationPath;
-import game.enums.AnimationState;
 import game.enums.Face;
 import game.environment.Room;
 

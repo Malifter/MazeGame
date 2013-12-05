@@ -1,5 +1,7 @@
 package engine.serializable;
 
+import game.enums.GameState;
+
 /*
 * Classname:            SerializedGameState.java
 *
@@ -12,18 +14,18 @@ package engine.serializable;
 
 public class SerializedGameState extends SerializedObject {
     private static final long serialVersionUID = 4643754828530905782L;
-    //private GameState state;
+    private GameState state;
 
-    public SerializedGameState(/*GameState state*/) {
+    public SerializedGameState(GameState state) {
         super(null);
-        //this.state = state;
+        this.state = state;
     }
 
-    public /*GameState*/ void getGameState() {
-        //return state;
+    public GameState getGameState() {
+        return state;
     }
     
-    public void setGameState(/*GameState state*/) {
-        //this.state = state;
+    public void setGameState(GameState state) {
+        this.state = state;
     }
 }

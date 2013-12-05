@@ -1,0 +1,25 @@
+package game.entities.items;
+
+import engine.physics.RigidBody;
+import game.entities.npcs.Player;
+import game.enums.AnimationPath;
+import game.enums.ItemType;
+
+public class DoorKey extends NotConsumable {
+    public DoorKey(RigidBody rb) {
+<<<<<<< HEAD
+        super(AnimationPath.DKEY, rb);
+=======
+        super("items/dkey/dkey.gif/", rb);
+>>>>>>> f6f34c7ff6943717ece5738a0534ce8594d33391
+    }
+
+    public void pickUp(Player player) {
+        disable();
+        player.getInventory().addItem(ItemType.DKEY);
+    }
+    
+    public void use(Player p) {
+        // do nothing
+    }
+}

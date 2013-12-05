@@ -18,7 +18,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class LevelLoader {
-    private final static String GIF = ".gif";
     private final static String layoutPath = "assets/layouts/";
     private final static String exteriorLayout = layoutPath+"exterior/ExteriorLayout.oel";
     private final static String roomLayouts[] = {layoutPath+"rooms/RoomLayout0.oel",
@@ -40,7 +39,6 @@ public class LevelLoader {
         layoutPath+"rooms/RoomLayout16.oel",
         layoutPath+"rooms/RoomLayout17.oel"};
     private final static String hostageLayout = layoutPath+"hostage/HostageRoom0.oel";
-    private final static String tilesetPath = "tilesets/";
     public final static int TILESIZE = 16;
     private final static Vector2f OFFSET = new Vector2f(TILESIZE/2, TILESIZE/2);
     
@@ -93,7 +91,7 @@ public class LevelLoader {
                             door = (Door)entry;
                         }
                         if(door != null && door.getLink() == null) {
-                            boolean test = false;
+                            //boolean test = false;
                             int newRoom = -1;
                             if(door.getSide().equals(Side.TOP) && (newRoom = room-size) >= 0 && rooms.get(newRoom) == null) {
                                 position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
@@ -102,7 +100,7 @@ public class LevelLoader {
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
                                 linkAdjacentDoors(newRoom, size, rooms);
                                 newLinks = true;
-                                test = true;
+                                //test = true;
                             } else if(door.getSide().equals(Side.BOTTOM) && (newRoom = room+size) < size*size && rooms.get(newRoom) == null) {
                                 position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
                                 randomEntry(generateEntry, newRoom, size, rooms);
@@ -110,7 +108,7 @@ public class LevelLoader {
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
                                 linkAdjacentDoors(newRoom, size, rooms);
                                 newLinks = true;
-                                test = true;
+                                //test = true;
                             } else if(door.getSide().equals(Side.LEFT) && (newRoom = room-1) >= 0 && rooms.get(newRoom) == null) {
                                 position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
                                 randomEntry(generateEntry, newRoom, size, rooms);
@@ -118,7 +116,7 @@ public class LevelLoader {
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
                                 linkAdjacentDoors(newRoom, size, rooms);
                                 newLinks = true;
-                                test = true;
+                                //test = true;
                             } else if(door.getSide().equals(Side.RIGHT) && (newRoom = room+1) < size*size && rooms.get(newRoom) == null) {
                                 position = new Vector2i((newRoom%size)*Interior.WIDTH, (newRoom/size)*Interior.HEIGHT);
                                 randomEntry(generateEntry, newRoom, size, rooms);
@@ -126,16 +124,16 @@ public class LevelLoader {
                                 rooms.set(newRoom, createRoom(randomLayout(), position, door, generateEntry));
                                 linkAdjacentDoors(newRoom, size, rooms);
                                 newLinks = true;
-                                test = true;
+                                //test = true;
                             }
-                            if(test) {
+                            /*if(test) {
                                 System.out.println("Room: " + room + " newRoom: " + newRoom);
                                 System.out.println("TOP: " + generateEntry[Side.TOP.getIndex()]);
                                 System.out.println("BOTTOM: " + generateEntry[Side.BOTTOM.getIndex()]);
                                 System.out.println("LEFT: " + generateEntry[Side.LEFT.getIndex()]);
                                 System.out.println("RIGHT: " + generateEntry[Side.RIGHT.getIndex()]);
                                 break;
-                            }
+                            }*/
                         }
                     }
                 }
@@ -149,7 +147,7 @@ public class LevelLoader {
         }
         
         // double check all links are made
-        for(int r = 0; r < size; r++) {
+        /*for(int r = 0; r < size; r++) {
             for(int c = 0; c < size; c++) {
                 if(rooms.get(c + (r*size)) != null) {
                     boolean top = false;
@@ -191,12 +189,12 @@ public class LevelLoader {
                     if(right) System.out.println("RIGHT: DOOR");
                     else System.out.println("RIGHT: NONE");*/
                     //linkAdjacentDoors(room, size, rooms);
-                } else {
+                /*} else {
                     System.out.print("   ");
                 }
             }
             System.out.println();
-        }
+        }*/
         
         // Find edge rooms and link them to generated exterior
         Exterior outer = createOuter(exteriorLayout, size, rooms);
@@ -550,7 +548,6 @@ public class LevelLoader {
                 //check foreground and tileset
                 if(line.contains("foreground")) {
                     int x = position.x, y = position.y;
-                    String tileset = line.split("\"")[1];
                     while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("foreground")) {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
@@ -622,7 +619,6 @@ public class LevelLoader {
     
     private static Exterior createOuter(String layout, int size, ArrayList<Interior> rooms) {
         try {
-            @SuppressWarnings("resource")
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(layout)));
             Exterior outer = new Exterior(0);
             String line = null;
@@ -632,7 +628,6 @@ public class LevelLoader {
                 //check foreground and tileset
                 if(line.contains("foreground")) {
                     int x = 0, y = 0;
-                    String tileset = line.split("\"")[1];
                     while((line = bufferedReader.readLine()) != null && !line.toLowerCase().contains("foreground")) {
                         String[] parts = line.toLowerCase().split(",");
                         for(int p = 0; p < parts.length; p++) {
