@@ -103,7 +103,7 @@ public class Interior extends Room {
                     enemy.update(elapsedTime);
                 } else {
                     if(enemies.size() == 1) {
-                        if(Math.random()>1.25){
+                        if(Math.random()>0.5){
                             addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
                         }else{
                             addObstacle(EntityFactory.createObstacle(new Vector2f(center), ObstacleType.CHEST, this));

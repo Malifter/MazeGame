@@ -8,15 +8,6 @@ public class DoorKey extends NotConsumable {
     public DoorKey(RigidBody rb) {
         super("items/dkey/dkey.gif/", rb);
     }
-    
-    public DoorKey getKey(){
-        return this;
-    }
-
-    @Override
-    public void use(Player p) {
-        
-    }
 
     @Override
     public void pickUp(Player player) {

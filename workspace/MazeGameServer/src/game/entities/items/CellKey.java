@@ -14,8 +14,4 @@ public class CellKey extends NotConsumable {
         disable();
         player.getInventory().addItem(ItemType.CKEY);
     }
-    @Override
-    public void use(Player p) {
-        // TODO Auto-generated method stub
-    }
 }
