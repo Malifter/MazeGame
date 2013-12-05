@@ -100,23 +100,16 @@ public class DoorTest {
         door = new Door(img, rb, exitLoc, room, linkedDoor, side, locked);
         assertEquals(door.getRoom(), room);
     }
-    
+    */
     
     @Test
     public void testDoorSide() {
         initiateTestVariables();
-        door = null;
-        String img = null; 
-        RigidBody rb = null;
-        Vector2i exitLoc = null;
-        Room room = null;
-        Door linkedDoor = null;
-        Side side = null;
-        boolean locked = false;
-        door = new Door(img, rb, exitLoc, room, linkedDoor, side, locked);
-        assertEquals(door.getRoom(), room);
+        
+        door = new Door(rb, exitLocation, room, null, side);
+        assertEquals(door.getSide(), side);
     }
-    */
+    
 
     @Test
     public void testDoorLink() {
@@ -143,7 +136,6 @@ public class DoorTest {
         player = new Player(img, rb2, playerID , room);
         
         player.getRigidBody().setLocation(door.getRigidBody().getLocation());
-        
         
         door.transport(player);
 

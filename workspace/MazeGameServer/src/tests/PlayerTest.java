@@ -75,20 +75,21 @@ public class PlayerTest {
     @Test
     public void testGetPlayerID() {
         initiateTestVariables();
-        
+        player = new Player(image, new RigidBody(new Vector2i(0, 0), 24, 24), 1, myRoom);
         assertNotNull(this.player.getPlayerID());
     }
     
     @Test
     public void testGetLives() {
         initiateTestVariables();
-        player.addLife();
-        assertNotNull(this.player.getLives());
+        player = new Player(image, new RigidBody(new Vector2i(0, 0), 24, 24), 1, myRoom);
+        assertNotEquals(player.getLives(), 0);
     }
     
     @Test
     public void testAddLife() {
         initiateTestVariables();
+        
         int currLive = player.getLives() + 1;
         player.addLife();
         int newLive = player.getLives();
@@ -107,7 +108,7 @@ public class PlayerTest {
     @Test
     public void testSetFollower() {
         initiateTestVariables();
-        Hostage hostage = null;
+        Hostage hostage = new Hostage(image, rb);
         player.setFollower(hostage);
         assertNotNull(this.player.hasFollower());
     }
@@ -115,15 +116,15 @@ public class PlayerTest {
     @Test
     public void testGetFollower() {
         initiateTestVariables();
-        Hostage hostage = null;
+        Hostage hostage = new Hostage(image, rb);
         player.setFollower(hostage);
-        assertNotNull(this.player.hasFollower());
+        assertNotNull(this.player.getFollower());
     }
     
     @Test
     public void testHasFollower() {
         initiateTestVariables();
-        Hostage hostage = null;
+        Hostage hostage = new Hostage(image, rb);
         player.setFollower(hostage);
         assertNotNull(this.player.hasFollower());
     }    

@@ -41,17 +41,16 @@ public class HealthBoosterTest {
     
     public HealthBooster boost;
     public String img;
-    public int xPos;
-    public int yPos;
-    public Vector2i exitLocation;
+
     public Room room;
-    public Room room2;
+
     public Player player;
     public RigidBody rb;
     public Side side;
     public int roomLayout = 0;
     public boolean locked;
     public Vector2i location;
+    public int playerID = 0;
     
     public void main(String [] args) {
     }
@@ -87,18 +86,11 @@ public class HealthBoosterTest {
         try {
             
             //location.addEq(new Vector2i(LevelLoader.TILESIZE/2, LevelLoader.TILESIZE/2));
-            exitLocation = new Vector2i(0, 0);
-            rb = new RigidBody(exitLocation, 24, 24);
-                       
-            img = "animations/door/unlocked/down/door.gif";
-            //xPos = 232;
-            //yPos = 72;            
-            
-            side = Side.RIGHT;
-            room = new Room(roomLayout);
-            int playerID = 1;
-            player = new Player("player", rb, playerID, room);
-            locked = true;
+
+            rb = new RigidBody(new Vector2i(0,0), 24, 24);
+            player = new Player(img, rb, playerID , room); 
+            img = null;
+           
         } catch(Exception e) {
             System.out.println("Variable instantiation failed. Aborting JUnit tests.");
             e.printStackTrace();

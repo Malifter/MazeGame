@@ -96,8 +96,7 @@ public class PortalTest {
         rb = new RigidBody(new Vector2i(0, 0), 24, 24);
         rb2 = new RigidBody(new Vector2i(0, 0), 24, 24);
         room = new Room(roomLayout);
-        
-                   
+              
         img = null;      
         
         side = Side.RIGHT;
