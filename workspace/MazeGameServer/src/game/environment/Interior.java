@@ -100,7 +100,7 @@ public class Interior extends Room {
                     enemy.update(elapsedTime);
                 } else {
                     if(enemies.size() == 1) {
-                        if(Math.random()>7.25){
+                        if(Math.random()>1.25){
                             addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
                         }else{
                             addObstacle(EntityFactory.createObstacle(new Vector2f(center), ObstacleType.CHEST, this));
@@ -223,9 +223,17 @@ public class Interior extends Room {
                     }
                     // entries
                     for(Entry entry: entries) {
+                        if(entry instanceof Door){//check if a door is disguished
+                            Door door = (Door) entry;
+                            if(door.isDisguished()&&Collisions.detectCollision(player, door)){
+                                player.takeDamage(1);
+                                door.setDisguished(false);
+                            }
+                        }
+                        
                         if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
                             if(entry instanceof Door) {
-                                Door door = (Door) entry;
+                                Door door = (Door) entry;                                
                                 if(player.getInventory().hasItem(ItemType.DKEY)&&Collisions.detectCollision(player, door)) {
                                     System.out.println("Unlock an door");
                                     player.getInventory().removeItem(ItemType.DKEY);

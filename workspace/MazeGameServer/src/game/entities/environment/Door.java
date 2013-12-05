@@ -23,6 +23,7 @@ public class Door extends Entry {
     private Door linkedDoor;
     private Vector2i exitLocation;
     private boolean locked; // Implement later
+    private boolean disguished = false;
     
     private static final String LOCKED_ARRAY[]={"animations/door/locked/up/door.gif", 
                                                 "animations/door/locked/down/door.gif",
@@ -63,7 +64,7 @@ public class Door extends Entry {
     }
     
     private void randomLock(){
-        if(Math.random()>0.85){
+        if(Math.random()>0.90){
             lock();
         }else{
             unlock();
@@ -113,5 +114,13 @@ public class Door extends Entry {
     
     public boolean isLocked() {
         return locked;
+    }
+    
+    public boolean isDisguished(){
+        return disguished;
+    }
+    
+    public void setDisguished(boolean disguished){
+        this.disguished = disguished;
     }
 }

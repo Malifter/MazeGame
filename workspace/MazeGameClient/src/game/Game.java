@@ -69,7 +69,7 @@ public class Game {
     public static Button selectBackward = new Button(
             new PhysicalInput[] { PhysicalInput.KEYBOARD_Q});
     public static Button useItem = new Button(
-            new PhysicalInput[] { PhysicalInput.KEYBOARD_SPACE});
+            new PhysicalInput[] { PhysicalInput.KEYBOARD_LEFT_SHIFT});
     public static Axis mouseX = new Axis(
             new PhysicalInput[] { PhysicalInput.MOUSE_X});
     public static Axis mouseY = new Axis(

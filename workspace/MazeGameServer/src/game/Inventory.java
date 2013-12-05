@@ -1,9 +1,14 @@
 package game;
 import java.util.HashMap;
 
+import engine.physics.Collisions;
 import game.entities.EntityFactory;
+import game.entities.environment.Door;
+import game.entities.environment.Entry;
 import game.entities.npcs.Player;
 import game.enums.ItemType;
+import game.environment.Interior;
+import game.environment.Room;
 
 public class Inventory {
     //private final ItemType[] items = {ItemType.BOMB, ItemType.CKEY, ItemType.DKEY, ItemType.GOLD, ItemType.SHIELD, ItemType.TOOL};
@@ -63,12 +68,23 @@ public class Inventory {
         System.out.println("Item "+selectedItem.name());
     }
     
-    public void useSelectedItem(Player player){
+    public void useSelectedItem(Player player, Room room){
         if(items.get(selectedItem)>0){
-            items.put(selectedItem, items.get(selectedItem)-1);
             if(selectedItem.equals(ItemType.BOMB)){
-                System.out.println("about to place bomb");
+                items.put(selectedItem, items.get(selectedItem)-1);
                 player.getRoom().addItem(EntityFactory.createItem(player.getRigidBody().getLocation(), ItemType.A_BOMB));
+            }
+            
+            else if(selectedItem.equals(ItemType.TOOL)){//disguish a door
+                for(Entry entry: room.getEntries()){
+                    if(entry instanceof Door && Collisions.findDistance(player.getRigidBody(), entry.getRigidBody()) <= 50){
+                        System.out.println("door disguished");
+                        Door door = (Door) entry;
+                        door.setDisguished(true);
+                        removeItem(selectedItem);
+                    }
+                }
+                
             }
         }
     }

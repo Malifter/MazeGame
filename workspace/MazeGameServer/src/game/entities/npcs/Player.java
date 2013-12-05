@@ -403,7 +403,7 @@ public class Player extends Hostile {
             this.getInventory().selectPrevItem();
         }
         if(inputs.get(Pressed.USE_ITEM.getValue())){
-            this.getInventory().useSelectedItem(this);
+            this.getInventory().useSelectedItem(this, room);
         }
     }
     

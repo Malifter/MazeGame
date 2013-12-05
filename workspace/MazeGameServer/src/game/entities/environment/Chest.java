@@ -47,9 +47,9 @@ public class Chest extends Obstacle {
     
     public void generateContents() {
         double rand = Math.random();
-        if(rand>0.25){items.add(ItemType.randomItem());}
-        if(rand>0.5){items.add(ItemType.randomItem());}
-        if(rand>0.75){items.add(ItemType.randomItem());}
+        if(rand>0.10){items.add(ItemType.randomItem());}
+        if(rand>0.3){items.add(ItemType.randomItem());}
+        if(rand>0.6){items.add(ItemType.randomItem());}
     }
     
     public void interact(Player player){

@@ -1,6 +1,8 @@
 package game.entities.npcs;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import engine.Vector2f;
@@ -34,6 +36,7 @@ public class GateKeeper extends Neutral {
     private static final Random RANDOM = new Random();
     private static final int SIZE = VALUES.length;
     private static int damage = 2;
+    private ItemType wantedItem;
     
     //private ArrayList<Items> // This will either be set manually or randomly selected on construction.
     
@@ -99,13 +102,18 @@ public class GateKeeper extends Neutral {
     // This might be moved later if I apply a strategy pattern to the collisions.
     // This happens when a collision is detected between the player and the gatekeeper.
     public void negotiate(Player player) {
-        ItemType myItem = randomItem();
-        System.out.println("!!!!!!!!!!!!!!!!!"+myItem.toString());
+        if(wantedItem==null){
+            wantedItem = randomItem();
+        }
+        
+        System.out.println("I want: "+wantedItem.toString());
         if(!myPortal.isActivated()){
-            if (player.getInventory().hasItem(myItem)) {
+            if (player.getInventory().hasItem(wantedItem)) {
+                player.getInventory().removeItem(wantedItem);
                 activateWarmHole();
             }
             else if (player.getInventory().hasItem(ItemType.GOLD)) {
+                player.getInventory().removeItem(ItemType.GOLD);
                 activateWarmHole();
             }
             else 
@@ -113,7 +121,6 @@ public class GateKeeper extends Neutral {
                 player.takeDamage(damage);
                 activateWarmHole();
             }
-            
         }
     }
     
