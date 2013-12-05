@@ -7,7 +7,6 @@ import game.entities.environment.Door;
 import game.entities.environment.Entry;
 import game.entities.npcs.Player;
 import game.enums.ItemType;
-import game.environment.Interior;
 import game.environment.Room;
 
 public class Inventory {
@@ -75,12 +74,16 @@ public class Inventory {
                 player.getRoom().addItem(EntityFactory.createItem(player.getRigidBody().getLocation(), ItemType.A_BOMB));
             }
             
-            else if(selectedItem.equals(ItemType.TOOL)){//disguish a door
+            else if(selectedItem.equals(ItemType.TOOL)||selectedItem.equals(ItemType.DKEY)){//disguish a door
                 for(Entry entry: room.getEntries()){
-                    if(entry instanceof Door && Collisions.findDistance(player.getRigidBody(), entry.getRigidBody()) <= 50){
-                        System.out.println("door disguished");
+                    if(entry instanceof Door && Collisions.findDistance(player.getRigidBody(), entry.getRigidBody()) <= 30){
                         Door door = (Door) entry;
-                        door.setDisguished(true);
+                        if(selectedItem.equals(ItemType.TOOL)){
+                            System.out.println("door disguished");
+                            door.setDisguished(true); 
+                        }else{
+                            door.lock();
+                        }
                         removeItem(selectedItem);
                     }
                 }

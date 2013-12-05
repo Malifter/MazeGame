@@ -66,7 +66,8 @@ public class Door extends Entry {
     private void randomLock(){
         if(Math.random()>0.90){
             lock();
-        }else{
+        }
+        else{
             unlock();
         }
     }
@@ -96,6 +97,10 @@ public class Door extends Entry {
         }
         locked = true;
         rBody.enable();
+        if(linkedDoor!=null&&!linkedDoor.isLocked()){
+            this.linkedDoor.lock();
+            this.linkedDoor.rBody.enable();
+        }
     }
     
     public void unlock() {
@@ -110,6 +115,10 @@ public class Door extends Entry {
         }
         locked = false;
         rBody.disable();
+        if(linkedDoor!=null&&linkedDoor.isLocked()){
+            this.linkedDoor.unlock();
+            this.linkedDoor.rBody.disable();
+        }
     }
     
     public boolean isLocked() {

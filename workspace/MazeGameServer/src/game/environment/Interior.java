@@ -332,16 +332,15 @@ public class Interior extends Room {
                     for(Entry entry: entries) {
                         Collisions.detectAndApplySingleCorrection(item, entry);
                     }
+                    
+                    // other items
+                    for(Item other: items) {
+                        if(!item.equals(other) && other.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplyEqualRadialCorrection(item, other);
+                        }
+                    }
                 }
             }
-            
-//            for(int i = 0; i< items.size()-1; i++){//detect item collision with items.
-//                if(items.get(i).getRigidBody().isEnabled()){
-//                    for(int j=i+1; j<items.size(); j++){
-//                        Collisions.detectAndApplySingleCorrection(items.get(i),  items.get(j));
-//                    }
-//                }
-//            }
             
             // COLLISIONS WITH ENVIRONMENT
             // players
