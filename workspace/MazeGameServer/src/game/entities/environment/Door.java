@@ -130,6 +130,8 @@ public class Door extends Entry {
     }
     
     public void setDisguished(boolean disguished){
-        this.disguished = disguished;
+        if(linkedDoor.isDisguished()!=disguished){//making sure both sides are disguished or neither side is disguished
+            this.disguished = disguished;
+        }
     }
 }

@@ -107,6 +107,7 @@ public class Player extends Hostile {
         enable();
         isDying = 0;
         isDead = false;
+        rBody.setLocation(MazeGameServer.level.getExterior().getPlayerSpawns().get(playerID));
     }
     
     public void spawn(int frames) {  
@@ -235,7 +236,7 @@ public class Player extends Hostile {
     public void takeDamage(int d) {
         if(isDamage == 0 && isVuln){
             //GameEngine.playSound(game.sound_hit);
-            //setHealthPoints(getHealthPoints()-d);
+            setHealthPoints(getHealthPoints()-d);
             if(getShield()){//if have shield, take shield away
                 setShield(false);
             }else{

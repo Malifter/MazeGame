@@ -35,7 +35,7 @@ public class GateKeeper extends Neutral {
     private static ItemType[] VALUES = ItemType.values();
     private static final Random RANDOM = new Random();
     private static final int SIZE = VALUES.length;
-    private static int damage = 2;
+    private static final int DAMAGE = 10;
     private ItemType wantedItem;
     
     //private ArrayList<Items> // This will either be set manually or randomly selected on construction.
@@ -118,7 +118,7 @@ public class GateKeeper extends Neutral {
             }
             else 
             {
-                player.takeDamage(damage);
+                player.takeDamage(DAMAGE);
                 activateWarmHole();
             }
         }

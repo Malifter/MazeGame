@@ -68,9 +68,12 @@ public class Interior extends Room {
                     player.update(elapsedTime);
                 } else {
                     if(player.getLives() > 0) {
+                        MazeGameServer.level.getExterior().addPlayer(player);
                         player.reset();
                         player.removeLife();
                         player.update(elapsedTime);
+                        playerItr.remove();
+                        continue;
                     }
                     else {
                         // THIS PLAYER LOSES
@@ -226,7 +229,7 @@ public class Interior extends Room {
                         if(entry instanceof Door){//check if a door is disguished
                             Door door = (Door) entry;
                             if(door.isDisguished()&&Collisions.detectCollision(player, door)){
-                                player.takeDamage(1);
+                                player.takeDamage(10);
                                 door.setDisguished(false);
                             }
                         }
@@ -336,6 +339,7 @@ public class Interior extends Room {
                     // other items
                     for(Item other: items) {
                         if(!item.equals(other) && other.getRigidBody().isEnabled()) {
+                            System.out.println("overlapping items");
                             Collisions.detectAndApplyEqualRadialCorrection(item, other);
                         }
                     }
