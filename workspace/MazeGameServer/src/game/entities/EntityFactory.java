@@ -193,7 +193,7 @@ public class EntityFactory {
         RigidBody rb = null;
         switch(type) {
             case DOOR:
-                boolean locked = false;
+                //boolean locked = true;
                 Vector2i exit;
                 if(side.equals(Side.TOP)) {
                     exit = new Vector2i(location.x.intValue(), TILESIZE + location.y.intValue());

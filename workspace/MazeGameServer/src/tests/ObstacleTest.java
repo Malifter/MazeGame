@@ -12,9 +12,8 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import game.Game;
-import game.GameEngine;
-import game.MazeGameServer;
+import engine.Vector2i;
+import engine.physics.RigidBody;
 import game.entities.environment.Obstacle;
 
 import org.junit.Test;
@@ -24,67 +23,57 @@ import org.junit.Test;
  * ChestTest: <add description>
  */
 public class ObstacleTest {
-    
-    public Game game; // just a temporary game object to perform our tests on
-    public String image;
-    public int xPos;
-    public int yPos;
+    public static final int COLLISION_DAMAGE = 10;
+    public boolean destructable = false;
+    public boolean dangerous = false;
+    public boolean blocking = false;
+    public boolean openable = false;
+    public boolean moveable = false;
     public Obstacle obstacle;
-    
+    public RigidBody rBody = new RigidBody(new Vector2i(0,0), 0, 0); 
+    public String image;
     public void main(String [] args) {
     }
     
     @Test
     public void testObstacleConstructor() {
-        initiateTestVariables();
         // linked Door is an optional parameter, so test with no linked door
         obstacle = null;
-        obstacle = new Obstacle(game, image, xPos, yPos, xPos, yPos, xPos, yPos);
+        obstacle = new Obstacle(image, rBody);
         assertNotNull(this.obstacle);
     }
     
+
     @Test
-    public void testObstacleBounds() {
+    public void testIsDangerous() {
         obstacle = null;
-        obstacle = new Obstacle(game, image, xPos, yPos, xPos, yPos, xPos, yPos);
-        assertEquals((int)obstacle.getMinX(), xPos);
-        assertEquals((int)obstacle.getMinY(), yPos);
-        assertEquals((int)obstacle.getImageX(), xPos);
-        assertEquals((int)obstacle.getImageY(), yPos);
+        obstacle = new Obstacle(image, rBody);
+        assertNotNull(this.obstacle);
+        assertEquals(obstacle.isDangerous(),false);
     }
     
     @Test
-    public void testGetAndSetDestructable() {
-        initiateTestVariables();
+    public void testisOpenable() {
         obstacle = null;
-        obstacle = new Obstacle(game, image, xPos, yPos, xPos, yPos, xPos, yPos);
-        obstacle.setDestructable(true);
-        assertEquals(obstacle.isDestructable(), true);
-        obstacle.setDestructable(false);
-        assertEquals(obstacle.isDestructable(), false);
+        obstacle = new Obstacle(image, rBody);
+        assertNotNull(this.obstacle);
+        assertEquals(obstacle.isOpenable(),false);
     }
     
     @Test
-    public void testGetAndSetDangerous() {
-        initiateTestVariables();
+    public void testIsMoveable() {
         obstacle = null;
-        obstacle = new Obstacle(game, image, xPos, yPos, xPos, yPos, xPos, yPos);
-        obstacle.setDangerous(true);
-        assertEquals(obstacle.isDangerous(), true);
-        obstacle.setDangerous(false);
-        assertEquals(obstacle.isDangerous(), false);
+        obstacle = new Obstacle(image, rBody);
+        assertNotNull(this.obstacle);
+        assertEquals(obstacle.isMoveable(),false);
     }
     
-    public void initiateTestVariables() {
-        try {
-            game = new MazeGameServer(new GameEngine());
-            image = "obstacleImage";
-            xPos = 232;
-            yPos = 72;
-        } catch(Exception e) {
-            System.out.println("Variable instantiation failed. Aborting JUnit tests.");
-            e.printStackTrace();
-            System.exit(1);
-        }
+    public void destroy() {
+        obstacle = null;
+        obstacle = new Obstacle(image, rBody);
+        assertNotNull(this.obstacle);
+        destructable = true;
+        obstacle.destroy();
+        assertEquals(obstacle.isEnabled(), false);
     }
 }

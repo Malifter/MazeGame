@@ -21,7 +21,6 @@ public abstract class Item extends Entity {
         super(ap, rb);
     }
     
-    public abstract void use(Player p);
     public abstract void pickUp(Player p);
     
     public void update(long elapsedTime) {

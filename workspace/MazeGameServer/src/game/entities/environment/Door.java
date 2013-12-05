@@ -25,7 +25,8 @@ import engine.physics.RigidBody;
 public class Door extends Entry {
     private Door linkedDoor;
     private Vector2i exitLocation;
-    private boolean locked = false; // Implement later
+    private boolean locked = false;
+    private boolean disguished = false;
     
 
     /**
@@ -35,15 +36,14 @@ public class Door extends Entry {
      * @param x
      * @param y
      */
-    public Door(RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side, boolean locked) {
+    public Door(RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side) {
         super(AnimationPath.DOOR, rb, room, side);
         this.linkedDoor = linkedDoor;
         if(this.linkedDoor != null) {
             this.linkedDoor.setLink(this);
         }
         exitLocation = exitLoc;
-        if(locked) lock();
-        else unlock();
+        randomLock();
     }
     
     @Override
@@ -66,6 +66,15 @@ public class Door extends Entry {
         else return false;
     }
     
+    private void randomLock(){
+        if(Math.random()>0.90){
+            lock();
+        }
+        else{
+            unlock();
+        }
+    }
+    
     public Vector2i getExit() {
         return exitLocation;
     }
@@ -83,15 +92,33 @@ public class Door extends Entry {
         locked = true;
         rBody.enable();
         animState = AnimationState.IDLE;
+        if(linkedDoor!=null&&!linkedDoor.isLocked()){
+            this.linkedDoor.lock();
+            this.linkedDoor.rBody.enable();
+        }
     }
     
     public void unlock() {
         locked = false;
         rBody.disable();
         animState = AnimationState.ACTIVE;
+        if(linkedDoor!=null&&linkedDoor.isLocked()){
+            this.linkedDoor.unlock();
+            this.linkedDoor.rBody.disable();
+        }
     }
     
     public boolean isLocked() {
         return locked;
+    }
+    
+    public boolean isDisguished(){
+        return disguished;
+    }
+    
+    public void setDisguished(boolean disguished){
+        if(linkedDoor.isDisguished()!=disguished){//making sure both sides are disguished or neither side is disguished
+            this.disguished = disguished;
+        }
     }
 }

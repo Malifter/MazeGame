@@ -1,6 +1,8 @@
 package game.entities.npcs;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import engine.Vector2f;
@@ -32,8 +34,9 @@ public class GateKeeper extends Neutral {
     private static ItemType[] VALUES = ItemType.values();
     private static final Random RANDOM = new Random();
     private static final int SIZE = VALUES.length;
-    private static int damage = 2;
+    private static final int DAMAGE = 10;
     private static Face originalFace;
+    private ItemType wantedItem;
     
     //private ArrayList<Items> // This will either be set manually or randomly selected on construction.
     
@@ -90,20 +93,25 @@ public class GateKeeper extends Neutral {
     }
 
     public void negotiate(Player player) {
-        ItemType myItem = randomItem(); 
+        if(wantedItem==null){
+            wantedItem = randomItem();
+        }
+        
+        System.out.println("I want: "+wantedItem.toString());
         if(!myPortal.isActivated()){
-            if (player.getInventory().getItem().equals(myItem)) {
+            if (player.getInventory().hasItem(wantedItem)) {
+                player.getInventory().removeItem(wantedItem);
                 activateWarmHole();
             }
-            else if (player.getInventory().getItem().equals(ItemType.GOLD)) {
+            else if (player.getInventory().hasItem(ItemType.GOLD)) {
+                player.getInventory().removeItem(ItemType.GOLD);
                 activateWarmHole();
             }
             else 
             {
-                player.takeDamage(damage);
+                player.takeDamage(DAMAGE);
                 activateWarmHole();
             }
-            
         }
     }
     
@@ -113,7 +121,7 @@ public class GateKeeper extends Neutral {
             item = VALUES[RANDOM.nextInt(SIZE)];
 
         } while(item.getIndex() == -1);
-        System.out.println("!!!!!!!!!!!!!!!!!"+item.toString());
+        
         return item;
         
     }

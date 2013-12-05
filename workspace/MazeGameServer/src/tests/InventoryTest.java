@@ -2,14 +2,15 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import game.Game;
-import game.GameEngine;
+
+import java.util.HashMap;
+
+import engine.Vector2i;
 import game.Inventory;
-import game.MazeGameServer;
-import game.entities.Entity;
-import game.entities.environment.Obstacle;
-import game.entities.items.NotConsumable;
 import game.entities.npcs.Player;
+import game.enums.ItemType;
+import game.environment.Interior;
+import game.environment.Room;
 
 import org.junit.Test;
 
@@ -20,12 +21,14 @@ import org.junit.Test;
 
 public class InventoryTest {
     
-    public Game game; // just a temporary game object to perform our tests on
+   
     public String image;
     public int xPos;
     public int yPos;
     public Inventory inventory;
     public Player player;
+    public Interior room;
+    public HashMap<ItemType,Integer> items = new HashMap<ItemType,Integer>();
     
     public void main(String [] args) {
     }
@@ -35,7 +38,7 @@ public class InventoryTest {
         initiateTestVariables();        
         inventory = null;
         player = null;
-        inventory = new Inventory(player);
+        inventory = new Inventory();
         assertNotNull(this.inventory);      
     }
     
@@ -44,10 +47,11 @@ public class InventoryTest {
         initiateTestVariables();        
         inventory = null;
         player = null;
-        inventory = new Inventory(player);
+        inventory = new Inventory();
         assertNotNull(this.inventory);
-        NotConsumable item = null;
+        ItemType item = ItemType.BOMB;
         this.inventory.addItem(item);
+        assertEquals(inventory.hasItem(item),true);
     }
     
     @Test
@@ -55,10 +59,12 @@ public class InventoryTest {
         initiateTestVariables();        
         inventory = null;
         player = null;
-        inventory = new Inventory(player);
+        inventory = new Inventory();
         assertNotNull(this.inventory);
-        NotConsumable item = null;
+        ItemType item = ItemType.BOMB;
+        this.inventory.addItem(item);
         this.inventory.removeItem(item);
+        assertEquals(inventory.hasItem(item),false);
     }
     
     @Test
@@ -66,26 +72,26 @@ public class InventoryTest {
         initiateTestVariables();        
         inventory = null;
         player = null;
-        inventory = new Inventory(player);
+        inventory = new Inventory();
         assertNotNull(this.inventory); 
-        NotConsumable item = null;
+        ItemType item = ItemType.BOMB;
         this.inventory.addItem(item);
         assertNotNull(this.inventory.getItem()); 
     }
     
-    @Test
-    public void testGetPlayer() {
+    public void testUseSelectedItem(Player player, Room room){
         initiateTestVariables();        
         inventory = null;
-        player = new Player(game, image, xPos, yPos, xPos, yPos, xPos, yPos, xPos, yPos);
-        inventory = new Inventory(player);
-        assertNotNull(this.inventory);     
-        assertNotNull(this.inventory.getPlayer());
+        player = null;
+        inventory = new Inventory();
+        assertNotNull(this.inventory);
+        inventory.useSelectedItem(player, room);
     }
+    
     public void initiateTestVariables() {
         try {
-            game = new MazeGameServer(new GameEngine());
-            image = "chestLockedImage";
+            Interior room = new Interior(new Vector2i(0,0), 5);
+            image = null;
             xPos = 232;
             yPos = 72;
         } catch(Exception e) {
@@ -94,5 +100,5 @@ public class InventoryTest {
             System.exit(1);
         }
     }
-    
+
 }

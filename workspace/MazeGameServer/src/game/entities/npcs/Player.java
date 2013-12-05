@@ -72,6 +72,7 @@ public class Player extends Hostile {
         shootTime = 0;
         shootPressed = false;
         enable();
+        rBody.setLocation(MazeGameServer.level.getExterior().getPlayerSpawns().get(playerID));
     }
     
     /**
@@ -132,7 +133,7 @@ public class Player extends Hostile {
             }
             else {
                 //GameEngine.playSound(game.sound_hit);
-                setHealth(getHealth()-0);
+            	setHealth(getHealth()-d);
                 invulnerable = true;
             }
         }
@@ -197,16 +198,29 @@ public class Player extends Hostile {
         }
     }
     
+    private boolean pressedUse=false, pressedBackward=false, pressedForward = false;
     public void handleItemInputs(ArrayList<Boolean> inputs) {
-        if (inputs.get(Pressed.SELECT_FORWARD.getValue())) {
-            this.getInventory().selectNextItem();
-        }
-        if (inputs.get(Pressed.SELECT_BACKWARD.getValue())) {
-            this.getInventory().selectPrevItem();
-        }
-        if (inputs.get(Pressed.USE_ITEM.getValue())) {
-            this.getInventory().useSelectedItem(this);
-        }
+            if(inputs.get(Pressed.SELECT_FORWARD.getValue()) && !pressedForward){
+                pressedForward = true;
+                this.getInventory().selectNextItem();
+            }else if(!inputs.get(Pressed.SELECT_FORWARD.getValue())) {
+                pressedForward = false;
+            }
+            
+            
+            if(inputs.get(Pressed.SELECT_BACKWARD.getValue()) && !pressedBackward){
+                pressedBackward = true;
+                this.getInventory().selectPrevItem();
+            }else if(!inputs.get(Pressed.SELECT_BACKWARD.getValue())) {
+                pressedBackward = false;
+            }
+            
+            if(inputs.get(Pressed.USE_ITEM.getValue()) && !pressedUse){
+                pressedUse = true;
+                this.getInventory().useSelectedItem(this, room);
+            } else if(!inputs.get(Pressed.USE_ITEM.getValue())) {
+                pressedUse = false;
+            }
     }
     
     public int getLives() {

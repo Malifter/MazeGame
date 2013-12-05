@@ -9,7 +9,7 @@ public abstract class Consumable extends Item {
     public Consumable(AnimationPath ap, RigidBody rb) {
         super(ap, rb);
     }
-    
+    public abstract void use(Player p);
     public void pickUp(Player p){
         disable();
         use(p);

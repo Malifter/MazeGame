@@ -12,10 +12,13 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import game.Game;
+import engine.Vector2i;
+import engine.physics.RigidBody;
 import game.GameEngine;
 import game.MazeGameServer;
 import game.entities.environment.Chest;
+import game.environment.Interior;
+import game.environment.Room;
 
 import org.junit.Test;
 
@@ -25,11 +28,12 @@ import org.junit.Test;
  */
 public class ChestTest {
     
-    public Game game; // just a temporary game object to perform our tests on
     public String image;
     public int xPos;
     public int yPos;
     public Chest chest;
+    public Interior room;
+    public RigidBody rb;
     
     public void main(String [] args) {
     }
@@ -37,18 +41,18 @@ public class ChestTest {
     @Test
     public void testChestConstructor() {
         initiateTestVariables();
-        // linked Door is an optional parameter, so test with no linked door
-        chest = null;
-        chest = new Chest(game, image, xPos, yPos);
+       
+
+        chest = new Chest(rb, room);
         assertNotNull(this.chest);
     }
     
     @Test
     public void testGenerateChestContents() {
         initiateTestVariables();
-        chest = null;
-        chest = new Chest(game, image, xPos, yPos);
-        assertNotNull(chest.getContents());
+       
+        chest = new Chest(rb, room);
+        
         chest.generateContents();
         assertNotNull(chest.getContents());
     }
@@ -56,8 +60,8 @@ public class ChestTest {
     @Test
     public void testDropChestContentsAndLocks() {
         initiateTestVariables();
-        chest = null;
-        chest = new Chest(game, image, xPos, yPos);
+        
+        chest = new Chest(rb, room);
         chest.lock();
         assertEquals(chest.dropContents(), false);
         chest.unlock();
@@ -66,10 +70,9 @@ public class ChestTest {
     
     public void initiateTestVariables() {
         try {
-            game = new MazeGameServer(new GameEngine());
-            image = "chestLockedImage";
-            xPos = 232;
-            yPos = 72;
+            rb = new RigidBody(new Vector2i(0, 0), 24, 24);
+            image = null;
+            room = new Interior(new Vector2i(0, 0), 0);
         } catch(Exception e) {
             System.out.println("Variable instantiation failed. Aborting JUnit tests.");
             e.printStackTrace();

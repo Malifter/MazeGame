@@ -50,7 +50,6 @@ public class Interior extends Room {
     // private ArrayList<Vertex2> enemySpawns; // Only needed if enemies can respawn
     private ArrayList<Hostile> enemies = new ArrayList<Hostile>();
     private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
-    private ArrayList<Chest> chests = new ArrayList<Chest>();
     
     public Interior(Vector2i location, int layout) {
         super(layout);
@@ -69,9 +68,12 @@ public class Interior extends Room {
                     player.update(elapsedTime);
                 } else {
                     if(player.getLives() > 0) {
+                        MazeGameServer.level.getExterior().addPlayer(player);
                         player.reset();
                         player.removeLife();
                         player.update(elapsedTime);
+                        playerItr.remove();
+                        continue;
                     }
                     else {
                         // THIS PLAYER LOSES
@@ -101,7 +103,7 @@ public class Interior extends Room {
                     enemy.update(elapsedTime);
                 } else {
                     if(enemies.size() == 1) {
-                        if(Math.random()>7.25){
+                        if(Math.random()>0.5){
                             addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
                         }else{
                             addObstacle(EntityFactory.createObstacle(new Vector2f(center), ObstacleType.CHEST, this));
@@ -214,6 +216,9 @@ public class Interior extends Room {
                             } else if(obstacle.isOpenable()) {
                                 obstacle.interact(player);
                             }
+                            if(obstacle.isMoveable()){
+                                Collisions.detectAndApplySingleRadialCorrection(obstacle, player);
+                            }
                             if(obstacle.isBlocking()) {
                                 Collisions.applySingleCorrection(player, obstacle);
                             } else if(obstacle.isMoveable()) {
@@ -223,10 +228,18 @@ public class Interior extends Room {
                     }
                     // entries
                     for(Entry entry: entries) {
+                        if(entry instanceof Door){//check if a door is disguished
+                            Door door = (Door) entry;
+                            if(door.isDisguished()&&Collisions.detectCollision(player, door)){
+                                player.takeDamage(10);
+                                door.setDisguished(false);
+                            }
+                        }
+                        
                         if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
                             if(entry instanceof Door) {
-                                Door door = (Door) entry;
-                                if(player.getInventory().hasItem(ItemType.DKEY)) {
+                                Door door = (Door) entry;                                
+                                if(player.getInventory().hasItem(ItemType.DKEY)&&Collisions.detectCollision(player, door)) {
                                     System.out.println("Unlock an door");
                                     player.getInventory().removeItem(ItemType.DKEY);
                                     door.unlock();
@@ -328,8 +341,17 @@ public class Interior extends Room {
                     for(Entry entry: entries) {
                         Collisions.detectAndApplySingleCorrection(item, entry);
                     }
+                    
+                    // other items
+                    for(Item other: items) {
+                        if(!item.equals(other) && other.getRigidBody().isEnabled()) {
+                            System.out.println("overlapping items");
+                            Collisions.detectAndApplyEqualRadialCorrection(item, other);
+                        }
+                    }
                 }
             }
+            
             // COLLISIONS WITH ENVIRONMENT
             // players
             for(Player player: players) {

@@ -12,13 +12,16 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import engine.Vector2f;
 import engine.Vector2i;
+import engine.physics.RigidBody;
 import game.entities.Entity;
+import game.entities.EntityFactory;
 import game.entities.environment.Door;
-import game.entities.environment.Door.Side;
 import game.entities.npcs.Player;
+import game.enums.Side;
 import game.environment.Room;
-import game.Game;
+import game.levelloader.LevelLoader;
 import game.GameEngine;
 import game.MazeGameServer;
 
@@ -32,14 +35,20 @@ import org.junit.Test;
 public class DoorTest {
     
     public Door door;
-    public Game game; // just a temporary game object to perform our tests on
-    public String image;
+    public String img;
     public int xPos;
     public int yPos;
     public Vector2i exitLocation;
     public Room room;
-    public Entity player;
+    public Room room2;
+    public Player player;
+    public RigidBody rb;
+    public RigidBody rb2;
     public Side side;
+    public int roomLayout = 0;
+    public boolean locked;
+    public Vector2i location;
+    private int playerID = 0;
     
     public void main(String [] args) {
     }
@@ -49,7 +58,7 @@ public class DoorTest {
         initiateTestVariables();
         // linked Door is an optional parameter, so test with no linked door
         door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, null, side);
+        door = new Door(rb, exitLocation, room, null, side);
         assertNotNull(this.door);
     }
     
@@ -57,93 +66,107 @@ public class DoorTest {
     public void testDoorPosition() {
         initiateTestVariables();
         door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, null, side);
+        
+        door = new Door(rb, exitLocation, room, null, side);
     }
     
-    @Test
+    /*@Test
     public void testDoorExitLocation() {
         initiateTestVariables();
         door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, null, side);
+        String img = null; 
+        RigidBody rb = null;
+        Vector2i exitLoc = null;
+        Room room = null;
+        Door linkedDoor = null;
+        Side side = null;
+        boolean locked = false;
+        door = new Door(img, rb, exitLoc, room, linkedDoor, side, locked);
         assertEquals(door.getExit(), exitLocation);
-    }
+    }*/
     
+    /*
     @Test
     public void testDoorRoom() {
         initiateTestVariables();
         door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, null, side);
+        String img = null; 
+        RigidBody rb = null;
+        Vector2i exitLoc = null;
+        Room room = null;
+        Door linkedDoor = null;
+        Side side = null;
+        boolean locked = false;
+        door = new Door(img, rb, exitLoc, room, linkedDoor, side, locked);
         assertEquals(door.getRoom(), room);
     }
+    */
     
+    @Test
+    public void testDoorSide() {
+        initiateTestVariables();
+        
+        door = new Door(rb, exitLocation, room, null, side);
+        assertEquals(door.getSide(), side);
+    }
+    
+
     @Test
     public void testDoorLink() {
         initiateTestVariables();
-        Door linkedDoor = new Door(game, image, xPos + Door.TILESIZE, yPos, new Vector2i(xPos + (Door.TILESIZE*2), yPos), room, null, Side.LEFT);
-        door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, linkedDoor, side);
+        Door linkedDoor = new Door(rb, new Vector2i(0 + LevelLoader.TILESIZE, 0 + LevelLoader.TILESIZE), room, null, Side.LEFT);
+        door = new Door(rb, exitLocation, room, linkedDoor, side);  
         assertNotNull(door);
         assertEquals(door.getLink(), linkedDoor);
         assertEquals(door, linkedDoor.getLink());
     }
     
-    @Test
-    public void testDoorSide() {
-        initiateTestVariables();
-        door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, null, side);
-        assertEquals(door.getSide(), side);
-    }
-    
-    @Test
-    public void testDoorContainsPlayer() {
-        initiateTestVariables();
-        door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, null, side);
-        player.setMinX(xPos); // moves player inside door
-        player.setMinY(yPos);
-        player.calculateBounds();
-        assertEquals(door.contains(player), true);
-    }
-    
-    @Test
-    public void testDoorDoesNotContainPlayer() {
-        initiateTestVariables();
-        door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, null, side);
-        assertEquals(door.contains(player), false); // player was instantiated in the center of room
-    }
+
     
     @Test
     public void testDoorTransportsPlayer() {
         initiateTestVariables();
-        Door linkedDoor = new Door(game, image, xPos + Door.TILESIZE, yPos, new Vector2i(xPos + (Door.TILESIZE*2), yPos), room, null, Side.LEFT);
-        door = null;
-        door = new Door(game, image, xPos, yPos, exitLocation, room, linkedDoor, side);
-        player.setMinX(0); // move player to origin
-        player.setMinY(0);
-        player.calculateBounds();
+        room2 = new Room(roomLayout);
+        Door linkedDoor = new Door(rb, new Vector2i(0 + LevelLoader.TILESIZE, 0 + LevelLoader.TILESIZE), room2, null, Side.LEFT);
+        door = new Door(rb, exitLocation, room, linkedDoor, side);  
+        
+        
+        door.unlock();
+        
+        player = new Player(img, rb2, playerID , room);
+        
+        player.getRigidBody().setLocation(door.getRigidBody().getLocation());
+        
         door.transport(player);
-        assertEquals((int)player.getMinX(), (int)linkedDoor.getExit().getX());
-        assertEquals((int)player.getMinY(), (int)linkedDoor.getExit().getY());
+
+        assertEquals(room.hasPlayers(), false);
     }
     
-    /* Future work -- keys don't yet exist.
+    
     @Test
-    public void testDoorLock/Unlock {
+    public void testDoorLock () {
+        initiateTestVariables();
+        door = new Door(rb, exitLocation, room, null, side); 
+        door.lock();
+        assertEquals(door.isLocked(), true);
         
-    }*/
+    }
     
     public void initiateTestVariables() {
         try {
-            game = new MazeGameServer(new GameEngine());
-            image = "DoorImage";
-            xPos = 232;
-            yPos = 72;
-            exitLocation = new Vector2i(xPos - Door.TILESIZE, yPos);
+            
+            //location.addEq(new Vector2i(LevelLoader.TILESIZE/2, LevelLoader.TILESIZE/2));
+            exitLocation = new Vector2i(0, 0);
+            rb = new RigidBody(exitLocation, 24, 24);
+            rb2 = new RigidBody(new Vector2i(0, 0), 24, 24);           
+            img = null;
+            //xPos = 232;
+            //yPos = 72;            
+            
             side = Side.RIGHT;
-            //room = new Room();
-            player = new Player(game, "player", 120, 72, 120, 72, 10, 10, 1, 0);
+            room = new Room(roomLayout);
+            //player = new Player("player", rb, playerID, room);
+            locked = true;
         } catch(Exception e) {
             System.out.println("Variable instantiation failed. Aborting JUnit tests.");
             e.printStackTrace();
