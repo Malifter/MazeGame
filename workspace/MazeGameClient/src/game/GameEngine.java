@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import net.java.games.input.*;
 import org.lwjgl.Sys;
@@ -19,8 +20,10 @@ import engine.inputhandler.Button;
 import engine.inputhandler.Input;
 import engine.inputhandler.PhysicalInput;
 import engine.render.Animator;
+import engine.render.Animator.AnimationInfo;
 import engine.render.IDisplay;
 import engine.render.Sprite;
+import engine.serializable.SerializedEffect;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedInputs;
 import engine.serializable.SerializedObject;
@@ -105,7 +108,7 @@ public class GameEngine {
         inputMap.put(PhysicalInput.KEYBOARD_BACK, "Keyboard:Back");
         inputMap.put(PhysicalInput.KEYBOARD_TAB, "Keyboard:Tab");
         inputMap.put(PhysicalInput.KEYBOARD_RETURN, "Keyboard:Return");
-        inputMap.put(PhysicalInput.KEYBOARD_SPACE, "Keyboard:Space");
+        inputMap.put(PhysicalInput.KEYBOARD_SPACE, "Keyboard: ");
         inputMap.put(PhysicalInput.KEYBOARD_LEFT_SHIFT,
                 "Keyboard:Left Shift");
         inputMap.put(PhysicalInput.KEYBOARD_LEFT_CONTROL,
@@ -301,8 +304,8 @@ public class GameEngine {
             Game.update(elapsedTime, updatedObjects);
 
             // render the graphics
-            Animator.update(elapsedTime);
-            render(updatedObjects);
+            Animator.update(elapsedTime, updatedObjects);
+            render();
             // draw GUI here or add last to render function
             
             // update window contents
@@ -398,7 +401,7 @@ public class GameEngine {
                 } else {
                     ((Button) i).setDown(false);
                 }
-            }else if (i instanceof Axis) {
+            } else if (i instanceof Axis) {
                 ((Axis) i).setValue(pollValue);
             }
         }
@@ -420,39 +423,80 @@ public class GameEngine {
     /**
      * render: Syncs the display to FPS
      */
-    public static void render(List<SerializedObject> updatedObjects) {
+    public static void render() {
         display.sync(FPS);
         drawEntities();
-        if(updatedObjects != null && Game.state.equals(GameState.PLAYING)) {
-            HashMap<SerializedObject, Float> renderMap = new HashMap<SerializedObject, Float>();
+        if(Animator.getSize() > 0 && Game.state.equals(GameState.PLAYING)) {
+            HashMap<AnimationInfo, Float> renderMap = new HashMap<AnimationInfo, Float>();
             ValueComparator bvc = new ValueComparator(renderMap);
-            TreeMap<SerializedObject, Float> sortedMap = new TreeMap<SerializedObject, Float>(bvc);
-            for(SerializedObject so: updatedObjects) {
-                if(so instanceof SerializedObstacle) {
-                    // just draw obstacles
-                    SerializedObstacle s = (SerializedObstacle)so;
-                    Sprite sprite = Game.getDisplay().getSprite(Animator.getPath(s.getID()));
-                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+            TreeMap<AnimationInfo, Float> sortedMap = new TreeMap<AnimationInfo, Float>(bvc);
+            ArrayList<AnimationInfo> renderLast = new ArrayList<AnimationInfo>();
+            
+            // Render Static Environment
+            for(Entry<String, AnimationInfo> entry: Animator.getAnimations()) {
+                SerializedObject so = entry.getValue().getEntity();
+                if(so instanceof SerializedEffect) {
+                    SerializedEffect s = (SerializedEffect) so;
+                    if(!s.drawOnTop()) {
+                        String path = Animator.getPath(entry.getValue());
+                        if(path != null) {
+                            Sprite sprite = Game.getDisplay().getSprite(path);
+                            sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+                        } else {
+                            //System.out.println("effect null");
+                        }
+                    } else {
+                        // render later
+                        renderLast.add(entry.getValue());
+                    }
+                }
+                else if(so instanceof SerializedObstacle) {
+                    SerializedObstacle s = (SerializedObstacle) so;
+                    if(s.isMoveable()) {
+                        renderMap.put(entry.getValue(), s.getPosition().y);
+                    } else {
+                        String path = Animator.getPath(entry.getValue());
+                        if(path != null) {
+                            Sprite sprite = Game.getDisplay().getSprite(path);
+                            sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+                        } else {
+                            //System.out.println("obstacle null");
+                        }
+                    }
                 } else if(so instanceof SerializedPlayer) {
-                    SerializedPlayer s = (SerializedPlayer)so;
-                    renderMap.put(s, s.getPosition().y);
+                    SerializedPlayer s = (SerializedPlayer) so;
+                    renderMap.put(entry.getValue(), s.getPosition().y);
                 } else if(so instanceof SerializedEntity) {
-                    SerializedEntity s = (SerializedEntity)so;
-                    renderMap.put(s, s.getPosition().y);
+                    SerializedEntity s = (SerializedEntity) so;
+                    renderMap.put(entry.getValue(), s.getPosition().y);
                 }
             }
+            
+            // Render In y order
             sortedMap.putAll(renderMap);
-            Iterator<SerializedObject> mapItr = sortedMap.navigableKeySet().iterator();
+            Iterator<AnimationInfo> mapItr = sortedMap.navigableKeySet().iterator();
             while(mapItr.hasNext()) {
-                SerializedObject so = mapItr.next();
-                if(so instanceof SerializedPlayer) {
-                    SerializedPlayer s = (SerializedPlayer)so;
-                    Sprite sprite = Game.getDisplay().getSprite(Animator.getPath(s.getID()));
-                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
-                } else if(so instanceof SerializedEntity) {
-                    SerializedEntity s = (SerializedEntity)so;
-                    Sprite sprite = Game.getDisplay().getSprite(Animator.getPath(s.getID()));
-                    sprite.draw(s.getPosition().x.intValue(), s.getPosition().y.intValue());
+                AnimationInfo animInfo = (AnimationInfo) mapItr.next();
+                String path = Animator.getPath(animInfo);
+                if(path != null) {
+                    Sprite sprite = Game.getDisplay().getSprite(path);
+                    SerializedEntity entity = animInfo.getEntity();
+                    sprite.draw(entity.getPosition().x.intValue(), entity.getPosition().y.intValue());
+                } else {
+                    //System.out.println("entity null");
+                }
+            }
+            
+            // Render Last
+            for(AnimationInfo animInfo: renderLast) {
+                String path = Animator.getPath(animInfo);
+                if(path != null) {
+                    Sprite sprite = Game.getDisplay().getSprite(path);
+                    SerializedEntity entity = animInfo.getEntity();
+                    sprite.draw(entity.getPosition().x.intValue(), entity.getPosition().y.intValue());
+                    System.out.println("path");
+                } else {
+                    //System.out.println("entity null");
                 }
             }
         }

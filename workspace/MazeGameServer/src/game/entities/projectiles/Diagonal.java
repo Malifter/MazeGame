@@ -6,6 +6,7 @@ import engine.physics.RigidBody;
 import game.entities.npcs.Hostile;
 import game.enums.AnimationPath;
 import game.enums.Face;
+import game.enums.ProjectileType;
 
 /*
 * Classname:            Diagonal.java
@@ -29,6 +30,7 @@ public class Diagonal extends Projectile {
      */
     public Diagonal(RigidBody rb, Face direction, Hostile hostile) {
         super(AnimationPath.PROJECTILE_2, rb, hostile);
+        // TODO: change to get attach point
         origin = new Vector2f(owner.getRigidBody().getLocation());
         damage = owner.getDamage();
 
@@ -56,8 +58,10 @@ public class Diagonal extends Projectile {
         rBody.move(time);
         
         // if shot off the screen, remove
-        if (Collisions.findDistance(rBody, origin) > MAX_RANGE) {
-            disable();
+        if(owner != null && Collisions.findDistance(rBody, owner.getRigidBody()) > MAX_RANGE) {
+            collide();
+        } else if(owner == null && Collisions.findDistance(rBody, origin) > MAX_RANGE) {
+            collide();
         }
     }
 }

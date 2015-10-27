@@ -11,13 +11,15 @@ package game.environment;
 */
 
 import game.entities.Entity;
+import game.entities.effects.Effect;
 import game.entities.environment.Entry;
 import game.entities.environment.Explosion;
+import game.entities.environment.Obstacle;
 import game.entities.environment.Tile;
-import game.entities.items.Item;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
 import game.entities.projectiles.Projectile;
+import game.enums.Sound;
 
 import java.util.ArrayList;
 import engine.serializable.SerializedObject;
@@ -28,9 +30,11 @@ public class Room {
     protected ArrayList<Player> players = new ArrayList<Player>();
     protected ArrayList<Entry> entries = new ArrayList<Entry>();
     protected ArrayList<Neutral> neutrals = new ArrayList<Neutral>();
-    protected ArrayList<Item> items = new ArrayList<Item>();
     protected ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+    protected ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
     protected ArrayList<Explosion> explosions = new ArrayList<Explosion>();
+    protected ArrayList<Effect> effects = new ArrayList<Effect>();
+    protected ArrayList<Sound> sounds = new ArrayList<Sound>();
     protected int roomID = 0;   
     public final int layout;
     
@@ -81,18 +85,6 @@ public class Room {
         return neutrals;
     }
     
-    public void addItem(Item item) {
-        items.add(item);
-    }
-    
-    public void removeItem(Item item) {
-        items.remove(item);
-    }
-    
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-    
     public void addExplosion(Explosion explosion) {
         explosions.add(explosion);
     }
@@ -103,6 +95,42 @@ public class Room {
     
     public ArrayList<Explosion> getExplosions() {
         return explosions;
+    }
+    
+    public void addEffect(Effect effect) {
+        effects.add(effect);
+    }
+    
+    public void removeEffect(Effect effect) {
+        effects.remove(effect);
+    }
+    
+    public ArrayList<Effect> getEffects() {
+        return effects;
+    }
+    
+    public void addSound(Sound sound) {
+        sounds.add(sound);
+    }
+    
+    public void removeSound(Sound sound) {
+        sounds.remove(sound);
+    }
+    
+    public ArrayList<Sound> getSounds() {
+        return sounds;
+    }
+    
+    public void addObstacle(Obstacle obstacle) {
+        obstacles.add(obstacle);
+    }
+    
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+    
+    public void removeObstacle(Obstacle obstacle) {
+        obstacles.remove(obstacle);
     }
     
     public void addProjectile(Projectile projectile) {

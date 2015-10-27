@@ -12,7 +12,7 @@ package game.environment;
 
 import game.MazeGameServer;
 import game.entities.EntityFactory;
-import game.entities.environment.Door;
+import game.entities.effects.Effect;
 import game.entities.environment.Entry;
 import game.entities.environment.Explosion;
 import game.entities.environment.Obstacle;
@@ -25,6 +25,8 @@ import game.entities.projectiles.Projectile;
 import game.enums.GameState;
 import game.enums.ItemType;
 import game.enums.ObstacleType;
+import game.enums.Sound;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +48,7 @@ public class Interior extends Room {
     private Vector2i location;
     // private ArrayList<Vertex2> enemySpawns; // Only needed if enemies can respawn
     private ArrayList<Hostile> enemies = new ArrayList<Hostile>();
-    private ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+    private ArrayList<Item> items = new ArrayList<Item>();
     
     public Interior(Vector2i location, int layout) {
         super(layout);
@@ -100,10 +102,14 @@ public class Interior extends Room {
                     enemy.update(elapsedTime);
                 } else {
                     if(enemies.size() == 1) {
-                        if(Math.random()>0.5){
+                        double rand = Math.random();
+                        if(rand <= 0.6){
                             addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
-                        }else{
+                        } else if(rand <= 0.9) {
+                            System.out.println("spawn chest");
                             addObstacle(EntityFactory.createObstacle(new Vector2f(center), ObstacleType.CHEST, this));
+                        } else {
+                            addObstacle(EntityFactory.createBomb(new Vector2f(center), this));
                         }
                     }
                     hostileItr.remove();
@@ -151,7 +157,9 @@ public class Interior extends Room {
             Iterator<Obstacle> obstacleItr = obstacles.iterator();
             while(obstacleItr.hasNext()) {
                 Obstacle obstacle = obstacleItr.next();
-                if(!obstacle.isEnabled()) {
+                if(obstacle.isEnabled()) {
+                    obstacle.update(elapsedTime);
+                } else {
                     obstacleItr.remove();
                     continue;
                 }
@@ -161,8 +169,22 @@ public class Interior extends Room {
             Iterator<Explosion> explosionItr = explosions.iterator();
             while(explosionItr.hasNext()) {
                 Explosion explosion = explosionItr.next();
-                if(!explosion.isEnabled()) {
+                if(explosion.isEnabled()) {
+                    explosion.update(elapsedTime);
+                } else {
                     explosionItr.remove();
+                    continue;
+                }
+            }
+            
+            // effects
+            Iterator<Effect> effectItr = effects.iterator();
+            while(effectItr.hasNext()) {
+                Effect effect = effectItr.next();
+                if(effect.isEnabled()) {
+                    effect.update(elapsedTime);
+                } else {
+                    effectItr.remove();
                     continue;
                 }
             }
@@ -207,24 +229,27 @@ public class Interior extends Room {
                     while(itemItr.hasNext()) {
                         Item item = itemItr.next();
                         if(item.getRigidBody().isEnabled() && Collisions.detectCollision(player, item)) {
-                            if(item instanceof ABomb){
-                                Collisions.applySingleRadialCorrection(item, player);
-                            }else{
-                                item.pickUp(player);
-                            }
-                            //itemItr.remove();
+                            item.pickUp(player);
                         }
                     }
                     // obstacles
                     for(Obstacle obstacle: obstacles) {
-                        if(obstacle.getRigidBody().isEnabled() && (obstacle.isDangerous() || obstacle.isBlocking()) && Collisions.detectCollision(player, obstacle)) {
+                        // TODO: SOLVE THIS ISSUE OF CONCURRENCY MODIFICATION... NOT SURE WHAT IS CAUSING IT
+                        // THE PLAYER PUSHED THE OBSTACLE INTO A ROCK
+                        if(obstacle.getRigidBody().isEnabled() &&
+                                (obstacle.isDangerous() || obstacle.isBlocking() || obstacle.isMoveable()) &&
+                                Collisions.detectCollision(player, obstacle)) {
                             if(obstacle.isDangerous()) {
                                 obstacle.collide(player);
                             } else if(obstacle.isOpenable()) {
                                 obstacle.interact(player);
                             }
                             if(obstacle.isMoveable()) {
-                                Collisions.applyEqualRadialCorrection(player, obstacle);
+                                if(obstacle.isHeavy()) {
+                                    Collisions.applyEqualRadialCorrection(player, obstacle);
+                                } else {
+                                    Collisions.applySingleRadialCorrection(obstacle, player);
+                                }
                             } else if(obstacle.isBlocking()) {
                                 Collisions.applySingleCorrection(player, obstacle);
                             }
@@ -232,25 +257,18 @@ public class Interior extends Room {
                     }
                     // entries
                     for(Entry entry: entries) {
-                        if(entry instanceof Door){//check if a door is disguished
-                            Door door = (Door) entry;
-                            if(door.isDisguished()&&Collisions.detectCollision(player, door)){
-                                player.takeDamage(10);
-                                door.setDisguished(false);
-                            }
-                        }
-                        
-                        if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
-                            if(!entry.interact(player)) {
-                                Collisions.detectAndApplySingleCorrection(player, entry);
+                        if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked/disguised door, or a deactivated portal
+                            if(Collisions.detectAndApplySingleCorrection(player, entry)) {
+                                entry.interact(player);
                             }
                         }
                     }
                     // explosions
                     for(Explosion explosion: explosions) {
                         if(explosion.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(player, explosion);
-                            player.takeDamage(explosion.getExplosionDamage(player));
+                            if(Collisions.detectAndApplySingleRadialCorrection(player, explosion)) {
+                                player.takeDamage(explosion.getSource(), explosion.getExplosionDamage(player));
+                            }
                         }
                     }
                 }
@@ -258,12 +276,6 @@ public class Interior extends Room {
             // hostile
             for(Hostile enemy: enemies) {
                 if(enemy.getRigidBody().isEnabled()) {
-                    // other enemies
-                    for(Hostile other: enemies) {
-                        if(!enemy.equals(other) && other.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplyEqualRadialCorrection(enemy, other);
-                        }
-                    }
                     // projectiles
                     for(Projectile projectile: projectiles) {
                         if(projectile.getRigidBody().isEnabled() && projectile.dangerousTo(enemy) &&
@@ -271,24 +283,52 @@ public class Interior extends Room {
                             projectile.collide(enemy);
                         }
                     }
-                    // items
-                    for(Item item: items) {
-                        if(item.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleRadialCorrection(item, enemy);
-                        }
-                    }
+                    // enemy can't fly
                     if(!enemy.isFlying()) {
+                        // other enemies
+                        for(Hostile other: enemies) {
+                            if(!enemy.equals(other) && !other.isFlying() && other.getRigidBody().isEnabled()) {
+                                Collisions.detectAndApplyEqualRadialCorrection(enemy, other);
+                            }
+                        }
+                        // neutrals
+                        for(Neutral neutral: neutrals) {
+                            if(neutral.getRigidBody().isEnabled() && Collisions.detectCollision(enemy, neutral)) {
+                                Collisions.applyEqualRadialCorrection(enemy, neutral);
+                            }
+                        }
+                        // items
+                        for(Item item: items) {
+                            if(item.getRigidBody().isEnabled()) {
+                                Collisions.detectAndApplySingleRadialCorrection(item, enemy);
+                            }
+                        }
                         // obstacles
                         for(Obstacle obstacle: obstacles) {
-                            if(obstacle.getRigidBody().isEnabled() && (obstacle.isDangerous() || obstacle.isBlocking()) && Collisions.detectCollision(enemy, obstacle)) {
+                            if(obstacle.getRigidBody().isEnabled() &&
+                                    (obstacle.isDangerous() || obstacle.isBlocking() || obstacle.isMoveable()) &&
+                                    Collisions.detectCollision(enemy, obstacle)) {
                                 if(obstacle.isDangerous()) {
                                     obstacle.collide(enemy);
                                 }
                                 if(obstacle.isMoveable()) {
-                                    Collisions.applyEqualRadialCorrection(enemy, obstacle);
+                                    if(obstacle.isHeavy()) {
+                                        Collisions.applyEqualRadialCorrection(enemy, obstacle);
+                                    } else {
+                                        Collisions.applySingleRadialCorrection(obstacle, enemy);
+                                    }
                                 } else if(obstacle.isBlocking()) {
                                     Collisions.applySingleCorrection(enemy, obstacle);
                                 }
+                            }
+                        }
+                    }
+                    // enemy can fly
+                    else {
+                        // other enemies
+                        for(Hostile other: enemies) {
+                            if(!enemy.equals(other) && other.isFlying() && other.getRigidBody().isEnabled()) {
+                                Collisions.detectAndApplyEqualRadialCorrection(enemy, other);
                             }
                         }
                     }
@@ -299,38 +339,9 @@ public class Interior extends Room {
                     // explosions
                     for(Explosion explosion: explosions) {
                         if(explosion.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(enemy, explosion);
-                            enemy.takeDamage(explosion.getExplosionDamage(enemy));
-                        }
-                    }
-                }
-            }
-            // obstacles
-            for(Obstacle obstacle: obstacles) {
-                if(obstacle.getRigidBody().isEnabled() && obstacle.isBlocking()) {
-                    // projectiles
-                    for(Projectile projectile: projectiles) {
-                        if(projectile.getRigidBody().isEnabled() && Collisions.detectCollision(obstacle, projectile)) {
-                            projectile.collide(obstacle);
-                        }
-                    }
-                    // neutrals
-                    for(Neutral neutral: neutrals) {
-                        if(neutral.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(neutral, obstacle);
-                        }
-                    }
-                    // items
-                    for(Item item: items) {
-                        if(item.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(item, obstacle);
-                        }
-                    }
-                } else if (obstacle.getRigidBody().isEnabled() && obstacle.isDestructable()) {
-                    // explosions
-                    for(Explosion explosion: explosions) {
-                        if(explosion.getRigidBody().isEnabled() && Collisions.detectCollision(obstacle, explosion)) {
-                            obstacle.destroy();
+                            if(Collisions.detectAndApplySingleCorrection(enemy, explosion)) {
+                                enemy.takeDamage(explosion, explosion.getExplosionDamage(enemy));   
+                            }
                         }
                     }
                 }
@@ -348,6 +359,28 @@ public class Interior extends Room {
                     for(Entry entry: entries) {
                         Collisions.detectAndApplySingleCorrection(neutral, entry);
                     }
+                    // obstacles
+                    for(Obstacle obstacle: obstacles) {
+                        if(obstacle.getRigidBody().isEnabled() &&
+                                (obstacle.isBlocking() || obstacle.isMoveable()) &&
+                                Collisions.detectCollision(neutral, obstacle)) {
+                            if(obstacle.isMoveable()) {
+                                if(obstacle.isHeavy()) {
+                                    Collisions.applyEqualRadialCorrection(neutral, obstacle);
+                                } else {
+                                    Collisions.applySingleRadialCorrection(obstacle, neutral);
+                                }
+                            } else if(obstacle.isBlocking()) {
+                                Collisions.applySingleCorrection(neutral, obstacle);
+                            }
+                        }
+                    }
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplySingleCorrection(neutral, explosion);
+                        }
+                    }
                 }
             }
             // items
@@ -357,11 +390,82 @@ public class Interior extends Room {
                     for(Entry entry: entries) {
                         Collisions.detectAndApplySingleCorrection(item, entry);
                     }
-                    
                     // other items
                     for(Item other: items) {
                         if(!item.equals(other) && other.getRigidBody().isEnabled()) {
                             Collisions.detectAndApplyEqualRadialCorrection(item, other);
+                        }
+                    }
+                    // obstacles
+                    for(Obstacle obstacle: obstacles) {
+                        if(obstacle.getRigidBody().isEnabled() &&
+                                (obstacle.isBlocking() || obstacle.isMoveable()) &&
+                                Collisions.detectCollision(item, obstacle)) {
+                            if(obstacle.isMoveable()) {
+                                if(!obstacle.isHeavy()) {
+                                    Collisions.applyEqualRadialCorrection(item, obstacle);
+                                } else {
+                                    Collisions.applySingleRadialCorrection(item, obstacle);
+                                }
+                            } else if(obstacle.isBlocking()) {
+                                Collisions.applySingleCorrection(item, obstacle);
+                            }
+                        }
+                    }
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplySingleCorrection(item, explosion);
+                        }
+                    }
+                }
+            }
+            // obstacles
+            for(Obstacle obstacle: obstacles) {
+                if(obstacle.getRigidBody().isEnabled() && obstacle.isMoveable()) {
+                    // other obstacles
+                    for(Obstacle other: obstacles) {
+                        if(other.getRigidBody().isEnabled() &&
+                                (other.isBlocking() || other.isMoveable()) && 
+                                Collisions.detectCollision(other, obstacle)) {
+                            if(other.isMoveable()) {
+                                if(obstacle.isHeavy() == other.isHeavy()) {
+                                    Collisions.applyEqualRadialCorrection(other, obstacle);
+                                } else if(obstacle.isHeavy()) {
+                                    Collisions.applySingleCorrection(other, obstacle);
+                                } else {
+                                    Collisions.applySingleCorrection(obstacle, other);
+                                }
+                            } else if(other.isBlocking()){
+                                Collisions.applySingleCorrection(obstacle, other);
+                            }
+                        }
+                    }
+                    // entries
+                    for(Entry entry: entries) {
+                        Collisions.detectAndApplySingleCorrection(obstacle, entry);
+                    }
+                }
+                // TODO: Change to else if, if we prefer for chests to block not projectiles too
+                if(obstacle.getRigidBody().isEnabled() && obstacle.isBlocking()) {
+                    // projectiles
+                    for(Projectile projectile: projectiles) {
+                        if(projectile.getRigidBody().isEnabled() && Collisions.detectCollision(obstacle, projectile)) {
+                            projectile.collide(obstacle);
+                            // TODO: Use the known velocity of the object (projectile or otherwise)
+                            // And apply that to the hit object. We can start transferring force.
+                        }
+                    }
+                }
+                if (obstacle.getRigidBody().isEnabled() && obstacle.isDestructable()) {
+                    // explosions
+                    for(Explosion explosion: explosions) { // TODO: solve concurrent modification on this line
+                        // TODO: The issue is because if a bomb sets off another bomb, it effectively adds to
+                        // this explosion array that we're currently iterating through. therefore we need to
+                        // find a different way, and/or make sure that if an explosion sets off an obstacle
+                        // it gets delayed for a tick and added later
+                        if(explosion.getRigidBody().isEnabled() && explosion.inRange(obstacle)) {
+                            obstacle.destroy();
                         }
                     }
                 }
@@ -383,8 +487,15 @@ public class Interior extends Room {
             // projectiles
             for(Projectile projectile: projectiles) {
                 if(projectile.getRigidBody().isEnabled()) {
+                    // environment
                     for(Tile tile: foreground) {
                         if(tile.getRigidBody().isEnabled() && Collisions.detectCollision(projectile, tile)) {
+                            projectile.collide();
+                        }
+                    }
+                    // entries
+                    for(Entry entry: entries) {
+                        if(entry.getRigidBody().isEnabled() && Collisions.detectCollision(projectile, entry)) {
                             projectile.collide();
                         }
                     }
@@ -400,6 +511,12 @@ public class Interior extends Room {
             for(Item item: items) {
                 if(item.getRigidBody().isEnabled()) {
                     Collisions.applyEnvironmentCorrections(item, foreground);
+                }
+            }
+            // obstacles
+            for(Obstacle obstacle: obstacles) {
+                if(obstacle.getRigidBody().isEnabled() && obstacle.isMoveable()) {
+                    Collisions.applyEnvironmentCorrections(obstacle, foreground);
                 }
             }
         }
@@ -432,6 +549,12 @@ public class Interior extends Room {
                         updates.add(obstacle.serialize());
                     }
                 }
+                // effects
+                for(Effect effect: effects) {
+                    if(effect.isEnabled()) {
+                        updates.add(effect.serialize());
+                    }
+                }
                 // projectiles
                 for(Projectile projectile: projectiles) {
                     if(projectile.isEnabled()) {
@@ -450,12 +573,17 @@ public class Interior extends Room {
                         updates.add(item.serialize());
                     }
                 }
-                // entry
+                // entries
                 for(Entry entry: entries) {
                     if(entry.isEnabled()) {
                         updates.add(entry.serialize());
                     }
                 }
+                // sounds
+                for(Sound sound: sounds) {
+                    updates.add(sound.serialize());
+                }
+                sounds.clear();
             }
         }
     }
@@ -468,18 +596,6 @@ public class Interior extends Room {
         return center;
     }
     
-    public void addObstacle(Obstacle obstacle) {
-        obstacles.add(obstacle);
-    }
-    
-    public ArrayList<Obstacle> getObstacles() {
-        return obstacles;
-    }
-    
-    public void removeObstacle(Obstacle obstacle) {
-        obstacles.remove(obstacle);
-    }
-    
     public void addEnemy(Hostile enemy) {
         enemies.add(enemy);
     }
@@ -490,5 +606,17 @@ public class Interior extends Room {
     
     public ArrayList<Hostile> getEnemies() {
         return enemies;
+    }
+    
+    public void addItem(Item item) {
+        items.add(item);
+    }
+    
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+    
+    public ArrayList<Item> getItems() {
+        return items;
     }
 }

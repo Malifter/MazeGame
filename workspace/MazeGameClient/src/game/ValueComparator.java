@@ -2,17 +2,18 @@ package game;
 
 import java.util.Comparator;
 import java.util.Map;
-import engine.serializable.SerializedObject;
 
-class ValueComparator implements Comparator<SerializedObject> {
+import engine.render.Animator.AnimationInfo;
 
-    Map<SerializedObject, Float> base;
-    public ValueComparator(Map<SerializedObject, Float> base) {
+class ValueComparator implements Comparator<AnimationInfo> {
+
+    Map<AnimationInfo, Float> base;
+    public ValueComparator(Map<AnimationInfo, Float> base) {
         this.base = base;
     }
 
     // Note: this comparator imposes orderings that are inconsistent with equals.    
-    public int compare(SerializedObject a, SerializedObject b) {
+    public int compare(AnimationInfo a, AnimationInfo b) {
         if (base.get(a) >= base.get(b)) {
             return 1;
         } else {

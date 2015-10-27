@@ -29,6 +29,7 @@ public class Straight extends Projectile {
      */
     public Straight(RigidBody rb, Face direction, Hostile hostile) {
         super(AnimationPath.PROJECTILE_1, rb, hostile);
+        // TODO: change to attach point location
         origin = new Vector2f(owner.getRigidBody().getLocation());
         damage = owner.getDamage();
 
@@ -56,8 +57,10 @@ public class Straight extends Projectile {
         rBody.move(time);
         
         // if shot off the screen, remove
-        if (Collisions.findDistance(rBody, origin) > MAX_RANGE) {
-            disable();
+        if(owner != null && Collisions.findDistance(rBody, owner.getRigidBody()) > MAX_RANGE) {
+            collide();
+        } else if(owner == null && Collisions.findDistance(rBody, origin) > MAX_RANGE) {
+            collide();
         }
     }
 }

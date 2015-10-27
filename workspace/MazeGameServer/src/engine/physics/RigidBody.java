@@ -35,6 +35,24 @@ public class RigidBody {
         enable();
     }
     
+    public RigidBody(RigidBody rb, float width, float height) {
+        this.location = new Vector2f(rb.getLocation());
+        this.width = width;
+        this.height = height;
+        calculateBounds();
+        radius = Collisions.findDistance(mid, max);
+        enable();
+    }
+    
+    public RigidBody(RigidBody rb) {
+        this.location = new Vector2f(rb.getLocation());
+        this.width = rb.getWidth();
+        this.height = rb.getHeight();
+        calculateBounds();
+        radius = Collisions.findDistance(mid, max);
+        enable();
+    }
+    
     private void calculateBounds() {
         mid.x = location.x + offset.x;
         mid.y = location.y + offset.y;
@@ -169,6 +187,10 @@ public class RigidBody {
     
     public float getRadius() {
         return radius;
+    }
+    
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
     
     public boolean isEnabled() {

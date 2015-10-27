@@ -20,15 +20,16 @@ import engine.physics.Collisions;
 import engine.serializable.SerializeFactory;
 import engine.serializable.SerializedObject;
 import game.MazeGameServer;
+import game.entities.effects.Effect;
 import game.entities.environment.Entry;
 import game.entities.environment.Explosion;
+import game.entities.environment.Obstacle;
 import game.entities.environment.Tile;
-import game.entities.items.ABomb;
-import game.entities.items.Item;
 import game.entities.npcs.Neutral;
 import game.entities.npcs.Player;
 import game.entities.projectiles.Projectile;
 import game.enums.GameState;
+import game.enums.Sound;
 
 public class Exterior extends Room{
     public static final int HEIGHT = 528;
@@ -98,6 +99,7 @@ public class Exterior extends Room{
                 }
             }
             
+            // neutrals
             Iterator<Neutral> neutralItr = neutrals.iterator();
             while(neutralItr.hasNext()) {
                 Neutral neutral = neutralItr.next();
@@ -109,14 +111,14 @@ public class Exterior extends Room{
                 }
             }
             
-            // items
-            Iterator<Item> itemItr = items.iterator();
-            while(itemItr.hasNext()) {
-                Item item = itemItr.next();
-                if(item.isEnabled()) {
-                    item.update(elapsedTime);
+            // obstacles
+            Iterator<Obstacle> obstacleItr = obstacles.iterator();
+            while(obstacleItr.hasNext()) {
+                Obstacle obstacle = obstacleItr.next();
+                if(obstacle.isEnabled()) {
+                    obstacle.update(elapsedTime);
                 } else {
-                    itemItr.remove();
+                    obstacleItr.remove();
                     continue;
                 }
             }
@@ -125,8 +127,22 @@ public class Exterior extends Room{
             Iterator<Explosion> explosionItr = explosions.iterator();
             while(explosionItr.hasNext()) {
                 Explosion explosion = explosionItr.next();
-                if(!explosion.isEnabled()) {
+                if(explosion.isEnabled()) {
+                    explosion.update(elapsedTime);
+                } else {
                     explosionItr.remove();
+                    continue;
+                }
+            }
+            
+            // effects
+            Iterator<Effect> effectItr = effects.iterator();
+            while(effectItr.hasNext()) {
+                Effect effect = effectItr.next();
+                if(effect.isEnabled()) {
+                    effect.update(elapsedTime);
+                } else {
+                    effectItr.remove();
                     continue;
                 }
             }
@@ -159,31 +175,41 @@ public class Exterior extends Room{
                             neutral.interact(player);
                         }
                     }
-                    // items
-                    Iterator<Item> itemItr = items.iterator();
-                    while(itemItr.hasNext()) {
-                        Item item = itemItr.next();
-                        if(item.getRigidBody().isEnabled() && Collisions.detectCollision(player, item)) {
-                            if(item instanceof ABomb){
-                                Collisions.applySingleRadialCorrection(item, player);
-                            }else{
-                                item.pickUp(player);
+                    // entries
+                    for(Entry entry: entries) {
+                        if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked/disguised door, or a deactivated portal
+                            if(Collisions.detectAndApplySingleCorrection(player, entry)) {
+                                entry.interact(player);
                             }
                         }
                     }
-                    // entries
-                    for(Entry entry: entries) {
-                        if(entry.getRigidBody().isEnabled()) { // if this is true, it is either a locked door, or a deactivated portal
-                            if(!entry.interact(player)) {
-                                Collisions.detectAndApplySingleCorrection(player, entry);
+                    // obstacles
+                    for(Obstacle obstacle: obstacles) {
+                        if(obstacle.getRigidBody().isEnabled() &&
+                                (obstacle.isDangerous() || obstacle.isBlocking() || obstacle.isMoveable()) &&
+                                Collisions.detectCollision(player, obstacle)) {
+                            if(obstacle.isDangerous()) {
+                                obstacle.collide(player);
+                            } else if(obstacle.isOpenable()) {
+                                obstacle.interact(player);
+                            }
+                            if(obstacle.isMoveable()) {
+                                if(obstacle.isHeavy()) {
+                                    Collisions.applyEqualRadialCorrection(player, obstacle);
+                                } else {
+                                    Collisions.applySingleRadialCorrection(obstacle, player);
+                                }
+                            } else if(obstacle.isBlocking()) {
+                                Collisions.applySingleCorrection(player, obstacle);
                             }
                         }
                     }
                     // explosions
                     for(Explosion explosion: explosions) {
                         if(explosion.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleCorrection(player, explosion);
-                            player.takeDamage(explosion.getExplosionDamage(player));
+                            if(Collisions.detectAndApplySingleRadialCorrection(player, explosion)) {
+                                player.takeDamage(explosion.getSource(), explosion.getExplosionDamage(player));
+                            }
                         }
                     }
                 }
@@ -191,34 +217,81 @@ public class Exterior extends Room{
             // neutrals
             for(Neutral neutral: neutrals) {
                 if(neutral.getRigidBody().isEnabled()) {
-                    // items
-                    for(Item item: items) {
-                        if(item.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplySingleRadialCorrection(item, neutral);
-                        }
-                    }
                     // entries
                     for(Entry entry: entries) {
                         Collisions.detectAndApplySingleCorrection(neutral, entry);
                     }
-                }
-            }
-            // items
-            for(Item item: items) {
-                if(item.getRigidBody().isEnabled()) {
-                    // entries
-                    for(Entry entry: entries) {
-                        Collisions.detectAndApplySingleCorrection(item, entry);
+                    // obstacles
+                    for(Obstacle obstacle: obstacles) {
+                        if(obstacle.getRigidBody().isEnabled() &&
+                                (obstacle.isBlocking() || obstacle.isMoveable()) &&
+                                Collisions.detectCollision(neutral, obstacle)) {
+                            if(obstacle.isMoveable()) {
+                                if(obstacle.isHeavy()) {
+                                    Collisions.applyEqualRadialCorrection(neutral, obstacle);
+                                } else {
+                                    Collisions.applySingleRadialCorrection(obstacle, neutral);
+                                }
+                            } else if(obstacle.isBlocking()) {
+                                Collisions.applySingleCorrection(neutral, obstacle);
+                            }
+                        }
                     }
-                    
-                    // other items
-                    for(Item other: items) {
-                        if(!item.equals(other) && other.getRigidBody().isEnabled()) {
-                            Collisions.detectAndApplyEqualRadialCorrection(item, other);
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled()) {
+                            Collisions.detectAndApplySingleCorrection(neutral, explosion);
                         }
                     }
                 }
             }
+            // obstacles
+            for(Obstacle obstacle: obstacles) {
+                if(obstacle.getRigidBody().isEnabled() && obstacle.isMoveable()) {
+                    // other obstacles
+                    for(Obstacle other: obstacles) {
+                        if(other.getRigidBody().isEnabled() &&
+                                (other.isBlocking() || other.isMoveable()) && 
+                                Collisions.detectCollision(other, obstacle)) {
+                            if(other.isMoveable()) {
+                                if(obstacle.isHeavy() == other.isHeavy()) {
+                                    Collisions.applyEqualRadialCorrection(other, obstacle);
+                                } else if(obstacle.isHeavy()) {
+                                    Collisions.applySingleCorrection(other, obstacle);
+                                } else {
+                                    Collisions.applySingleCorrection(obstacle, other);
+                                }
+                            } else if(other.isBlocking()){
+                                Collisions.applySingleCorrection(obstacle, other);
+                            }
+                        }
+                    }
+                    // entries
+                    for(Entry entry: entries) {
+                        Collisions.detectAndApplySingleCorrection(obstacle, entry);
+                    }
+                }
+                // TODO: Change to else if, if we prefer for chests to block not projectiles too
+                if(obstacle.getRigidBody().isEnabled() && obstacle.isBlocking()) {
+                    // projectiles
+                    for(Projectile projectile: projectiles) {
+                        if(projectile.getRigidBody().isEnabled() && Collisions.detectCollision(obstacle, projectile)) {
+                            projectile.collide(obstacle);
+                            // TODO: Use the known velocity of the object (projectile or otherwise)
+                            // And apply that to the hit object. We can start transferring force.
+                        }
+                    }
+                }
+                if (obstacle.getRigidBody().isEnabled() && obstacle.isDestructable()) {
+                    // explosions
+                    for(Explosion explosion: explosions) {
+                        if(explosion.getRigidBody().isEnabled() && explosion.inRange(obstacle)) {
+                            obstacle.destroy();
+                        }
+                    }
+                }
+            }
+
             // COLLISIONS WITH ENVIRONMENT
             // players
             for(Player player: players) {
@@ -229,8 +302,15 @@ public class Exterior extends Room{
             // projectiles
             for(Projectile projectile: projectiles) {
                 if(projectile.getRigidBody().isEnabled()) {
+                    // environment
                     for(Tile tile: foreground) {
                         if(tile.getRigidBody().isEnabled() && Collisions.detectCollision(projectile, tile)) {
+                            projectile.collide();
+                        }
+                    }
+                    // entries
+                    for(Entry entry: entries) {
+                        if(entry.getRigidBody().isEnabled() && Collisions.detectCollision(projectile, entry)) {
                             projectile.collide();
                         }
                     }
@@ -242,10 +322,10 @@ public class Exterior extends Room{
                     Collisions.applyEnvironmentCorrections(neutral, foreground);
                 }
             }
-            // items
-            for(Item item: items) {
-                if(item.getRigidBody().isEnabled()) {
-                    Collisions.applyEnvironmentCorrections(item, foreground);
+            // obstacles
+            for(Obstacle obstacle: obstacles) {
+                if(obstacle.getRigidBody().isEnabled() && obstacle.isMoveable()) {
+                    Collisions.applyEnvironmentCorrections(obstacle, foreground);
                 }
             }
         }
@@ -268,9 +348,9 @@ public class Exterior extends Room{
                 }
                 // projectiles
                 for(Projectile projectile: projectiles) {
-                    if(projectile.isEnabled()) {
+                    //if(projectile.isEnabled()) {
                         updates.add(projectile.serialize());
-                    }
+                    //}
                 }
                 // neutrals
                 for(Neutral neutral: neutrals) {
@@ -278,18 +358,29 @@ public class Exterior extends Room{
                         updates.add(neutral.serialize());
                     }
                 }
-                // items
-                for(Item item: items) {
-                    if(item.isEnabled()) {
-                        updates.add(item.serialize());
+                // obstacles
+                for(Obstacle obstacle: obstacles) {
+                    if(obstacle.isEnabled()) {
+                        updates.add(obstacle.serialize());
                     }
                 }
-                // entry
+                // effects
+                for(Effect effect: effects) {
+                    if(effect.isEnabled()) {
+                        updates.add(effect.serialize());
+                    }
+                }
+                // entries
                 for(Entry entry: entries) {
                     if(entry.isEnabled()) {
                         updates.add(entry.serialize());
                     }
                 }
+                // sounds
+                for(Sound sound: sounds) {
+                    updates.add(sound.serialize());
+                }
+                sounds.clear();
             }
         }
     }

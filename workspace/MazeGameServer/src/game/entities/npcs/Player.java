@@ -9,6 +9,7 @@ import game.MazeGameServer;
 import game.enums.*;
 import game.environment.Interior;
 import game.environment.Room;
+import game.entities.Entity;
 import game.entities.EntityFactory;
 
 /*
@@ -25,7 +26,7 @@ import game.entities.EntityFactory;
  * Player:
  */
 public class Player extends Hostile {
-    private static final int MAX_HEALTH = 100;
+    private static final int MAX_HEALTH = Integer.MAX_VALUE;//100;
     private static final int BLASTER_DAMAGE = 20;
     private static final int ATTACK_RANGE = 168;
     private static final float SPEED = 0.8f;
@@ -34,7 +35,7 @@ public class Player extends Hostile {
     private static final long SHOOT_INTERVAL = 300;
     private long shootTime = 0;
     private boolean shootPressed = false;
-    private float speedRatio = 0.0f; // between 0 and 1
+    private float speedRatio = 0.25f; // between 0 and 1
     private int playerID = 0;
     private int lives = 3;
     private boolean shielded = false;
@@ -42,12 +43,13 @@ public class Player extends Hostile {
     private boolean invulnerable = true;
     private Hostage follower = null;
     private Inventory inventory = new Inventory();
+    private boolean sliding = false;
     
     public Player(RigidBody rb, int playerID, Room room, Face dir) {
         super(playerID == 0 ? AnimationPath.PLAYER_1 : playerID == 1 ? AnimationPath.PLAYER_2 :
             playerID == 2 ? AnimationPath.PLAYER_3 : AnimationPath.PLAYER_4, rb, room, dir);
         this.playerID = playerID;
-        range = ATTACK_RANGE;
+        attackRange = ATTACK_RANGE;
         damage = BLASTER_DAMAGE;
         health = MAX_HEALTH;
     }
@@ -68,7 +70,8 @@ public class Player extends Hostile {
         dead = false;
         shielded = false;
         follower = null;
-        speedRatio = 0.0f;
+        speedRatio = 0.25f;
+        sliding = false;
         shootTime = 0;
         shootPressed = false;
         enable();
@@ -128,7 +131,7 @@ public class Player extends Hostile {
     }
     
     @Override
-    public void takeDamage(int d) {
+    public void takeDamage(Entity source, int d) {
         if (!invulnerable) {
             if (shielded) {
                 //GameEngine.playSound(game.sound_hit_shield);
@@ -164,26 +167,31 @@ public class Player extends Hostile {
         }
         
         if(moveX != 0 || moveY != 0) {
-            if(speedRatio == 0.0f) speedRatio = 0.25f;
             if(speedRatio < 1.0f) speedRatio += 0.15f * speedRatio;//Math.min((float)Math.sqrt((double) speedRatio), 1.0f);
+            if(!sliding) sliding = true;
+            animState = AnimationState.RUN;
         }
-        else {
-            if(speedRatio <= 0.05f) speedRatio = 0.0f;
-            if(speedRatio > 0.0f) speedRatio -= speedRatio * 0.2f;//Math.max(1.0f-(float)Math.sqrt((double) 1.0f-speedRatio), 0.0f);
+        else if(sliding) {
+            if(speedRatio > 0.0f) speedRatio -= speedRatio * 0.1f;//Math.max(1.0f-(float)Math.sqrt((double) 1.0f-speedRatio), 0.0f);
+            if(speedRatio <= 0.05f) {
+                speedRatio = 0.0f;
+                sliding = false;
+            }
             speed = SPEED * speedRatio;
             if(rBody.getDelta().x > 0.0f) moveX += speed;
             else if(rBody.getDelta().x < 0.0f) moveX -= speed;
             if(rBody.getDelta().y > 0.0f) moveY += speed;
             else if(rBody.getDelta().y < 0.0f) moveY -= speed;
-            if(speedRatio == 0.0f) speedRatio = 0.25f;
-            if(speedRatio < 1.0f) speedRatio += 0.15f * speedRatio;//Math.min((float)Math.sqrt((double) speedRatio), 1.0f);
-        }
-
-        if(speedRatio <= 0.25f) {
+            if(!sliding) speedRatio = 0.25f;
             animState = AnimationState.IDLE;
-        } else {
-            animState = AnimationState.RUN;
         }
+        
+        // TODO: in animator decide if we want the running animation to complete it's cycle before switching to idle
+        // Also we need to decide which state changes should affect animations instantly. For example if you're running
+        // And then decide to shoot, then the shooting+running animation should play at the same frame as the
+        // running animation by itself. Meaning if it was on frame 2, then we should use that frame when switching
+        // For Idle, we should finish the Run animation then let him slide to a stop in idle etc.
+        // Other animations should be instant, for instance jumping should override the current frame
         
         rBody.move(moveX, moveY, elapsedTime);
     }

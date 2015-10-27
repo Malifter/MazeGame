@@ -7,8 +7,14 @@ import game.enums.Face;
 
 public class SerializedObstacle extends SerializedEntity {
     private static final long serialVersionUID = -5584262842979598780L;
+    private boolean moveable = false;
 
-    public SerializedObstacle(String uniqueID, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, boolean delete) {
-        super(uniqueID, animPath, animState, face, position, delete);
+    public SerializedObstacle(String uniqueID, int animSpeed, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, boolean delete, boolean moveable) {
+        super(uniqueID, animSpeed, animPath, animState, face, position, delete);
+        this.moveable = moveable;
     } 
+    
+    public boolean isMoveable() {
+        return moveable;
+    }
 }

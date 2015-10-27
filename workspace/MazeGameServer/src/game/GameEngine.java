@@ -29,7 +29,6 @@ public class GameEngine {
     public static boolean playingGame = true;
     private static long timerTicksPerSecond = Sys.getTimerResolution();
     private static long lastLoopTime = getTime();
-    
     public static ArrayList<ReentrantLock> inputLocks = new ArrayList<ReentrantLock>();
     private static ArrayList<ReentrantLock> updateLocks = new ArrayList<ReentrantLock>();
     private static ArrayList<ArrayList<Boolean>> inputs = new ArrayList<ArrayList<Boolean>>();
@@ -108,11 +107,16 @@ public class GameEngine {
     public static void getInputs() {
         for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
             inputLocks.get(playerID).lock();
-            for(int i = 0; i < Pressed.SIZE; i++) {
-                MazeGameServer.inputs.get(playerID).set(i, inputs.get(playerID).get(i));
+            try {
+                for(int i = 0; i < Pressed.SIZE; i++) {
+                    MazeGameServer.inputs.get(playerID).set(i, inputs.get(playerID).get(i));
+                }
+                // If a new vector isn't created, then it gets manipulated by the player
+                // and causes synchronization errors.
+                MazeGameServer.mice.set(playerID, new Vector2f(mice.get(playerID)));
+            } finally {
+                inputLocks.get(playerID).unlock();
             }
-            MazeGameServer.mice.set(playerID, mice.get(playerID));
-            inputLocks.get(playerID).unlock();
         }
     }
     
@@ -121,16 +125,19 @@ public class GameEngine {
      */
     public static void setInputs(SerializedInputs sInputs, int playerID) {
         inputLocks.get(playerID).lock();
-        for(int i = 0; i < Pressed.SIZE; i++) {
-            inputs.get(playerID).set(i, false);
-        }
-        if(sInputs != null && sInputs.getPressed() != null) {
-            for(Pressed p: sInputs.getPressed()) {
-                inputs.get(playerID).set(p.getValue(), true);
+        try {
+            for(int i = 0; i < Pressed.SIZE; i++) {
+                inputs.get(playerID).set(i, false);
             }
-            mice.set(playerID, sInputs.getMouseLocation());
+            if(sInputs != null && sInputs.getPressed() != null) {
+                for(Pressed p: sInputs.getPressed()) {
+                    inputs.get(playerID).set(p.getValue(), true);
+                }
+                mice.set(playerID, sInputs.getMouseLocation());
+            }
+        } finally {
+            inputLocks.get(playerID).unlock();
         }
-        inputLocks.get(playerID).unlock();
     }
     
     /**
@@ -140,7 +147,9 @@ public class GameEngine {
         for(int playerID = 0; playerID < MazeGameServer.numPlayers; playerID++) {
             updateLocks.get(playerID).lock();
             updates.get(playerID).clear();
-            updates.get(playerID).addAll(MazeGameServer.updates.get(playerID));
+            if(MazeGameServer.updates.size() > 0) {
+                updates.get(playerID).addAll(MazeGameServer.updates.get(playerID));
+            }
             updateLocks.get(playerID).unlock();
         }
     }

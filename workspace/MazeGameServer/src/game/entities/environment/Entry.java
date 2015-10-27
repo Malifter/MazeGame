@@ -67,6 +67,6 @@ public abstract class Entry extends Entity {
     
     @Override
     public SerializedObject serialize() {
-        return new SerializedObstacle(uuid, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled());
+        return new SerializedObstacle(uuid, 175, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled(), false);
     }
 }

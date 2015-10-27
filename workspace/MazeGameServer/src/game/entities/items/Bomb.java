@@ -19,6 +19,7 @@ public class Bomb extends NotConsumable {
     
     public void use(Player p) {
         // do nothing
+        // how about drop bomb when used.
     }
 }
 

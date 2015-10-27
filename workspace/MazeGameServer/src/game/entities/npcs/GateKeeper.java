@@ -104,7 +104,7 @@ public class GateKeeper extends Neutral {
             }
             else 
             {
-                player.takeDamage(DAMAGE);
+                player.takeDamage(this, DAMAGE);
                 activateWarmHole();
             }
         }

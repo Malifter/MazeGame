@@ -25,7 +25,7 @@ import game.environment.Room;
 public class FlyingBag extends Hostile {
     private static final int MAX_HEALTH = 100;
     private static final int COLLISION_DAMAGE = 20;
-    private static final int AGGRO_RANGE = 128;
+    private static final int ATTACK_RANGE = 128;
     private static final long MAX_ACTION_TIME = 1000;
     private static final long ATTACK_INTERVAL = 1000;
     private static final long MAX_ATTACK_INTERVAL = 3000;
@@ -38,7 +38,7 @@ public class FlyingBag extends Hostile {
         super(AnimationPath.FLYBAG, rb, room, face);
         health = MAX_HEALTH;
         damage = COLLISION_DAMAGE;
-        range = AGGRO_RANGE;
+        attackRange = ATTACK_RANGE;
         flying = true;
     }
     

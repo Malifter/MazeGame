@@ -24,11 +24,13 @@ import game.enums.AnimationPath;
  */
 public abstract class Obstacle extends Entity {
     public static final int COLLISION_DAMAGE = 10;
-    protected boolean destructable = false;
-    protected boolean dangerous = false;
-    protected boolean blocking = false;
-    protected boolean openable = false;
-    protected boolean moveable = false;
+    public static final int DRAIN_DAMAGE = 1;
+    protected boolean destructable = false; // do bombs destroy it
+    protected boolean dangerous = false; // does it hurt non flyers
+    protected boolean blocking = false; // blocks projectile or movement
+    protected boolean openable = false; // does it contain items
+    protected boolean moveable = false; // can be pushed around
+    protected boolean heavy = false; // determine if slows pusher
     
     public Obstacle(AnimationPath ap, RigidBody rb) {
         super(ap, rb);
@@ -39,7 +41,11 @@ public abstract class Obstacle extends Entity {
     }
     
     public void collide(Hostile hostile) {
-        hostile.takeDamage(COLLISION_DAMAGE);
+        if(hostile instanceof Player) {
+            hostile.takeDamage(this, COLLISION_DAMAGE);
+        } else {
+            hostile.takeDamage(this, DRAIN_DAMAGE);
+        }
     }
     
     public void interact(Player player) {
@@ -48,6 +54,9 @@ public abstract class Obstacle extends Entity {
     
     public void destroy() {
         if(destructable) {
+            if(this instanceof ActiveBomb) {
+                ((ActiveBomb) this).explode();
+            }
             disable();
         }
     }
@@ -72,8 +81,12 @@ public abstract class Obstacle extends Entity {
         return moveable;
     }
     
+    public boolean isHeavy() {
+        return heavy;
+    }
+    
     @Override
     public SerializedObject serialize() {
-        return new SerializedObstacle(uuid, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled());
+        return new SerializedObstacle(uuid, 175, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled(), moveable);
     }
 }

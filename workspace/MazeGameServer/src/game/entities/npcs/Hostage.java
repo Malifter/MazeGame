@@ -9,10 +9,12 @@ import game.enums.Face;
 
 public class Hostage extends Neutral {
     private static final int MAX_STRAY_DISTANCE = 20;
+    private static final int MAX_STRAY_TIME = 250;
     private static final long MAX_FACE_TIME = 3000;
     private static final float SPEED = 1.2f;
     private Player following = null;
     private long idleTime = 0;
+    private long strayTime = 0;
     
     public Hostage(RigidBody rb) {
         super(AnimationPath.HOSTAGE, rb, Face.randomFace());
@@ -22,7 +24,12 @@ public class Hostage extends Neutral {
     public void update(long elapsedTime) {
         if(following != null) {
             if(following.isEnabled()) {
-                if(Collisions.findDistance(rBody, following.getRigidBody().getLocation()) > MAX_STRAY_DISTANCE) {
+                if(Collisions.findDistance(rBody, following.getRigidBody()) > MAX_STRAY_DISTANCE) {
+                    strayTime += elapsedTime;
+                } else {
+                    strayTime = 0;
+                }
+                if(strayTime > MAX_STRAY_TIME) {
                     Vector2f loc = following.getRigidBody().getLocation().add(new Vector2f(0, -1));
                     Vector2f direction = loc.sub(rBody.getMid());
                     if(Math.abs(direction.y) > Math.abs(direction.x)) {
@@ -50,7 +57,7 @@ public class Hostage extends Neutral {
             } else {
                 following.setFollower(null);
                 following = null;
-                rBody.enable();
+                //rBody.enable();
                 animState = AnimationState.IDLE;
             }
         } else {
@@ -68,7 +75,7 @@ public class Hostage extends Neutral {
         if(following == null) {
             following = player;
             following.setFollower(this);
-            rBody.disable();
+            //rBody.disable();
             facing = Face.DOWN;
         }
     }

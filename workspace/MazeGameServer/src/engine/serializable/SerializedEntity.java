@@ -22,14 +22,24 @@ public class SerializedEntity extends SerializedObject {
     private Face face;
     private boolean delete = false;
     private Vector2f position;
+    private int animSpeed = -1;
 
-    public SerializedEntity(String uniqueID, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, boolean delete) {
+    public SerializedEntity(String uniqueID, int animSpeed, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, boolean delete) {
         super(uniqueID);
         this.animPath = animPath;
         this.animState = animState;
+        this.animSpeed = animSpeed;
         this.face = face;
         this.position = position;
         this.delete = delete;
+    }
+    
+    public int getAnimSpeed() {
+        return animSpeed;
+    }
+    
+    public void setAnimSpeed(int animSpeed) {
+        this.animSpeed = animSpeed;
     }
 
     public AnimationPath getAnimPath() {

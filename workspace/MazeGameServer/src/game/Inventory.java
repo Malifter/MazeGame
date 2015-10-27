@@ -53,7 +53,7 @@ public class Inventory {
             selectedItem = ItemType.getByIndex(Math.abs(selectedIndex));
 
         } while(selectedItem.getIndex() == -1);
-        System.out.println("Item "+selectedItem.name());
+        System.out.println("Item "+selectedItem.name() + " " + items.get(selectedItem));
     }
     
     public void selectPrevItem(){
@@ -62,25 +62,29 @@ public class Inventory {
             selectedIndex = (selectedIndex) % ItemType.getSize();
             selectedItem = ItemType.getByIndex(Math.abs(selectedIndex));
         } while(selectedItem.getIndex() == -1);
-        System.out.println("Item "+selectedItem.name());
+        System.out.println("Item "+selectedItem.name() + items.get(selectedItem));
     }
     
     public void useSelectedItem(Player player, Room room){
+        System.out.println("use pressed");
         if(items.get(selectedItem)>0){
             if(selectedItem.equals(ItemType.BOMB)){
                 items.put(selectedItem, items.get(selectedItem)-1);
-                player.getRoom().addItem(EntityFactory.createItem(player.getRigidBody().getLocation(), ItemType.A_BOMB));
+                room.addObstacle(EntityFactory.createBomb(player, room));
             }
-            
-            else if(selectedItem.equals(ItemType.TOOL)||selectedItem.equals(ItemType.DKEY)){//disguish a door
+            else if(selectedItem.equals(ItemType.TOOL)||selectedItem.equals(ItemType.DKEY)){//disguise a door
                 for(Entry entry: room.getEntries()){
                     if(entry instanceof Door && Collisions.findDistance(player.getRigidBody(), entry.getRigidBody()) <= 30){
                         Door door = (Door) entry;
-                        if(selectedItem.equals(ItemType.TOOL)){
-                            System.out.println("door disguished");
-                            door.setDisguished(true); 
-                        }else{
+                        // TODO: This needs a better system rather than checking everything about the door. Should be internal to the class.
+                        if(selectedItem.equals(ItemType.TOOL) && door.isActive()) {
+                            door.disguise(); 
+                        } else if(selectedItem.equals(ItemType.TOOL) && !door.isActive()) {
+                            door.reveal();
+                        } else if(selectedItem.equals(ItemType.DKEY) && door.isActive()) {
                             door.lock();
+                        } else if(selectedItem.equals(ItemType.DKEY) && !door.isActive()) {
+                            door.unlock();
                         }
                         removeItem(selectedItem);
                     }

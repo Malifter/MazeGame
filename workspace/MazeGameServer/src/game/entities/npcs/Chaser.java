@@ -3,6 +3,7 @@ package game.entities.npcs;
 import engine.Vector2f;
 import engine.physics.Collisions;
 import engine.physics.RigidBody;
+import game.entities.Entity;
 import game.enums.AnimationPath;
 import game.enums.AnimationState;
 import game.enums.Face;
@@ -32,7 +33,8 @@ public class Chaser extends Hostile {
         super(AnimationPath.CHASER, rb, room, face);
         health = MAX_HEALTH;
         damage = COLLISION_DAMAGE;
-        range = AGGRO_RANGE;
+        attackRange = 0;
+        aggroRange = AGGRO_RANGE;
         flying = true;
     }
     
@@ -45,15 +47,28 @@ public class Chaser extends Hostile {
         }
     }
     
+    @Override
+    public void takeDamage(Entity source, int d) {
+        super.takeDamage(source, d);
+        if(target == null && source instanceof Player) {
+            target = (Player) source;
+        }
+    }
+    
+    // TODO: Make it so that the chaser can aggro a player who shoots them from out of range.
     private void determineActions(long elapsedTime) {
         // find closest player
-        target = null;
-        float minDist = Float.MAX_VALUE;
-        for(Player p: room.getPlayers()) {
-            float dist = Collisions.findDistance(p.getRigidBody(), rBody);
-            if(dist < minDist) {
-                minDist = dist;
-                target = p;
+        if(target != null && target.getRoom() != room) {
+            target = null;
+        }
+        if(target == null) {
+            float minDist = Float.MAX_VALUE;
+            for(Player p: room.getPlayers()) {
+                float dist = Collisions.findDistance(p.getRigidBody(), rBody);
+                if(dist < minDist) {
+                    minDist = dist;
+                    target = p;
+                }
             }
         }
         if(target == null) return;

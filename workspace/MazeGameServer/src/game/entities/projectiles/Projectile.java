@@ -2,11 +2,14 @@ package game.entities.projectiles;
 
 import engine.physics.RigidBody;
 import game.entities.Entity;
+import game.entities.EntityFactory;
 import game.entities.environment.Obstacle;
 import game.entities.environment.Pit;
 import game.entities.npcs.Hostile;
 import game.entities.npcs.Player;
 import game.enums.AnimationPath;
+import game.enums.EffectType;
+import game.enums.Sound;
 
 /*
 * Classname:            Projectile.java
@@ -34,7 +37,8 @@ public abstract class Projectile extends Entity {
         super(ap, rb);
         owner = hostile;
         owner.addProjectile();
-        MAX_RANGE = owner.getRange() < MIN_RANGE ? MIN_RANGE : owner.getRange();
+        MAX_RANGE = owner.getAttackRange() < MIN_RANGE ? MIN_RANGE : owner.getAttackRange();
+        owner.getRoom().addSound(Sound.SHOT);
     }
     
     @Override
@@ -56,9 +60,8 @@ public abstract class Projectile extends Entity {
         if (!isEnabled()) {
             return;
         } else {
-            disable();
-            enemy.takeDamage(damage);
-            //GameEngine.playSound(game.sound_hit_player);
+            collide();
+            enemy.takeDamage(owner, damage);
         }
     }
     
@@ -67,8 +70,7 @@ public abstract class Projectile extends Entity {
             if (!isEnabled()) {
                 return;
             } else {
-                disable();
-                //GameEngine.playSound(game.sound_hit_environ);
+                collide();
             }
         }
     }
@@ -78,7 +80,13 @@ public abstract class Projectile extends Entity {
             disable();
         } else {
             disable();
+            if(animPath == AnimationPath.PROJECTILE_2) {
+                owner.getRoom().addEffect(EntityFactory.createEffect(EffectType.PROJECTILE_2, this));
+            } else {
+                owner.getRoom().addEffect(EntityFactory.createEffect(EffectType.PROJECTILE_1, this));
+            }
             //GameEngine.playSound(game.sound_hit_environ);
+            owner.getRoom().addSound(Sound.HIT);
         }
     }
     

@@ -6,6 +6,7 @@ import game.entities.npcs.Player;
 import game.enums.AnimationPath;
 import game.enums.AnimationState;
 import game.enums.ItemType;
+import game.enums.ObstacleType;
 import game.environment.Interior;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
  * EnvironmentTile: Level background tile
  */
 public class Chest extends Obstacle {
+    // TODO: Add min interaction time after it opens
     private boolean locked = true;
     private ArrayList<ItemType> items =  new ArrayList<ItemType>();
     private Interior room;
@@ -41,15 +43,17 @@ public class Chest extends Obstacle {
         openable = true;
         moveable = true;
         blocking = true;
+        heavy = true;
         lock();
         generateContents();
     }
     
     public void generateContents() {
         double rand = Math.random();
-        if(rand>0.10){items.add(ItemType.randomItem());}
-        if(rand>0.3){items.add(ItemType.randomItem());}
-        if(rand>0.6){items.add(ItemType.randomItem());}
+        if(rand <= 0.05) items.add(ItemType.randomItem());
+        if(rand <= 0.3) items.add(ItemType.randomItem());
+        if(rand <= 0.90) items.add(ItemType.randomItem());
+        else items.add(ItemType.ACTIVE_BOMB);
     }
     
     public void interact(Player player){
@@ -62,8 +66,12 @@ public class Chest extends Obstacle {
     
     public boolean dropContents() {
         if(!locked) {
-            for(ItemType i : items){
-                room.addItem(EntityFactory.createItem(rBody.getLocation(), i));
+            for(ItemType item : items) {
+                if(item == ItemType.ACTIVE_BOMB) {
+                    room.addObstacle(EntityFactory.createObstacle(rBody.getLocation(), ObstacleType.ACTIVE_BOMB, room));
+                } else {
+                    room.addItem(EntityFactory.createItem(rBody.getLocation(), item));
+                }
             }
             return true;
         }

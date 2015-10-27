@@ -24,8 +24,8 @@ public class SerializedPlayer extends SerializedEntity {
     // int health
     // int lives
     
-    public SerializedPlayer(String uniqueID, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, HashMap<ItemType, Integer> items) {
-        super(uniqueID, animPath, animState, face, position, false);
+    public SerializedPlayer(String uniqueID, int animSpeed, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, HashMap<ItemType, Integer> items) {
+        super(uniqueID, animSpeed, animPath, animState, face, position, false);
         this.items = items;
     }
     

@@ -52,7 +52,7 @@ public abstract class Entity {
     public abstract void update(long elapsedTime);
     
     public SerializedObject serialize() {
-        return new SerializedEntity(uuid, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled());
+        return new SerializedEntity(uuid, 175, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled());
     }
     
     public boolean isEnabled() {

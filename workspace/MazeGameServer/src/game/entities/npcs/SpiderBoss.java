@@ -25,7 +25,7 @@ import game.environment.Room;
 public class SpiderBoss extends Hostile {
     private static final int MAX_HEALTH = 400;
     private static final int COLLISION_DAMAGE = 20;
-    private static final int AGGRO_RANGE = 128;
+    private static final int ATTACK_RANGE = 128;
     private static final long MAX_ACTION_TIME = 250;
     private static final long ATTACK_INTERVAL = 1000;
     private static final long MAX_ATTACK_INTERVAL = 1500;
@@ -38,7 +38,7 @@ public class SpiderBoss extends Hostile {
         super(AnimationPath.SPIDER_BOSS, rb, room, Face.DOWN);
         health = MAX_HEALTH;
         damage = COLLISION_DAMAGE;
-        range = AGGRO_RANGE;
+        attackRange = ATTACK_RANGE;
     }
     
     /**
@@ -59,7 +59,9 @@ public class SpiderBoss extends Hostile {
     @Override
     public void update(long elapsedTime) {
         if(dead) {
-            disable();
+            //disable();
+            animState = AnimationState.CORPSE;
+            facing = Face.NONE;
         } else {
             determineActions(elapsedTime);   
         }
@@ -76,7 +78,7 @@ public class SpiderBoss extends Hostile {
             }
         } else if(animState.equals(AnimationState.RUN)) {
             moveTime += elapsedTime;
-            // been moving for too long, so attempt o go idle
+            // been moving for too long, so attempt to go idle
             if(moveTime >= MAX_ACTION_TIME) {
                 if(Math.random() > 0.5f) {
                     animState = AnimationState.IDLE;

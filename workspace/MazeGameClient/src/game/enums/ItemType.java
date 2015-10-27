@@ -11,7 +11,7 @@ public enum ItemType {
     CKEY(-1),
     LIFE(-1),
     BOOSTER(-1),
-    A_BOMB(-1);
+    ACTIVE_BOMB(-1);
 
     private final int index;
     
@@ -32,10 +32,10 @@ public enum ItemType {
     }
     
     public static ItemType randomItem() {
-        ItemType item;
+        ItemType item = null;
         do {
             item = VALUES[RANDOM.nextInt(SIZE)];
-        } while(item.equals(A_BOMB));
+        } while(item == ACTIVE_BOMB);
         return item;
     }
     

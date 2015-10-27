@@ -6,8 +6,10 @@ public enum AnimationState {
     ATTACK("attack/"),
     RUN("run/"),
     ATTACKRUN("attackrun/"),
-    DEAD("dead/");
+    CORPSE("corpse/"),
+    DEATH("death/");
     
+    // TODO: Add a boolean that allows for this to know whether it is to play once or to loop
     private final String path;
     
     private AnimationState(String path) {

@@ -6,7 +6,8 @@ public enum AnimationState {
     ATTACK("attack/"),
     RUN("run/"),
     ATTACKRUN("attackrun/"),
-    DEAD("dead/");
+    CORPSE("corpse/"),
+    DEATH("death/");
     
     private final String path;
     

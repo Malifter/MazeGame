@@ -70,10 +70,12 @@ public class MazeGameServer {
         // Update and serialize the world
         level.update(elapsedTime);
         level.applyCollisions();
-        level.serialize();
-        // game state
-        for(int playerID = 0; playerID < numPlayers; playerID++) {
-            updates.get(playerID).add(SerializeFactory.serialize(MazeGameServer.states.get(playerID)));
+        if(updates.size() > 0) {
+            level.serialize();
+            // game state
+            for(int playerID = 0; playerID < numPlayers; playerID++) {
+                updates.get(playerID).add(SerializeFactory.serialize(MazeGameServer.states.get(playerID)));
+            }
         }
         
         /*if((GameEngine.getTime()-timeBGM) > 38000) {

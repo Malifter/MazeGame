@@ -3,8 +3,8 @@ package game.entities;
 import engine.Vector2i;
 import engine.Vector2f;
 import engine.physics.RigidBody;
+import game.entities.effects.Effect;
 import game.entities.environment.*;
-import game.entities.items.ABomb;
 import game.entities.items.Bomb;
 import game.entities.items.CellKey;
 import game.entities.items.DisguiseTool;
@@ -127,24 +127,50 @@ public class EntityFactory {
             case CHEST:
                 rb = new RigidBody(location, 12, 12);
                 obstacle = new Chest(rb, room);
+                break;
+            case ACTIVE_BOMB:
+                rb = new RigidBody(location, 10, 10);
+                obstacle = new ActiveBomb(rb, room, null);
+                break;
+            case CORPSE:
+                rb = new RigidBody(location, 8, 6);
+                obstacle = new Corpse(AnimationPath.CORPSE, rb);
+                break;
         }
         return obstacle;
     }
     
-    public static Projectile createProjectile(Vector2f location, Vector2f target, Face face, Hostile hostile, ProjectileType type) {
+    public static Obstacle createCorpse(Hostile source) {
+        if(source instanceof SpiderBoss) {
+            return new Corpse(source.getAnimationPath(), new RigidBody(source.getRigidBody()));
+        } else {
+            return new Corpse(source.getAnimationPath(), new RigidBody(source.getRigidBody(), 8, 6));
+        }
+    }
+    
+    public static Obstacle createBomb(Hostile source, Room room) {
+        return new ActiveBomb(new RigidBody(source.getRigidBody(), 10, 10), room, source);
+    }
+    
+    public static Obstacle createBomb(Vector2f location, Room room) {
+        return new ActiveBomb(new RigidBody(location, 10, 10), room, null);
+    }
+    
+    public static Projectile createProjectile(Vector2f location, Vector2f target, Face face, Hostile source, ProjectileType type) {
         Projectile projectile = null;
         RigidBody rb = null;
         Vector2f newLocation = new Vector2f(location);
         switch(type) {
             case STRAIGHT:
+                //newLocation.y -= 1;
                 newLocation.y += 2;
                 rb = new RigidBody(newLocation, 6, 6);
-                projectile = new Straight(rb, face, hostile);
+                projectile = new Straight(rb, face, source);
                 break;
             case DIAGONAL:
                 newLocation.y += 2;
                 rb = new RigidBody(newLocation, 6, 6);
-                projectile = new Diagonal(rb, face, hostile);
+                projectile = new Diagonal(rb, face, source);
                 break;
             case ARC:
                 break;
@@ -182,8 +208,8 @@ public class EntityFactory {
             case SHIELD:
                 item = new Shield(rb);
                 break;
-            case A_BOMB:
-                item = new ABomb(rb);
+            case ACTIVE_BOMB:
+                System.out.println("THIS SHOULD NEVER BE CALLED - ITEM CREATION IN ENTITY FACTORY");
                 break;
         }
         return item;
@@ -217,9 +243,14 @@ public class EntityFactory {
         return entry;
     }
     
-    public static Explosion createExplosion(Vector2f location) {
-        RigidBody rb = new RigidBody(location, TILESIZE*2, TILESIZE*2);
-        return new Explosion(rb);
+    public static Explosion createExplosion(Entity source, Hostile owner) {
+        RigidBody rb = new RigidBody(source.getRigidBody().getLocation(), TILESIZE*2, TILESIZE*2);
+        return new Explosion(rb, owner);
+    }
+    
+    public static Effect createEffect(EffectType type, Entity source) {
+        RigidBody rb = new RigidBody(source.getRigidBody().getLocation(), 0, 0);
+        return new Effect(type, rb);
     }
     
     public static Tile createTile(Vector2f location) {

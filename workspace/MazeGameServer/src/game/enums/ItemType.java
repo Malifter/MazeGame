@@ -11,7 +11,7 @@ public enum ItemType {
     CKEY(-1),
     LIFE(-1),
     BOOSTER(-1),
-    A_BOMB(-1);
+    ACTIVE_BOMB(-1);
 
     private final int index;
     
@@ -32,10 +32,17 @@ public enum ItemType {
     }
     
     public static ItemType randomItem() {
-        ItemType item;
+        ItemType item = null;
         do {
+            // TODO: Check probabilities here, a cell key can only be used on a cell
+            // therefore we probably only want one to spawn per person and only have
+            // a chance of spawning if a person who doesn't already have a key is in the room
+            // maybe you can't even pick up a second one if you already have one. This will
+            // help reduce the number of gold keys which are spawned. The silver keys are used
+            // for the doors and chests. So basically they should spawn more abudnantly since
+            // they will be used a lot more often.
             item = VALUES[RANDOM.nextInt(SIZE)];
-        } while(item.equals(A_BOMB));
+        } while(item == ACTIVE_BOMB);
         return item;
     }
     

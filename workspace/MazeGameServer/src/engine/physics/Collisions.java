@@ -18,7 +18,7 @@ import game.entities.Entity;
 import game.entities.environment.Tile;
 
 public class Collisions {
-    private static enum Position { NONE, RIGHT, LEFT, ABOVE, BELOW, AboveRIGHT, AboveLEFT, BelowRIGHT, BelowLEFT};
+    private static enum Position {NONE, RIGHT, LEFT, ABOVE, BELOW, AboveRIGHT, AboveLEFT, BelowRIGHT, BelowLEFT};
     private Collisions(){}
     
     /**
@@ -42,10 +42,12 @@ public class Collisions {
         applySinglePenetrationCorrection(to.getRigidBody(), calculatePenetration(to.getRigidBody(), from.getRigidBody()));
     }
     
-    public static void detectAndApplySingleCorrection(Entity to, Entity from) {
+    public static boolean detectAndApplySingleCorrection(Entity to, Entity from) {
         if(detectCollision(to, from)){
             applySinglePenetrationCorrection(to.getRigidBody(), calculatePenetration(to.getRigidBody(), from.getRigidBody()));
+            return true;
         }
+        return false;
     }
     
     public static void applyEqualCorrection(Entity obj1, Entity obj2) {
@@ -58,7 +60,7 @@ public class Collisions {
         applySinglePenetrationCorrection(obj2.getRigidBody(), penAdjust);
     }
     
-    public static void detectAndApplyEqualCorrection(Entity obj1, Entity obj2) {
+    public static boolean detectAndApplyEqualCorrection(Entity obj1, Entity obj2) {
         if(detectCollision(obj1, obj2)) {
             PenetrationData<Position> penAdjust = calculatePenetration(obj1.getRigidBody(), obj2.getRigidBody());
             penAdjust.setPenX(penAdjust.getPenX()/2.0f);
@@ -67,7 +69,9 @@ public class Collisions {
             penAdjust.setPenX(-penAdjust.getPenX());
             penAdjust.setPenY(-penAdjust.getPenY());
             applySinglePenetrationCorrection(obj2.getRigidBody(), penAdjust);
+            return true;
         }
+        return false;
     }
     
     public static void applySingleRadialCorrection(Entity to, Entity from) {
@@ -77,13 +81,15 @@ public class Collisions {
         to.getRigidBody().move(direction.x, direction.y);
     }
     
-    public static void detectAndApplySingleRadialCorrection(Entity to, Entity from) {
+    public static boolean detectAndApplySingleRadialCorrection(Entity to, Entity from) {
         if(detectCollisionSphere(to.getRigidBody(), from.getRigidBody())) {
             Vector2f direction = to.getRigidBody().getMid().sub(from.getRigidBody().getMid());
             direction.x = direction.x > 0.0f ? 1.0f : direction.x < 0.0f ? -1.0f : 0.0f;
             direction.y = direction.y > 0.0f ? 1.0f : direction.y < 0.0f ? -1.0f : 0.0f;
             to.getRigidBody().move(direction.x, direction.y);
+            return true;
         }
+        return false;
     }
     
     public static void applyEqualRadialCorrection(Entity obj1, Entity obj2) {
@@ -95,7 +101,7 @@ public class Collisions {
         obj2.getRigidBody().move(-direction.x, -direction.y);
     }
     
-    public static void detectAndApplyEqualRadialCorrection(Entity obj1, Entity obj2) {
+    public static boolean detectAndApplyEqualRadialCorrection(Entity obj1, Entity obj2) {
         if(detectCollisionSphere(obj1.getRigidBody(), obj2.getRigidBody())) {
             Vector2f direction = obj1.getRigidBody().getMid().sub(obj2.getRigidBody().getMid());
             direction.x = direction.x > 0.0f ? 1.0f : direction.x < 0.0f ? -1.0f : 0.0f;
@@ -103,7 +109,9 @@ public class Collisions {
             direction = direction.div(2.0f);
             obj1.getRigidBody().move(direction.x, direction.y);
             obj2.getRigidBody().move(-direction.x, -direction.y);
+            return true;
         }
+        return false;
     }
     
     /**

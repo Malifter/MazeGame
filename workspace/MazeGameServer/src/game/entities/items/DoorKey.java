@@ -18,4 +18,6 @@ public class DoorKey extends NotConsumable {
     public void use(Player p) {
         // do nothing
     }
+    // TODO: Door key not working. Also add a pickup after spawn delay of 1 second on items
+    // and a open after spawn delay for chests of 1 second
 }

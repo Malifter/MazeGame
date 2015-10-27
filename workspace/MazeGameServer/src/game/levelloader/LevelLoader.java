@@ -574,10 +574,12 @@ public class LevelLoader {
                             room.addEnemy(EntityFactory.createEnemy(Face.randomFace(), location.add(OFFSET), room, enemyType2));
                         } else if(parts[1].contains("itemspawn")) {
                             double rand = Math.random();
-                            if(rand <= 0.2) {
+                            if(rand <= 0.50) {
                                 room.addItem(EntityFactory.createItem(location.add(OFFSET), ItemType.randomItem()));
-                            }else if(rand<=0.4){
+                            } else if(rand <= 0.6) {
                                 room.addObstacle(EntityFactory.createObstacle(location.add(OFFSET), ObstacleType.CHEST, room));
+                            } else if(rand <= 0.66) {
+                                room.addObstacle(EntityFactory.createObstacle(location.add(OFFSET), ObstacleType.ACTIVE_BOMB, room));
                             }
                           
                         } else if(parts[1].contains("bossspawn")) {
