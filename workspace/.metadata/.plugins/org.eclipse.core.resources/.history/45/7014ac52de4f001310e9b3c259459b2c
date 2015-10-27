@@ -1,9 +1,0 @@
-package game;
-
-public class HealthBooster {
-    
-    public HealthBooster() {
-        // TODO Auto-generated constructor stub
-    }
-    
-}

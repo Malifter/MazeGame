@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename type &apos;engine.Position&apos; to &apos;Vertex2&apos;&#x0D;&#x0A;- Original project: &apos;MazeGameClient&apos;&#x0D;&#x0A;- Original element: &apos;engine.Position&apos;&#x0D;&#x0A;- Renamed element: &apos;engine.Vertex2&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Rename similarly named elements&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Position&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;engine{Position.java[Position" matchStrategy="1" name="Vertex2" qualified="false" references="true" similarDeclarations="true" stamp="1384220677842" textual="false" version="1.0"/>
-</session>

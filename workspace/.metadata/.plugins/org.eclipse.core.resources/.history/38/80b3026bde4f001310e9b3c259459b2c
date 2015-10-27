@@ -1,9 +1,0 @@
-package game;
-
-public class DisguiseTool {
-    
-    public DisguiseTool() {
-        // TODO Auto-generated constructor stub
-    }
-    
-}
