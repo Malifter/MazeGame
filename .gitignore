@@ -231,3 +231,5 @@ workspace/.metadata/.plugins/org.eclipse.search/dialog_settings.xml
 workspace/.metadata/.plugins/org.eclipse.ui.workbench.texteditor/dialog_settings.xml
 workspace/.metadata/.plugins/org.eclipse.epp.usagedata.recording/usagedata.csv
 workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/2.png
+
+*.prefs
