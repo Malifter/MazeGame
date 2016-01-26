@@ -12,6 +12,7 @@ package game;
 
 import org.lwjgl.opengl.GL11;
 
+import engine.render.JLWGLDisplay;
 import engine.serializable.SerializedEntity;
 
 /**
@@ -73,7 +74,7 @@ public class Camera {
                 }*/
                 posY = focus.getPosition().y+offsetY;//((float)(focus.getPosition().getY()/screenHeight)*screenHeight)+(TILESIZE/2.0f);//+offsetY;
             }
-            GL11.glLoadIdentity();
+            //GL11.glLoadIdentity();
             GL11.glScaled(4.2666666666666666666666666666667, 4.2666666666666666666666666666667, 0);
             GL11.glTranslatef(-posX, -posY, 0);
             // x = TILESIZE = move left
@@ -83,8 +84,19 @@ public class Camera {
             // z = TILESIZE ??
         }
         else {
-            posY = 0;
-            posX = 0;
+            if(focus != null) {
+                posX = focus.getPosition().x+offsetX;
+                /*if(posX <= 0) {
+                    posX = 0;
+                } else if (posX >= levelWidth) {
+                    posX = levelWidth;
+                }*/
+                posY = focus.getPosition().y+offsetY;//((float)(focus.getPosition().getY()/screenHeight)*screenHeight)+(TILESIZE/2.0f);//+offsetY;
+            }
+            //posY = 0;
+            //posX = 0;
+            GL11.glTranslatef(-posX, -posY, 0);
+            GL11.glTranslatef((JLWGLDisplay.theWidth - Width)/2f, (JLWGLDisplay.theHeight - Height)/2f, 0);
         }
         //gluLookAt(posX,posY,.1f,posX,posY,-.7f,upX,upY,0f);
     }

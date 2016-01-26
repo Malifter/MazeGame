@@ -1,6 +1,7 @@
 package engine.render;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +20,16 @@ import game.enums.GameState;
 public class Animator {
     private static final String GIF = ".gif";
     private static final long DEFAULT_ANIMATION_SPEED = 175;
+    private static final FilenameFilter fileFilter = new FilenameFilter() {
+        public boolean accept(File dir, String name) {
+            String lowercaseName = name.toLowerCase();
+            if (lowercaseName.endsWith(".db")) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    };
     private static Map<String, AnimationInfo> animations = new HashMap<String, AnimationInfo>();
     
     private Animator() {}
@@ -137,7 +148,7 @@ public class Animator {
             frame = 0;
             time = 0l;
             delete = entity.needsDelete();
-            maxFrame = new File("assets/" + filePath + state.getPath() + face.getPath()).list().length;
+            maxFrame = new File("assets/" + filePath + state.getPath() + face.getPath()).list(fileFilter).length;
             if(state == AnimationState.DEATH) {
                 completeOnce = true;
             }
@@ -151,7 +162,7 @@ public class Animator {
                 frame = 0;
                 time = 0l;
                 delete = entity.needsDelete();
-                maxFrame = new File("assets/" + filePath + state.getPath() + face.getPath()).list().length;
+                maxFrame = new File("assets/" + filePath + state.getPath() + face.getPath()).list(fileFilter).length;
                 if(state == AnimationState.DEATH) {
                     completeOnce = true;
                 }

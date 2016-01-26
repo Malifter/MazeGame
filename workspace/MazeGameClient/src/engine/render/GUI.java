@@ -1,99 +1,165 @@
 package engine.render;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
+import java.awt.Font;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.util.ResourceLoader;
 
+import engine.serializable.SerializedPlayer;
 import game.Game;
+import game.enums.ItemType;
 
 public class GUI {
-    // Variables
-    // Map of items
-    // health
-    // lives
+    private static final Sprite background = Game.getDisplay().getSprite("UI/background.jpg");
+    private static final Sprite avatar = Game.getDisplay().getSprite("animations/npcs/player/idle/down/0.gif");
+    private final static int WIDTH = 1024;
+    private final static int HEIGHT = 154;
+    private static TrueTypeFont font = initFont();
+    private static Font awtFont;
+    private static final int background_X_OFFSET = background.getWidth()/2;
+    private static final int background_Y_OFFSET = background.getHeight()/2;
+    private static List<Integer> items; // map of items
+    private static int selectedItem = 0;
+    private static int health = -1;
+    private static int lives = -1;
+    static boolean once = false;
     
-    // all sprites necessary for rendering GUI
-    // list of sprites for all items
-    // render a black box (not sprite/image) on top portion... you do this via open gl calls..
-    // render health bar (not sprite/image)
+    private GUI() {};
     
+    private static TrueTypeFont initFont() {
+        // load font from file
+        try {
+            InputStream inputStream = ResourceLoader.getResourceAsStream("/assets/UI/upheavtt.ttf");
+ 
+            awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            awtFont = awtFont.deriveFont(24f); // set font size
+            return new TrueTypeFont(awtFont, true);
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     
-    
-    
-    // render order matters:
-    // black box
-    // all stuff on top
-    
-    //could render on top of the camera, openGL how to have overlayer interface
-    
-    private GUI() {
-        
-     /*   GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0, 800, 0, 600, 1, -1);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        
-        //while (!Display.isCloseRequested()) {
-            // Clear the screen and depth buffer
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);  
-     
-            // set the color black
-            GL11.glColor3f(0,0,0);*/
-     
-            
-     
-      
-}
-    
-    private static void drawInventory (float startx, float starty, float width,
+    private static void drawInventory(float startx, float starty, float width,
             float height) {
-        //Display.reset();
-       /* GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);  
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0, 800, 0, 600, 1, -1);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);*/
-       
-        GL11.glColor3f(1f,0f,0f);
-        GL11.glBegin(GL11.GL_QUADS);
-           
-            GL11.glVertex2f(startx, starty);
-            GL11.glVertex2f(startx + width, starty);
-            GL11.glVertex2f(startx + width, starty + height);
-            GL11.glVertex2f(startx, starty + height);
-        GL11.glEnd();
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);  
-        
+        //glPushMatrix();
+        //GL11.glTranslatef(1, 0, 0);
+        glColor3f(0f,0f,0f);
+        glBegin(GL_QUADS);
+            glVertex2f(startx, starty);
+            glVertex2f(startx + width, starty);
+            glVertex2f(startx + width, starty + height);
+            glVertex2f(startx, starty + height);
+        glEnd();
+        //glPopMatrix();
+    }
+    
+    public static void populate(SerializedPlayer sp) {
+        health = sp.getHealth();
+        lives = sp.getLives();
+        selectedItem = sp.getSelectedItem();
+        items = sp.getItems();
+    }
+    
+    private static void drawLives() {
+        // draw avatar
+        glPushMatrix();
+        glColor3f(1f,1f,1f);
+        glScalef(3, 3, 0);
+        avatar.draw(25, 35);
 
+        // draw number of lives (e.g., x2)
+        //Color.white.bind();
+        //TODO: Cannot use slick util for drawing text without using the slick util Texture loader / texture files etc
+        // Will need to download slick util (latest) and use that with the LWJGL 2.9.2.
+        // Another option is to use LWJGL 3 and not use slick util. This would require some rewriting of code in order
+        // to render/support using the new system.
+        // could also check out JBox2D to completely replace the physics I implemented with real physics.
+        font.drawString(35, 25, "x"+lives, Color.white);
+        glPopMatrix();
     }
     
-    public static void init() {
-        // init all sprites and stuff here
-        // new sprites = Game.getDisplay().getSprite(/*image path*/);
-    }
-    
-    public static void populate(/*player specific arguments here*/) {
-        // items, health, lives
-        // populate variables with data (mostly quantity)
-        // quantities will be rendered via openGL (not images) // look this up
+    private static void drawHealthBar() {
+        // Draw health
+        // background
+        glColor4f(0f,0f,0f,0.8f);
+        glBegin(GL_QUADS);
+            glVertex2f(40, 20);
+            glVertex2f(244, 20);
+            glVertex2f(244, 60);
+            glVertex2f(40, 60);
+        glEnd();
+        
+        // border
+        glColor4f(0.2f,0.2f,0.2f,0.8f);
+        glLineWidth(4);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glBegin(GL_QUADS);
+            glVertex2f(40, 20);
+            glVertex2f(244, 20);
+            glVertex2f(244, 60);
+            glVertex2f(40, 60);
+        glEnd();
+        
+        // health
+        glColor3f(1f,0.0f,0.0f);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glBegin(GL_QUADS);
+            glVertex2f(42, 22);
+            glVertex2f((health*2)+42, 22);
+            glVertex2f((health*2)+42, 58);
+            glVertex2f(42, 58);
+        glEnd();
     }
     
     public static void draw() {
-        // will call draw function for each sprite
-        //sprite.draw(position x, position y);
-        drawInventory(0, 0, 100, 100);
+        // Draw background
+        glColor3f(1f,0.8f,0.4f);
+        background.draw(background_X_OFFSET, background_Y_OFFSET);
+        
+        glDisable(GL_TEXTURE_2D);
+        
+        // Draw border
+        glColor3f(0.3f,0.1f,0.0f);
+        glLineWidth(10);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glBegin(GL_QUADS);
+            glVertex2f(3, 4);
+            glVertex2f(WIDTH-2, 4);
+            glVertex2f(WIDTH-2, HEIGHT-3);
+            glVertex2f(3, HEIGHT-3);
+        glEnd();
+        
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        
+        // Draw slightly opaque overlay
+        glColor4f(0.9f,0.7f,0.3f,0.8f);
+        glBegin(GL_QUADS);
+            glVertex2f(0, 0);
+            glVertex2f(WIDTH, 0);
+            glVertex2f(WIDTH, HEIGHT);
+            glVertex2f(0, HEIGHT);
+        glEnd();
+        
+        // Draw healthbar
+        drawHealthBar();
+        
+        glEnable(GL_TEXTURE_2D);
+        // Draw lives
+        drawLives();
+        
+        // draw sprites on top of it
+        //drawInventory(0, 0, 1024, 154);
+        
+        glColor3f(1f,1f,1f);
+        //glEnable(GL_TEXTURE_2D);
     }
-    
-    
-    
-    
-    
 }

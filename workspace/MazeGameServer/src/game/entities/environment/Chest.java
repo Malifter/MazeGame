@@ -68,6 +68,8 @@ public class Chest extends Obstacle {
         if(!locked) {
             for(ItemType item : items) {
                 if(item == ItemType.ACTIVE_BOMB) {
+                    // TODO: THIs is the concurrent modification issue. The fact is that the chest dropped an active bomb
+                    // which is considered an obsacle and therefore we added an obstacle while iterating over the obstacle array
                     room.addObstacle(EntityFactory.createObstacle(rBody.getLocation(), ObstacleType.ACTIVE_BOMB, room));
                 } else {
                     room.addItem(EntityFactory.createItem(rBody.getLocation(), item));

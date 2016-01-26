@@ -28,8 +28,8 @@ import game.enums.Face;
  */
 public class JLWGLDisplay implements IDisplay {
     private String theWindowTitle = "";
-    private int theWidth = 800;
-    private int theHeight = 600;
+    public static int theWidth = 800;
+    public static int theHeight = 600;
     private TextureLoader theTextureLoader = new TextureLoader();
     
     public JLWGLDisplay(String aWindowTitle, int aWidth, int aHeight) {

@@ -236,6 +236,8 @@ public class Interior extends Room {
                     for(Obstacle obstacle: obstacles) {
                         // TODO: SOLVE THIS ISSUE OF CONCURRENCY MODIFICATION... NOT SURE WHAT IS CAUSING IT
                         // THE PLAYER PUSHED THE OBSTACLE INTO A ROCK
+                        // TODO: For at least the chest, the error is having the obstacle array update (aka chest dropitems())
+                        // while iterating over the array
                         if(obstacle.getRigidBody().isEnabled() &&
                                 (obstacle.isDangerous() || obstacle.isBlocking() || obstacle.isMoveable()) &&
                                 Collisions.detectCollision(player, obstacle)) {

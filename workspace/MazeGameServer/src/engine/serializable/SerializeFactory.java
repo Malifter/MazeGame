@@ -1,5 +1,8 @@
 package engine.serializable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import engine.Vector2f;
 import game.entities.Entity;
 import game.entities.effects.Effect;
@@ -16,7 +19,8 @@ public class SerializeFactory {
     
     public static SerializedPlayer serialize(Player player) {
         return new SerializedPlayer(player.getUUID(), 175, player.getAnimationPath(), player.getAnimationState(), 
-                player.getFaceDirection(), new Vector2f(player.getRigidBody().getLocation()), null);
+                player.getFaceDirection(), new Vector2f(player.getRigidBody().getLocation()),
+                new ArrayList<Integer>(player.getInventory().getItems().values()), player.getInventory().getSelectedIndex(), player.getHealth(), player.getLives());
     }
     
     public static SerializedSound serialize(Sound sound) {

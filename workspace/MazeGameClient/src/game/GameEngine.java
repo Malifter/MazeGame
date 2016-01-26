@@ -15,12 +15,15 @@ import net.java.games.input.*;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
 import engine.inputhandler.Axis;
 import engine.inputhandler.Button;
 import engine.inputhandler.Input;
 import engine.inputhandler.PhysicalInput;
 import engine.render.Animator;
 import engine.render.Animator.AnimationInfo;
+import engine.render.GUI;
 import engine.render.IDisplay;
 import engine.render.Sprite;
 import engine.serializable.SerializedEffect;
@@ -301,15 +304,20 @@ public class GameEngine {
                 // Update the world
                 updatedObjects = checkForServerUpdates();
             }
-            Game.update(elapsedTime, updatedObjects);
+            GL11.glPushMatrix();
+            Game.update(elapsedTime, updatedObjects); // TODO: FIX CAM TO STOP RENDERING HERE
 
             // render the graphics
             Animator.update(elapsedTime, updatedObjects);
+            
             render();
+            GL11.glPopMatrix();
             // draw GUI here or add last to render function
+            GUI.draw();
             
             // update window contents
             display.update();
+            display.sync(FPS);
             if (Game.isDone()) {
                 playingGame = false;
             }
@@ -424,7 +432,6 @@ public class GameEngine {
      * render: Syncs the display to FPS
      */
     public static void render() {
-        display.sync(FPS);
         drawEntities();
         if(Animator.getSize() > 0 && Game.state.equals(GameState.PLAYING)) {
             HashMap<AnimationInfo, Float> renderMap = new HashMap<AnimationInfo, Float>();
@@ -466,6 +473,7 @@ public class GameEngine {
                 } else if(so instanceof SerializedPlayer) {
                     SerializedPlayer s = (SerializedPlayer) so;
                     renderMap.put(entry.getValue(), s.getPosition().y);
+                    GUI.populate(s);
                 } else if(so instanceof SerializedEntity) {
                     SerializedEntity s = (SerializedEntity) so;
                     renderMap.put(entry.getValue(), s.getPosition().y);

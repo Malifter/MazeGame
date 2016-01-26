@@ -1,5 +1,7 @@
 package game;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import engine.physics.Collisions;
 import game.entities.EntityFactory;
@@ -11,7 +13,7 @@ import game.environment.Room;
 
 public class Inventory {
     //private final ItemType[] items = {ItemType.BOMB, ItemType.CKEY, ItemType.DKEY, ItemType.GOLD, ItemType.SHIELD, ItemType.TOOL};
-    private final HashMap<ItemType, Integer> items = new HashMap<ItemType, Integer>();
+    private final Map<ItemType, Integer> items = new LinkedHashMap<ItemType, Integer>();
     private int selectedIndex = 0;
     private ItemType selectedItem = ItemType.getByIndex(selectedIndex);
     
@@ -34,7 +36,11 @@ public class Inventory {
         items.put(item, items.get(item)-1);
     }
     
-    public HashMap<ItemType, Integer> getItem(){
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+    
+    public Map<ItemType, Integer> getItems(){
         return items;
     }
 

@@ -26,7 +26,7 @@ import game.entities.EntityFactory;
  * Player:
  */
 public class Player extends Hostile {
-    private static final int MAX_HEALTH = Integer.MAX_VALUE;//100;
+    private static final int MAX_HEALTH = 100;//100;
     private static final int BLASTER_DAMAGE = 20;
     private static final int ATTACK_RANGE = 168;
     private static final float SPEED = 0.8f;
