@@ -18,12 +18,12 @@ public class Inventory {
     private ItemType selectedItem = ItemType.getByIndex(selectedIndex);
     
     public Inventory(){
-        items.put(ItemType.BOMB, 0);
+        items.put(ItemType.BOMB, 3);
         items.put(ItemType.CKEY, 0);
-        items.put(ItemType.DKEY, 1);
-        items.put(ItemType.GOLD, 0);
+        items.put(ItemType.DKEY, 3);
+        items.put(ItemType.GOLD, 3);
         items.put(ItemType.SHIELD, 0);
-        items.put(ItemType.TOOL, 0);
+        items.put(ItemType.TOOL, 1);
     }
     
     public void addItem(ItemType item){

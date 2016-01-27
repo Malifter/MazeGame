@@ -25,8 +25,10 @@ import game.environment.Room;
 public class Chaser extends Hostile {
     private static final int MAX_HEALTH = 100;
     private static final int COLLISION_DAMAGE = 20;
-    private static final int AGGRO_RANGE = 65;
-    private static final float SPEED = 0.5f;
+    private static final int AGGRO_RANGE = 55;//65
+    private static final int MAX_OUT_OF_RANGE_TIME = 2000;
+    private static final float SPEED = 0.4f;
+    private int outOfRangeTime = 0;
     private Player target = null;
     
     public Chaser(RigidBody rb, Room room, Face face) {
@@ -53,6 +55,7 @@ public class Chaser extends Hostile {
         if(target == null && source instanceof Player) {
             target = (Player) source;
         }
+        outOfRangeTime = 0;
     }
     
     // TODO: Make it so that the chaser can aggro a player who shoots them from out of range.
@@ -60,6 +63,7 @@ public class Chaser extends Hostile {
         // find closest player
         if(target != null && target.getRoom() != room) {
             target = null;
+            outOfRangeTime = 0;
         }
         if(target == null) {
             float minDist = Float.MAX_VALUE;
@@ -67,14 +71,22 @@ public class Chaser extends Hostile {
                 float dist = Collisions.findDistance(p.getRigidBody(), rBody);
                 if(dist < minDist) {
                     minDist = dist;
-                    target = p;
+                    if(minDist <= AGGRO_RANGE) {
+                        target = p;
+                        outOfRangeTime = 0;
+                    }
                 }
             }
         }
         if(target == null) return;
         
         // chase if target found
-        if(Collisions.findDistance(rBody, target.getRigidBody()) <= AGGRO_RANGE) {
+        if(outOfRangeTime < MAX_OUT_OF_RANGE_TIME) {
+            if(Collisions.findDistance(target.getRigidBody(), rBody) <= AGGRO_RANGE) {
+                outOfRangeTime = 0;
+            } else {
+                outOfRangeTime += elapsedTime;
+            }
             // find facing direction
             Vector2f direction = target.getRigidBody().getLocation().sub(rBody.getLocation());
             if(Math.abs(direction.y) > Math.abs(direction.x)) {
@@ -96,6 +108,8 @@ public class Chaser extends Hostile {
             rBody.move(elapsedTime);
             animState = AnimationState.RUN;
         } else {
+            target = null;
+            outOfRangeTime = 0;
             animState = AnimationState.IDLE;
         }
     }

@@ -62,6 +62,7 @@ public abstract class Hostile extends NPC {
         // TODO: Currently most things don't care about damage source, so this is for extension only.
         // Perhaps this needs to be changed so that we don't have to deal with passing in something
         // that isn't used. this is a bad implementation.
+        // TODO: Well this changes for at least the chasers who care about the source to attack from further away
         setHealth(health-d);
     }
     

@@ -24,6 +24,7 @@ import game.entities.npcs.Player;
 import game.entities.npcs.Spider;
 import game.entities.npcs.SpiderBoss;
 import game.entities.projectiles.Diagonal;
+import game.entities.projectiles.Directed;
 import game.entities.projectiles.Projectile;
 import game.entities.projectiles.Straight;
 import game.enums.*;
@@ -35,9 +36,12 @@ public class EntityFactory {
     private static final int TILESIZE = LevelLoader.TILESIZE;
     
     public static Player createPlayer(Face direction, Vector2f location, int playerID, Room room) {
-        RigidBody rb = new RigidBody(location, 12, 30);
-        RigidBody.useLowerBoundingBox(rb, 1.0f/2.0f);
-        rb.setOffset(rb.getOffset().x, rb.getOffset().y - 4);
+        //RigidBody rb = new RigidBody(location, 12, 30);
+        //RigidBody.useLowerBoundingBox(rb, 1.0f/3.0f);
+        //rb.setOffset(rb.getOffset().x, rb.getOffset().y - 4);
+        // TODO: Optimize the way we set partial bounding boxes (aka that don't encompass the entire image)
+        RigidBody rb = new RigidBody(location, 10, 12); // XXX: make the bouding box much smaller to make it easier to dodge and avoid spikes
+        rb.setOffset(rb.getOffset().x, rb.getOffset().y + 5);
         Player player = new Player(rb, playerID, room, Face.DOWN);
         return player;
     }
@@ -47,19 +51,23 @@ public class EntityFactory {
         RigidBody rb = null;
         switch(type) {
             case SPIDER_BOSS:
-                rb = new RigidBody(location, TILESIZE*2, TILESIZE*2);
+                rb = new RigidBody(location, 32, 26);
+               // rb.setOffset(rb.getOffset().x, rb.getOffset().y);
                 enemy = new SpiderBoss(rb, room, Face.DOWN);
                 break;
             case FLYBAG:
-                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                rb = new RigidBody(location, 10, 8);
+                rb.setOffset(rb.getOffset().x, rb.getOffset().y + 2);
                 enemy = new FlyingBag(rb, room, Face.DOWN);
                 break;
             case SPIDER:
-                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                rb = new RigidBody(location, 10, 10);
+                rb.setOffset(rb.getOffset().x, rb.getOffset().y + 1);
                 enemy = new Spider(rb, room, Face.DOWN);
                 break;
             case CHASER:
-                rb = new RigidBody(location, TILESIZE, TILESIZE);
+                rb = new RigidBody(location, 10, 8);
+                rb.setOffset(rb.getOffset().x, rb.getOffset().y + 1);
                 enemy = new Chaser(rb, room, Face.DOWN);
                 break;
         }
@@ -71,7 +79,8 @@ public class EntityFactory {
         RigidBody rb = null;
         switch(type) {
             case HOSTAGE:
-                rb = new RigidBody(location, 14, 14);
+                rb = new RigidBody(location, 10, 8);
+                rb.setOffset(rb.getOffset().x, rb.getOffset().y + 4);
                 neutral = new Hostage(rb);
                 break;
             case GATEKEEPER:
@@ -96,7 +105,8 @@ public class EntityFactory {
                         direction = Face.UP;
                         break;
                 }
-                rb = new RigidBody(offset, 14, 14);
+                rb = new RigidBody(offset, 10, 8);
+                rb.setOffset(rb.getOffset().x, rb.getOffset().y + 2);
                 System.out.println(side + " " + direction);
                 neutral = new GateKeeper(rb, portal, direction);
                 break;
@@ -109,7 +119,7 @@ public class EntityFactory {
         RigidBody rb = null;
         switch(type) {
             case SPIKES:
-                rb = new RigidBody(location, 12, 12);
+                rb = new RigidBody(location, 8, 8); // was 12 12
                 obstacle = new Spikes(rb);
                 break;
             case PIT:
@@ -125,12 +135,12 @@ public class EntityFactory {
                 obstacle = new CellDoor(rb);
                 break;
             case CHEST:
-                rb = new RigidBody(location, 12, 12);
+                rb = new RigidBody(location, 10, 10); // was 12 12
                 obstacle = new Chest(rb, room);
                 break;
             case ACTIVE_BOMB:
-                rb = new RigidBody(location, 10, 10);
-                obstacle = new ActiveBomb(rb, room, null);
+                rb = new RigidBody(location, 6, 6);
+                obstacle = new ActiveBomb(rb, room, null); // was 10 10
                 break;
             case CORPSE:
                 rb = new RigidBody(location, 8, 6);
@@ -156,19 +166,16 @@ public class EntityFactory {
         return new ActiveBomb(new RigidBody(location, 10, 10), room, null);
     }
     
-    public static Projectile createProjectile(Vector2f location, Vector2f target, Face face, Hostile source, ProjectileType type) {
+    public static Projectile createProjectile(Vector2f location, Vector2f offset, Vector2f target, Face face, Hostile source, ProjectileType type) {
         Projectile projectile = null;
         RigidBody rb = null;
-        Vector2f newLocation = new Vector2f(location);
+        Vector2f newLocation = offset == null ? new Vector2f(location) : offset.add(location);
         switch(type) {
             case STRAIGHT:
-                //newLocation.y -= 1;
-                newLocation.y += 2;
                 rb = new RigidBody(newLocation, 6, 6);
                 projectile = new Straight(rb, face, source);
                 break;
             case DIAGONAL:
-                newLocation.y += 2;
                 rb = new RigidBody(newLocation, 6, 6);
                 projectile = new Diagonal(rb, face, source);
                 break;
@@ -176,13 +183,19 @@ public class EntityFactory {
                 break;
             case HOMING:
                 break;
+            case DIRECTED:
+                rb = new RigidBody(newLocation, 6, 6);
+                projectile = new Directed(rb, face, source);
+                break;
+            default:
+                break;
         }
         return projectile;
     }
     
     public static Item createItem(Vector2f location, ItemType type) {
         Item item = null;
-        RigidBody rb = new RigidBody(new Vector2f(location), 10, 10);
+        RigidBody rb = new RigidBody(new Vector2f(location), 6, 6); // was 10 10
         switch(type) {
             case BOMB:
                 item = new Bomb(rb);
@@ -218,6 +231,7 @@ public class EntityFactory {
     public static Entry createEntry(Vector2f location, Room room, Side side, EntryType type, Door linkedDoor) {
         Entry entry = null;
         RigidBody rb = null;
+        RigidBody zone = null;
         switch(type) {
             case DOOR:
                 Vector2i exit;
@@ -230,12 +244,14 @@ public class EntityFactory {
                 } else {
                     exit = new Vector2i(location.x.intValue(), location.y.intValue() - TILESIZE);
                 }
-                rb = new RigidBody(location, 24, 24);
-                entry = new Door(rb, exit, room, linkedDoor, side);
+                rb = new RigidBody(location, 16, 16);
+                zone = new RigidBody(location, 24, 24);
+                entry = new Door(rb, zone, exit, room, linkedDoor, side);
                 break;
             case PORTAL:
-                rb = new RigidBody(location, 24, 24);
-                entry = new Portal(rb, room, side);
+                rb = new RigidBody(location, 16, 16);
+                zone = new RigidBody(location, 24, 24);
+                entry = new Portal(rb, zone, room, side);
                 break;
             case NONE:
                 break;

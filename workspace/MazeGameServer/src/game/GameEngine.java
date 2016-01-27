@@ -26,6 +26,7 @@ import game.enums.Pressed;
  * IGame interface.
  */
 public class GameEngine {
+    public static final boolean DEBUG = false; // XXX: Disable when not needed, currently debugs bounding boxes
     public static boolean playingGame = true;
     private static long timerTicksPerSecond = Sys.getTimerResolution();
     private static long lastLoopTime = getTime();
@@ -72,7 +73,8 @@ public class GameEngine {
                 } catch (InterruptedException wait) {
                 }
                 elapsedTime = 16;
-            }
+             // XXX: Attempt to deal with lag spikes where enemies/the player would end up outside of room bounds.
+            } else if(elapsedTime > 32) elapsedTime = 32;
             lastLoopTime = getTime();
             
             // Copy over inputs from clients

@@ -53,14 +53,13 @@ public class Straight extends Projectile {
     }
     
     @Override
-    public void update(long time) {
-        rBody.move(time);
+    public void update(long elapsedTime) {
+        rBody.move(elapsedTime);
         
-        // if shot off the screen, remove
-        if(owner != null && Collisions.findDistance(rBody, owner.getRigidBody()) > MAX_RANGE) {
+        if(Collisions.findDistance(rBody, origin) > MAX_RANGE) {
             collide();
-        } else if(owner == null && Collisions.findDistance(rBody, origin) > MAX_RANGE) {
+        }/* else if(owner != null && Collisions.findDistance(rBody, owner.getRigidBody()) > MAX_RANGE) { // if shot off the screen, remove
             collide();
-        }
+        }*/
     }
 }

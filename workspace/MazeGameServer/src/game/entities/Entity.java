@@ -5,6 +5,7 @@ import engine.Vector2f;
 import engine.physics.RigidBody;
 import engine.serializable.SerializedEntity;
 import engine.serializable.SerializedObject;
+import game.GameEngine;
 import game.enums.AnimationPath;
 import game.enums.AnimationState;
 import game.enums.Face;
@@ -52,7 +53,10 @@ public abstract class Entity {
     public abstract void update(long elapsedTime);
     
     public SerializedObject serialize() {
-        return new SerializedEntity(uuid, 175, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled());
+        return new SerializedEntity(uuid, 175, animPath, animState, facing, new Vector2f(rBody.getLocation()),
+                GameEngine.DEBUG ? new Vector2f(rBody.getMin()) : null,
+                GameEngine.DEBUG ? new Vector2f(rBody.getMax()) : null,
+                !isEnabled());
     }
     
     public boolean isEnabled() {

@@ -32,8 +32,9 @@ public class SerializedPlayer extends SerializedEntity {
     // The client doesn't need to ever access Player or Entity or many of those implemented classes. It
     // just gets the info it needs to render them from the Serialized objects.
     public SerializedPlayer(String uniqueID, int animSpeed, AnimationPath animPath, AnimationState animState,
-            Face face, Vector2f position, List<Integer> itemCount, int selectedItem, int health, int lives) {
-        super(uniqueID, animSpeed, animPath, animState, face, position, false);
+            Face face, Vector2f position, Vector2f min, Vector2f max, List<Integer> itemCount, int selectedItem,
+            int health, int lives) {
+        super(uniqueID, animSpeed, animPath, animState, face, position, min, max, false);
         this.itemCount = itemCount;
         this.selectedItem = selectedItem;
         this.health = health;

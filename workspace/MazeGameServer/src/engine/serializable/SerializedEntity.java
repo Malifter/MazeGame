@@ -23,8 +23,11 @@ public class SerializedEntity extends SerializedObject {
     private boolean delete = false;
     private Vector2f position;
     private int animSpeed = -1;
+    private Vector2f bbMin;
+    private Vector2f bbMax;
 
-    public SerializedEntity(String uniqueID, int animSpeed, AnimationPath animPath, AnimationState animState, Face face, Vector2f position, boolean delete) {
+    public SerializedEntity(String uniqueID, int animSpeed, AnimationPath animPath, AnimationState animState, Face face,
+            Vector2f position, Vector2f min, Vector2f max, boolean delete) {
         super(uniqueID);
         this.animPath = animPath;
         this.animState = animState;
@@ -32,6 +35,8 @@ public class SerializedEntity extends SerializedObject {
         this.face = face;
         this.position = position;
         this.delete = delete;
+        bbMin = min;
+        bbMax = max;
     }
     
     public int getAnimSpeed() {
@@ -68,6 +73,14 @@ public class SerializedEntity extends SerializedObject {
 
     public Vector2f getPosition() {
         return position;
+    }
+    
+    public Vector2f getMin() {
+        return bbMin;
+    }
+    
+    public Vector2f getMax() {
+        return bbMax;
     }
     
     public void setPosition(Vector2f position) {

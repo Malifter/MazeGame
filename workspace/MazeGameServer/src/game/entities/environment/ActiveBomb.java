@@ -53,8 +53,10 @@ public class ActiveBomb extends Obstacle {
     }
 
     public void explode() {
-        room.addExplosion(EntityFactory.createExplosion(this, owner));
-        room.addEffect(EntityFactory.createEffect(EffectType.EXPLOSION, this));
+        room.addLater(EntityFactory.createExplosion(this, owner));
+        room.addLater(EntityFactory.createEffect(EffectType.EXPLOSION, this));
+        //room.addExplosion(EntityFactory.createExplosion(this, owner));
+        //room.addEffect(EntityFactory.createEffect(EffectType.EXPLOSION, this));
         disable();
     }
 }

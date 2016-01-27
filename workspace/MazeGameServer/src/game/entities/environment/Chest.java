@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * EnvironmentTile: Level background tile
  */
 public class Chest extends Obstacle {
-    // TODO: Add min interaction time after it opens
+    // TODO: Add min interaction time after it spawns and to items after they drop
     private boolean locked = true;
     private ArrayList<ItemType> items =  new ArrayList<ItemType>();
     private Interior room;
@@ -70,9 +70,12 @@ public class Chest extends Obstacle {
                 if(item == ItemType.ACTIVE_BOMB) {
                     // TODO: THIs is the concurrent modification issue. The fact is that the chest dropped an active bomb
                     // which is considered an obsacle and therefore we added an obstacle while iterating over the obstacle array
-                    room.addObstacle(EntityFactory.createObstacle(rBody.getLocation(), ObstacleType.ACTIVE_BOMB, room));
+                    // XXX: MAke sure this is resolved by the change
+                    room.addLater(EntityFactory.createObstacle(rBody.getLocation(), ObstacleType.ACTIVE_BOMB, room));
+                    //room.addObstacle(EntityFactory.createObstacle(rBody.getLocation(), ObstacleType.ACTIVE_BOMB, room));
                 } else {
-                    room.addItem(EntityFactory.createItem(rBody.getLocation(), item));
+                    room.addLater(EntityFactory.createItem(rBody.getLocation(), item));
+                    //room.addItem(EntityFactory.createItem(rBody.getLocation(), item));
                 }
             }
             return true;

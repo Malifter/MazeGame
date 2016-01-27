@@ -4,6 +4,7 @@ import engine.Vector2f;
 import engine.physics.RigidBody;
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedObstacle;
+import game.GameEngine;
 import game.entities.Entity;
 import game.entities.npcs.Hostile;
 import game.entities.npcs.Player;
@@ -87,6 +88,9 @@ public abstract class Obstacle extends Entity {
     
     @Override
     public SerializedObject serialize() {
-        return new SerializedObstacle(uuid, 175, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled(), moveable);
+        return new SerializedObstacle(uuid, 175, animPath, animState, facing, new Vector2f(rBody.getLocation()),
+                GameEngine.DEBUG ? new Vector2f(rBody.getMin()) : null,
+                GameEngine.DEBUG ? new Vector2f(rBody.getMax()) : null,
+                !isEnabled(), moveable);
     }
 }

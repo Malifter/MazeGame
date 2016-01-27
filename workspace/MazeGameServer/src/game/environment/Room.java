@@ -22,10 +22,13 @@ import game.entities.projectiles.Projectile;
 import game.enums.Sound;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedRoom;
 
-public class Room {
+public abstract class Room {
     protected ArrayList<Tile> foreground = new ArrayList<Tile>();
     protected ArrayList<Player> players = new ArrayList<Player>();
     protected ArrayList<Entry> entries = new ArrayList<Entry>();
@@ -34,24 +37,34 @@ public class Room {
     protected ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
     protected ArrayList<Explosion> explosions = new ArrayList<Explosion>();
     protected ArrayList<Effect> effects = new ArrayList<Effect>();
-    protected ArrayList<Sound> sounds = new ArrayList<Sound>();
-    protected int roomID = 0;   
+    protected Set<Sound> sounds = new HashSet<Sound>(); // Using a set of sounds so that we don't have duplicates that play at the exact same time
+    protected ArrayList<Entity> addLater = new ArrayList<Entity>();
+    protected int roomID = 0;
     public final int layout;
     
     public Room(int layout) {
         this.layout = layout;
     }
     
-    public void update(long elapsedTime) {}
+    public abstract void update(long elapsedTime);
     
-    public void applyCollisions() {}
+    public abstract void applyCollisions();
     
-    public void serialize() {}
+    public abstract void serialize();
     
     public void addToForeground(Tile tile) {
         foreground.add(tile);
     }
     
+    public void addLater(Entity entity) {
+        addLater.add(entity);
+    }
+    protected abstract void addPending();
+    
+    // TODO: Any of these adds if not protected can get a concurrency violation if they are in the middle of an update/physics pass
+    // and are modified from another thread. AKA adding a player while the player list is being updated.
+    // TODO: Most of these will face concurrency violations if stuff is added to the list because of something that happens in an update
+    // to the same list. An example would chests (obstacles) dropping active bombs (more obstacles) during the update.
     public void addPlayer(Player player) {
         player.setRoom(this);
         players.add(player);
@@ -117,7 +130,7 @@ public class Room {
         sounds.remove(sound);
     }
     
-    public ArrayList<Sound> getSounds() {
+    public Set<Sound> getSounds() {
         return sounds;
     }
     

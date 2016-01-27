@@ -26,13 +26,14 @@ import game.entities.EntityFactory;
  * Player:
  */
 public class Player extends Hostile {
-    private static final int MAX_HEALTH = 100;//100;
+    private static final int MAX_HEALTH = 200;//100;
     private static final int BLASTER_DAMAGE = 20;
     private static final int ATTACK_RANGE = 168;
     private static final float SPEED = 0.8f;
     //private static final int MAX_PROJECTILES = 5;
     private static final long MAX_INVUNERABLE_TIME = 1000;
     private static final long SHOOT_INTERVAL = 300;
+    private static final Vector2f SHOT_OFFSET = new Vector2f(0, 3.5f);
     private long shootTime = 0;
     private boolean shootPressed = false;
     private float speedRatio = 0.25f; // between 0 and 1
@@ -83,7 +84,15 @@ public class Player extends Hostile {
      */
     public void fire() {
         //GameEngine.playSound(game.sound_shot);
-        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, facing, this, ProjectileType.STRAIGHT));
+        switch(facing) {
+            case UP:
+                room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, null, facing, this, ProjectileType.DIRECTED));
+                break;
+            default:
+                room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), SHOT_OFFSET, null, facing, this, ProjectileType.DIRECTED));
+                break;
+        }
+        //room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, facing, this, ProjectileType.STRAIGHT));
     }
     
     @Override

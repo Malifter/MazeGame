@@ -35,8 +35,8 @@ public class Portal extends Entry {
      * @param x - the starting location x
      * @param y - the starting location y
      */
-    public Portal(RigidBody rb, Room room, Side side) {
-        super(AnimationPath.PORTAL, rb, room, side);
+    public Portal(RigidBody rb, RigidBody zone, Room room, Side side) {
+        super(AnimationPath.PORTAL, rb, zone, room, side);
         deactivate();
     }
     

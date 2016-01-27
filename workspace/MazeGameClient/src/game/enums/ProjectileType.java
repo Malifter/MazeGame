@@ -6,7 +6,8 @@ public enum ProjectileType {
     STRAIGHT,
     DIAGONAL,
     ARC,
-    HOMING;
+    HOMING,
+    DIRECTED;
     
     private static final ProjectileType[] VALUES = values();
     private static final int SIZE = VALUES.length;

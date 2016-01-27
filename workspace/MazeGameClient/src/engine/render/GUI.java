@@ -10,6 +10,7 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.util.ResourceLoader;
 
 import engine.serializable.SerializedPlayer;
@@ -83,7 +84,10 @@ public class GUI {
         // Another option is to use LWJGL 3 and not use slick util. This would require some rewriting of code in order
         // to render/support using the new system.
         // could also check out JBox2D to completely replace the physics I implemented with real physics.
-        font.drawString(35, 25, "x"+lives, Color.white);
+        TextureImpl.unbind(); // SOLVES THE PROBLEM
+        font.drawString(47, 25, Integer.toString(lives), Color.white);
+        glScalef(0.5f, 0.5f, 0);
+        font.drawString(75, 69, "x", Color.white);
         glPopMatrix();
     }
     
@@ -114,10 +118,20 @@ public class GUI {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glBegin(GL_QUADS);
             glVertex2f(42, 22);
-            glVertex2f((health*2)+42, 22);
-            glVertex2f((health*2)+42, 58);
+            glVertex2f((health)+42, 22);
+            glVertex2f((health)+42, 58);
             glVertex2f(42, 58);
         glEnd();
+        
+        // draw containers
+        glColor4f(0.2f,0.2f,0.2f,0.8f);
+        glLineWidth(4);
+        for(int i = 1; i < 5; i++) {
+            glBegin(GL_LINES);
+                glVertex2f(40 + (41*i), 20);
+                glVertex2f(40 + (41*i), 60);
+            glEnd();   
+        }
     }
     
     public static void draw() {

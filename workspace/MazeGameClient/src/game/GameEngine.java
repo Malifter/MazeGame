@@ -1,5 +1,7 @@
 package game;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -52,6 +54,8 @@ import game.enums.Pressed;
  * IGame interface.
  */
 public class GameEngine {
+    public static final boolean DEBUG = false; // XXX: Disable when not needed, currently debugs bounding boxes
+    
     /** the number of frames per second that we want to run the game at */
     private static final int FPS = 60;
     
@@ -506,6 +510,27 @@ public class GameEngine {
                 } else {
                     //System.out.println("entity null");
                 }
+            }
+            
+            // DEBUG BOUNDING BOXES
+            if(DEBUG) {
+                glDisable(GL_TEXTURE_2D);
+                glColor4f(1f,0.0f,0.0f,0.5f);
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                glBegin(GL_QUADS);
+                for(Entry<String, AnimationInfo> entry: Animator.getAnimations()) {
+                    SerializedObject so = entry.getValue().getEntity();
+                    if(so instanceof SerializedEntity) {
+                        SerializedEntity s = (SerializedEntity) so;
+                        glVertex2f(s.getMin().x, s.getMin().y);
+                        glVertex2f(s.getMax().x, s.getMin().y);
+                        glVertex2f(s.getMax().x, s.getMax().y);
+                        glVertex2f(s.getMin().x, s.getMax().y);
+                    }
+                }
+                glEnd();
+                glEnable(GL_TEXTURE_2D);
+                glColor3f(1,1,1);
             }
         }
     }

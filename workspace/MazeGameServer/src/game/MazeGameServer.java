@@ -100,6 +100,7 @@ public class MazeGameServer {
         }
     }
     
+    // TODO: possibly adding player here without having a locking mechanism might cause concurrency issues if a player joins when someone else is outside
     public static void joinNewPlayer(int playerID) {
         if(numPlayers < NUM_PLAYERS) {
             Vector2f spawnLocation = new Vector2f(level.getExterior().getPlayerSpawns().get(playerID));

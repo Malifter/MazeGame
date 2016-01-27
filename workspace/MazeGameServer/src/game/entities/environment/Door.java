@@ -36,8 +36,8 @@ public class Door extends Entry {
      * @param x
      * @param y
      */
-    public Door(RigidBody rb, Vector2i exitLoc, Room room, Door linkedDoor, Side side) {
-        super(AnimationPath.DOOR, rb, room, side);
+    public Door(RigidBody rb, RigidBody zone, Vector2i exitLoc, Room room, Door linkedDoor, Side side) {
+        super(AnimationPath.DOOR, rb, zone, room, side);
         this.linkedDoor = linkedDoor;
         if(this.linkedDoor != null) {
             this.linkedDoor.setLink(this);

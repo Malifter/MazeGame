@@ -35,7 +35,7 @@ public class Explosion extends Entity {
                 explosionTime = 0;
                 disable();
             }
-            explosionTick++;
+            explosionTick = (int) ((elapsedTime * MAX_EXPLOSION_TICKS) / MAX_EXPLOSION_TIME);
             areaOfEffect = (int) (MIN_AREA_OF_EFFECT + ((MAX_AREA_OF_EFFECT - MIN_AREA_OF_EFFECT)*(explosionTime/(float)MAX_EXPLOSION_TIME)));
             rBody.setRadius(areaOfEffect);
         }

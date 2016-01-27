@@ -11,6 +11,7 @@ package game.environment;
 */
 
 import game.MazeGameServer;
+import game.entities.Entity;
 import game.entities.EntityFactory;
 import game.entities.effects.Effect;
 import game.entities.environment.Entry;
@@ -57,8 +58,29 @@ public class Interior extends Room {
     }
     
     @Override
+    protected void addPending() {
+        Iterator<Entity> it = addLater.iterator();
+        while(it.hasNext()) {
+            Entity entity = it.next();
+            if(entity instanceof Player) players.add((Player) entity);
+            else if(entity instanceof Entry) entries.add((Entry) entity);
+            else if(entity instanceof Neutral) neutrals.add((Neutral) entity);
+            else if(entity instanceof Projectile) projectiles.add((Projectile) entity);
+            else if(entity instanceof Obstacle) obstacles.add((Obstacle) entity);
+            else if(entity instanceof Explosion) explosions.add((Explosion) entity);
+            else if(entity instanceof Effect) effects.add((Effect) entity);
+            else if(entity instanceof Hostile) enemies.add((Hostile) entity);
+            else if(entity instanceof Item) items.add((Item) entity);
+            it.remove();
+        }
+    }
+    
+    @Override
     public void update(long elapsedTime) {
         if(hasPlayers()) {
+            // Add pending objects to room
+            addPending();
+            
             // players
             Iterator<Player> playerItr = players.iterator();
             while(playerItr.hasNext()) {
@@ -103,6 +125,8 @@ public class Interior extends Room {
                 } else {
                     if(enemies.size() == 1) {
                         double rand = Math.random();
+                        // TODO: Write the spawning code for items after a room is cleared somewhere that makes more sense with easily
+                        // definable probabilities
                         if(rand <= 0.6){
                             addItem(EntityFactory.createItem(new Vector2f(center), ItemType.randomItem()));
                         } else if(rand <= 0.9) {
@@ -466,6 +490,7 @@ public class Interior extends Room {
                         // this explosion array that we're currently iterating through. therefore we need to
                         // find a different way, and/or make sure that if an explosion sets off an obstacle
                         // it gets delayed for a tick and added later
+                        //  XXX: Make sure problem has been resolved by utilizing the "addLater" array
                         if(explosion.getRigidBody().isEnabled() && explosion.inRange(obstacle)) {
                             obstacle.destroy();
                         }

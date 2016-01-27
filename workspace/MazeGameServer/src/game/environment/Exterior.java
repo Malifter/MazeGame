@@ -20,6 +20,7 @@ import engine.physics.Collisions;
 import engine.serializable.SerializeFactory;
 import engine.serializable.SerializedObject;
 import game.MazeGameServer;
+import game.entities.Entity;
 import game.entities.effects.Effect;
 import game.entities.environment.Entry;
 import game.entities.environment.Explosion;
@@ -42,8 +43,27 @@ public class Exterior extends Room{
     }
     
     @Override
+    protected void addPending() {
+        Iterator<Entity> it = addLater.iterator();
+        while(it.hasNext()) {
+            Entity entity = it.next();
+            if(entity instanceof Player) players.add((Player) entity);
+            else if(entity instanceof Entry) entries.add((Entry) entity);
+            else if(entity instanceof Neutral) neutrals.add((Neutral) entity);
+            else if(entity instanceof Projectile) projectiles.add((Projectile) entity);
+            else if(entity instanceof Obstacle) obstacles.add((Obstacle) entity);
+            else if(entity instanceof Explosion) explosions.add((Explosion) entity);
+            else if(entity instanceof Effect) effects.add((Effect) entity);
+            it.remove();
+        }
+    }
+    
+    @Override
     public void update(long elapsedTime) {
         if(hasPlayers()) {
+            // Add pending objects to room
+            addPending();
+            
             // players
             Iterator<Player> playerItr = players.iterator();
             while(playerItr.hasNext()) {

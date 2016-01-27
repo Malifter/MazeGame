@@ -46,10 +46,10 @@ public class Spider extends Hostile {
      */
     public void fire() {
         //GameEngine.playSound(game.sound_shot);
-        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, Face.UP, this, ProjectileType.STRAIGHT));
-        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, Face.DOWN, this, ProjectileType.STRAIGHT));
-        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, Face.LEFT, this, ProjectileType.STRAIGHT));
-        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, Face.RIGHT, this, ProjectileType.STRAIGHT));
+        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, null, Face.UP, this, ProjectileType.STRAIGHT));
+        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, null, Face.DOWN, this, ProjectileType.STRAIGHT));
+        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, null, Face.LEFT, this, ProjectileType.STRAIGHT));
+        room.addProjectile(EntityFactory.createProjectile(rBody.getLocation(), null, null, Face.RIGHT, this, ProjectileType.STRAIGHT));
     }
     
     @Override

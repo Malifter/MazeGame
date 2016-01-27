@@ -4,6 +4,7 @@ import engine.Vector2f;
 import engine.physics.RigidBody;
 import engine.serializable.SerializedObject;
 import engine.serializable.SerializedObstacle;
+import game.GameEngine;
 import game.entities.Entity;
 import game.enums.AnimationPath;
 import game.enums.AnimationState;
@@ -35,6 +36,9 @@ public class Effect extends Entity {
     
     @Override
     public SerializedObject serialize() {
-        return new SerializedObstacle(uuid, 100, animPath, animState, facing, new Vector2f(rBody.getLocation()), !isEnabled(), drawOnTop());
+        return new SerializedObstacle(uuid, 100, animPath, animState, facing, new Vector2f(rBody.getLocation()),
+                GameEngine.DEBUG ? new Vector2f(rBody.getMin()) : null,
+                GameEngine.DEBUG ? new Vector2f(rBody.getMax()) : null,
+                !isEnabled(), drawOnTop());
     }
 }
