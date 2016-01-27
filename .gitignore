@@ -4,6 +4,8 @@
 
 *.pydevproject
 .project
+.recommenders/*
+.recommenders
 .metadata
 .metadata/
 RemoteSystemsTempFiles/

@@ -84,7 +84,7 @@ public class GUI {
         // Another option is to use LWJGL 3 and not use slick util. This would require some rewriting of code in order
         // to render/support using the new system.
         // could also check out JBox2D to completely replace the physics I implemented with real physics.
-        TextureImpl.unbind(); // SOLVES THE PROBLEM
+        TextureImpl.unbind(); // XXX: SOLVES THE PROBLEM
         font.drawString(47, 25, Integer.toString(lives), Color.white);
         glScalef(0.5f, 0.5f, 0);
         font.drawString(75, 69, "x", Color.white);
